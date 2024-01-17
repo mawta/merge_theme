@@ -31,7 +31,7 @@
   data-section="{{ section.id }}"
   data-product-id="{{ product.id }}"
 >
-  {% if checkout_scripts contains 'previewBarInjector.init();' %}
+  {% comment %} {% if checkout_scripts contains 'previewBarInjector.init();' %}
     <script defer src="https://cdn.customily.com/customily.js"></script>
     <script defer src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js"></script>
   {% elsif settings.customily_local == true %}
@@ -41,22 +41,10 @@
       src="{{ 'customily.shopify.script.unified.js' | asset_url }}?v=1001"
       defer
     ></script>
-  {% elsif product.id == 11219298713760 or product.id == 7532749521056 %}
-    <script defer type="text/javascript" src="{{ 'customily.shopify.cloud.js' | asset_url }}"></script>
-    <script defer src="https://cdn.customily.com/customily.js"></script>
-  {% elsif product.id != 11511264116896
-    and product.id != 11511270703264
-    and product.id != 11511280238752
-    and product.id != 11511354294432
-    and product.id != 11511352262816
-  %}
-    <script defer type="text/javascript" src="{{ 'customily.shopify.script.preview-v3.js' | asset_url }}"></script>
-    {% comment %} <script defer type="text/javascript" src="{{ 'customily.shopify.cloud.js' | asset_url }}"></script>{% endcomment %}
-    <script defer src="https://cdn.customily.com/customily.js"></script>
   {% else %}
     <script defer src="https://cdn.customily.com/customily.js"></script>
     <script defer src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js"></script>
-  {% endif %}
+  {% endif %} {% endcomment %}
 
   {%- if product.quantity_price_breaks_configured? -%}
     {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
