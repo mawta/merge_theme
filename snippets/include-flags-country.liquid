@@ -283,8 +283,8 @@
 
   function changeCurrencyHeader(currencySelected) {
     $(".currencies-country").val(currencySelected);
-    document.querySelector(".currency")?.innerText = currencyMap[currencySelected];
-    document.querySelector(".currency-mb")?.innerText = currencyMap[currencySelected];
+    document.querySelector(".currency").innerText = currencyMap[currencySelected];
+    document.querySelector(".currency-mb").innerText = currencyMap[currencySelected];
   }
 
   function changeCurrencyByCode(codeCountry) {
@@ -301,8 +301,8 @@
 
     $(".currencies-country").val(currencySelected);
     $("#currency_wrapper .currencies").val(currencySelected).trigger("change");
-    document.querySelector(".currency")?.innerText = currencyMap[currencySelected];
-    document.querySelector(".currency-mb")?.innerText = currencyMap[currencySelected];
+    document.querySelector(".currency").innerText = currencyMap[currencySelected];
+    document.querySelector(".currency-mb").innerText = currencyMap[currencySelected];
   }
   function defaultCurrencies(codeCountry) {
     const codeCurrency = getCookieByKey('currency');
