@@ -409,29 +409,5 @@
     {% comment %}
     {% include 'dataLayer-allPages' %}
     {% endcomment %}
-<script>
-  window.customilyShopify = {
-    livePreviewBeforeGallery: true,
-    hooks: {
-      onAppLoaded: function(){
-        $('.product_gallery_nav').on('click tap', function(){
-            $('.cl-canvas-container').hide();
-        });
-        $('#customily-options').on('input', function(){
-            $('.cl-canvas-container').width($('.flickity-viewport').first().width());
-            $('.cl-canvas-container').each(function(){
-              this.style.setProperty('display', 'block', 'important');
-            });           
-        });
-        setTimeout(function(){
-          //$('#customily-options').trigger('input');
-        }, 1000);
-      },
-      onError: function(){
-        console.log("error")
-      }
-    }
- }
-</script>
   </body>
 </html>
