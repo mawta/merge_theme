@@ -1,0 +1,133 @@
+{% assign index = 0 %}
+<div class="tab-content  content-background">
+<div class="profile-tabs--desp reset-scroll">
+    <ul class="list-unstyled enable-scroll" id="product-collection">
+			{% for block in section.blocks %}
+			{% assign feature_collection = block.settings.feature_collection %}
+			{% assign collection = collections[feature_collection] %}
+
+				<li {%if index == 0 %}class="active" {%endif%}><a href="" class="sortByCate"  data="{{collection.handle}}">{{collection.title}}</a></li>
+				{% assign index = index | plus: 1 %}
+			{%endfor%}
+
+    </ul>
+</div>
+<div class="profile-tabs--group">
+	<div class="search-chart"></div>
+	<div class="profile-tabs--listgrid">
+	
+	</div>
+</div>
+</div>
+<script>
+	$(document).ready(function(){
+		const collectionSlug = $("#product-collection li.active a").attr('data');
+		callApiProduct(collectionSlug, 1)
+	});
+  	var currPage = 1;
+    var totalPage = 5;
+	const sortByCates = document.querySelectorAll('.sortByCate');
+        const wrapperProductList = 	$(".profile-tabs--listgrid");
+        // handle control tab product
+        sortByCates.forEach(el => {
+            el.addEventListener("click", function (e) {
+                e.preventDefault();
+                // remove | add class active control
+                document.querySelector('.list-unstyled.enable-scroll li.active')?.classList.remove('active');
+                this.parentElement.classList.add('active');
+								const collectionSlug = $("#product-collection li.active a").attr('data');
+                // change item product by cate
+                wrapperProductList.html('');
+								callApiProduct(collectionSlug, 1)
+            })
+        })
+		$(window).scroll(function () {
+  
+			var loading = false
+            if($(window).scrollTop() == $(document).height() - $(window).height() && currPage <= totalPage) {  
+			
+				if (loading){
+					return
+				}
+				currPage +=1
+				loading = true
+				const collectionSlug = $("#product-collection li.active a").attr('data');
+				$.ajax({
+					type: "GET",
+					url: `https://macorner.co/collections/${collectionSlug}?view=product&page=${currPage}`,
+					contentType: "application/json; charset=utf-8",
+					success: function (response) {
+						var json = JSON.parse(response)
+						var html =""
+                        
+						json.products.forEach(function(product) {
+							html += renderProductItemHtml(product)
+						})
+						$(".profile-tabs--listgrid").append(html)
+						loading = false
+					},
+					
+				})
+			}
+		})	
+	function callApiProduct(slug, page=1){
+		$.ajax({
+			type: "GET",
+			url: `https://macorner.co/collections/${slug}?view=product&page=${page}`,
+			contentType: "application/json; charset=utf-8",
+			success: function (response) {
+				var json = JSON.parse(response)
+				var html =""
+				json.products.forEach(function(product) {
+					html += renderProductItemHtml(product)
+				})
+                if (page == 1 ) {
+                  currPage = 1
+                  totalPage = json.total_pages
+                }
+				$(".profile-tabs--listgrid").append(html)
+
+			},
+			
+	});
+	}
+	function renderProductItemHtml(product){
+		return `<div class="tabs--listgrid-item">
+					<a class="listgrid--link" href="https://macorner.co${product['url']}">
+							<div class="listgrid--linkbody">
+								<img class="img-fluid" src="${product['preview_image']}" alt="">
+									<div class="listgrid--linkfooter">
+									</div>
+							</div>
+							<div class="listgrid--linktitle">
+									<h5 class="title" title="${product['title']}">${product['title']}</h5>
+							</div>
+					</a>
+			</div>`
+	}
+</script>
+{% schema %}
+{
+	"name": "LD Collection list",
+	"class": "special-product",
+  "max_blocks": 8,
+	"blocks": [
+		{
+			"type": "collection",
+			"name": "Collection",
+			"settings": [
+				{
+					"type": "collection",
+					"id": "feature_collection",
+					"label": "Collection"
+				},
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				}
+			]
+		}
+	]
+}		
+{% endschema %}

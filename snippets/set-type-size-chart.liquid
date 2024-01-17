@@ -1,0 +1,54 @@
+{% if product.title contains 'Shirt'
+  or product.type contains 'Shirt'
+  or product.tags contains 'Ugly Sweater'
+  or product.tags contains 'Boxer'
+  or product.type contains '3/4 Sleeve Dress'
+  or product.type contains 'Slippers'
+  or product.type contains 'Sleeveless Romper'
+  or product.type contains "Women's Pajamas Set"
+  or product.type contains 'Pajamas Set'
+  or product.type contains 'Couple Beach Shorts'
+  or product.type contains "Women's Kimono Chiffon Cover Up"
+  or product.type contains 'Ugly Sweater'
+  or product.type contains "Men's Boxer Briefs"
+  or product.type contains "Women's Low-waisted Brief"
+  or product.type contains "Leggings"
+  or product.type contains "Comfort Tee"
+%}
+  {% if product.title contains '3D' %}
+    {% assign sizeChartType = 'Shirt 3D' %}
+  {% elsif product.tags contains 'Boxer' %}
+    {% assign sizeChartType = 'Boxer' %}
+  {% elsif product.type contains "Men's Boxer Briefs" %}
+      {% assign sizeChartType = 'Boxer' %}
+  {% elsif product.type contains 'Ugly Sweater' or product.type contains 'Matching Ugly Sweaters' %}
+    {% assign sizeChartType = 'UglySweaterType' %}
+  {% elsif product.tags contains 'Ugly Sweater' %}
+    {% assign sizeChartType = 'Ugly Sweater' %}
+  {% elsif product.tags contains "Women's Pajamas Set" %}
+    {% assign sizeChartType = "Women's Pajamas" %}
+  {% elsif product.type contains 'Pajamas Set' %}
+    {% assign sizeChartType = 'pajamas' %}
+  {% elsif product.type contains '3/4 Sleeve Dress' %}
+    {% assign sizeChartType = 'Sleeve Dress' %}
+  {% elsif product.type contains 'Slippers' %}
+    {% assign sizeChartType = 'Slippers' %}
+  {% elsif product.type contains 'Hawaiian Shirt' %}
+    {% assign sizeChartType = 'Hawaiian Shirt' %}
+  {% elsif product.type contains 'Sleeveless Romper' %}
+    {% assign sizeChartType = 'Sleeveless Romper' %}
+  {% elsif product.type contains 'Couple Beach Shorts' %}
+    {% assign sizeChartType = 'Beach Shorts' %}
+  {% elsif product.type contains "Women's Kimono Chiffon Cover Up" %}
+    {% assign sizeChartType = 'Women Kimono' %}
+  {% elsif product.type contains "Women's Low-waisted Brief" %}
+      {% assign sizeChartType = 'Women Brief' %}
+  {% elsif product.type contains "Leggings" %}
+      {% assign sizeChartType = 'Leggings' %}
+  {% elsif product.type contains "Comfort Tee" %}
+      {% assign sizeChartType = 'Comfort Tee' %}
+  {% else %}
+    {% assign sizeChartType = 'Shirt Normal' %}
+  {% endif %}
+  {% render 'size-chart', sizeChartType: sizeChartType %}
+{% endif %}

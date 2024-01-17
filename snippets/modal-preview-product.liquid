@@ -1,0 +1,32 @@
+<div id="preview-container" class="preview-container hidden">
+  <div id="preview-overlay"></div>
+  <div class="preview-image">
+    <h3>Please check the preview carefully</h3>
+    <p class="sub-content"><em>Make sure the below customization is correct to receive your item faster</em></p>
+    <div class="img-closed" id="preview-close">
+      <img
+        src={{ 'Icon-closed.svg' | asset_url }}
+        width="20px"
+        height="20px"
+        alt="icon closed preview" />
+    </div>
+    <div class="preview-image-wrap">
+      <img
+        id="preview-img"
+        alt="preview"
+        loading="lazy"
+        src="{{ no_image_url | img_url: '720x' }}" />
+    </div>
+    <div class="wrapper-button">
+      <div class="purchase-details" id="js-save-properties-product-preview">
+        <div class="simple-spinner hidden">
+          <span></span>
+        </div>
+        <button
+          type="button"
+          id="customily-cart-btn-preview"
+          class="add_to_cart btn-preview-add-to-cart action_button">ADD TO CART</button>
+      </div>
+    </div>
+  </div>
+</div>

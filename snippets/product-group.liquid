@@ -1,0 +1,78 @@
+<script>
+  {% assign collectionGroup = "" %}
+  {% assign typeView = "" %}
+  {% for collection in product.collections %}
+    {% if collection.title contains 'style'  %}
+        {% assign collectionGroup = collection.handle %}
+        {% assign typeView = "style" %}
+        {% break %}
+    {% elsif collection.title contains "group" %}
+        {% assign collectionGroup = collection.handle %}
+        {% assign typeView = "group" %}
+   		{% break %}
+    {% endif %}
+  {% endfor %}
+  {% if  collectionGroup != ""%}
+  (function() {
+    var requestUrl = "/collections/{{ collectionGroup }}?view={{typeView}}";
+    var request = new XMLHttpRequest();
+    request.open("GET", requestUrl);
+    request.onload = function() {
+  
+        if (request.status >= 200 && request.status < 300) {
+            var products = JSON.parse(request.response);
+            // loop through each product
+            $.each(products, function(key, product) {
+     
+                    var className ="swatch-element product-nav";
+                    if(window.location.href.includes(product.url)){
+                        className = "swatch-element product-nav active";
+                    }
+                     
+                    $('#ProductGroupListNav').append(
+                $(`<a class="${className}"><label>${product.title}</label></a>`).attr("value", product.id).attr("href", product.url).attr("alt",product.title)
+                    );
+                });
+                    if (products.length > 1) {
+                        $('#ProductGroupDS').removeClass('hide');
+                        $('.ds-product-group-2093765460066').addClass('active');
+                        {% if  typeView == "style"%}
+                            $("#ProductGroupList .option_title").text("Theme/Style");
+                        {% endif %}  
+                    }                    
+        };
+    };
+    request.send();
+})();
+ {% endif %}
+</script>
+<style>
+  #ProductGroupListNav .product-nav{
+    position: relative;
+    margin-bottom: 0;
+  }
+  #ProductGroupListTheme .option_title_theme{
+    margin-bottom:10px;
+  }
+  #ProductGroupListNav .product-nav::before{
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    border-radius: 10px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 1px solid #1B2631;
+ }
+  #ProductGroupListNav .product-nav.active::before{
+  	border:2px solid #f16523;
+    color: #f16523;
+  }
+  #ProductGroupListNav .product-nav.active{
+    color: #f16523;
+  }
+  #ProductGroupDS{
+    margin-bottom: 10px;
+  }
+</style>

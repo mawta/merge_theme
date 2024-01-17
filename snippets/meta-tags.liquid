@@ -37,3 +37,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ og_title | escape }}">
 <meta name="twitter:description" content="{{ og_description | escape }}">
+{% if template == '404' %}
+  <meta name="robots" content="noindex,nofollow">
+{% else %}
+  <meta name="robots" content="index,follow">
+{% endif %}

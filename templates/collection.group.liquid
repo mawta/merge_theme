@@ -1,0 +1,116 @@
+{% layout none %}
+{% assign products = collection.products %}
+
+{% capture results %}
+	{% for product in products %}
+		{% assign title ="" %}
+        {% if product.metafields.custom.goup_name  != blank %}
+            {% assign title = product.metafields.custom.goup_name %} 
+        {% elsif collection.handle contains "group-sport" %}
+          {% if product.tags contains "Baseball" %}
+             {% assign title ="Baseball" %} 
+           {% elsif product.tags contains "Softball" %}
+             {% assign title = "Softball" %} 
+          {% elsif product.tags contains "Football" %}
+             {% assign title = "Football" %}    
+          {% elsif product.tags contains "Othersports" %}
+             {% assign title = "Other sports" %}
+          {% elsif product.tags contains "Basketball" %}
+             {% assign title = "Basketball" %}
+          {% elsif product.tags contains "amefootball" %}
+             {% assign title = "Amefootball" %} 
+          {% elsif product.tags contains "Hockey" %}
+             {% assign title = "Hockey" %}
+          {% endif %}
+        {% elsif  collection.handle contains 'group-title' %}  
+            {% assign title = product.title | split: '-'| first %}   
+        {% elsif  product.tags contains 'Sets - 10% OFF' %}
+			{% assign title =  'Sets - 10% OFF'%}
+		{% elsif  product.title contains "Up To" %}
+			{% assign words = product.title | split: 'Up To' %}
+			{% assign title =  'Up To ' | append: words[1] | split: '-' | first %}
+       {% elsif  product.tags contains "20 OZ Tumbler - Best Selling" %}
+			{% assign title = '20 OZ Tumbler - Best Selling' %}
+		{% elsif  product.tags contains "group-title" %}
+			{% assign title =   product.title | split: ' -'| first %}
+        {% elsif product.title contains "Acrylic Plaque" and product.tags contains "Memorial" %}
+            {% assign title =" BUTTERFLY-SHAPED ACRYLIC PLAQUE" %} 
+        {% elsif  product.tags contains "Memorial" and product.title contains "Acrylic Ornament" %}
+              {% assign title = "ACRYLIC ORNAMENT" %}
+        {% elsif  product.tags contains "group-sister" and product.title contains "I Would Fight" %}
+              {% assign title =   "Litle Sister" %}
+        {% elsif  product.tags contains "group-sister"  %}
+              {% assign title =   "Big Sister" %}
+        
+         
+        {% elsif product.title contains "Circle Acrylic Ornament" %}
+          
+          {% assign title = "Circle Acrylic Ornament" %}  
+        {% elsif product.title contains "Personalized Doormat" and  product.title contains "Gift For Dog Mom" %}
+          {% assign title = "Dog Doormat" %}
+		{% elsif product.title contains "Personalized Doormat" and  product.title contains "Cat" %}
+          	{% assign title = "Cat Doormat" %}
+        {% elsif product.title contains "Can Cooler" %}
+     		{% assign title ="Can Cooler" %}
+		{% elsif product.title contains "30oz Tumbler"  %}
+     		{% assign title ="30oz Tumbler Cup" %}
+		{% elsif  product.title contains "30oz Curved Tumbler" %}
+     		{% assign title ="30oz Curved Tumbler" %}
+		{% elsif product.title contains "Poster/Canvas" %}
+     		{% assign title ="Canvas Poster" %}
+         
+		{% elsif product.title  contains "Personalized Ornament" %}
+      		{% assign title ="Ornament" %}    
+		{% elsif product.title  contains "Pillow" %}
+      		{% assign title ="Pillow" %}
+		{% elsif product.title contains "Canvas" %}
+     		{% assign title ="Canvas" %}
+    	{% elsif product.title contains "Poster" %}
+      		{% assign title ="Poster" %}
+       {% elsif product.title contains "Color Changing Mug" %} 
+          {% assign title ="Color-Changing Mug" %} 
+		{% elsif product.title contains "Mug" %}
+      		{% assign title ="Mug" %}
+		{% elsif product.title   contains "Skinny Tumbler" %}
+      	{% assign title ="Skinny Tumbler" %}
+		{% elsif product.title  contains "Wine Tumbler" %}
+      		{% assign title ="Wine Tumbler" %}
+		{% elsif product.title  contains "Tumbler Cup 30oz" %}
+      		{% assign title ="30oz Tumbler Cup" %}
+		{% elsif product.title  contains "Ceramic Ornament" %}
+      		{% assign title ="Ceramic Ornament" %}
+		{% elsif product.title  contains "Aluminum Ornament" %}
+      		{% assign title ="Aluminum Ornament" %}
+        {% elsif product.title  contains "Wooden Card With Pop Out Ornament" %}
+      		{% assign title ="Wooden Card" %}  
+        {% elsif product.title contains "Aluminum/Wooden Ornament" %}
+            {% assign title ="Aluminum/Wooden Ornament" %}       
+		{% elsif product.title contains "Wooden Ornament" %}
+      		{% assign title ="Wooden Ornament" %}
+        {% elsif product.title contains "Acrylic Ornament" %}
+            {% assign title ="Acrylic Ornament" %}
+        {% elsif product.title contains "Heart Shaped Acrylic Plaque" %}  
+            {% assign title ="Heart Shaped Acrylic Plaque" %}
+        {% elsif product.title contains "Acrylic Plaque" %}
+            {% assign title ="Acrylic Plaque" %} 
+         
+        {% elsif product.title contains "Blanket" %}
+            {% assign title ="Blanket" %}   
+        {% elsif  product.title contains "I Sucked It"  %}
+              {% assign title =   "Quote In the Middle" %}
+        {% elsif  product.title contains "It's Mine" %}
+              {% assign title =   "Photo In the Middle" %}
+       
+    	{% else %}
+     		{% assign title = product.type %}
+    	{% endif %}
+	 {
+		"id": {{ product.id  }},
+        "title"    : {{ title | json }},
+        "url"      : {{ product.url | json }},
+        "slug": {{ product.handle| json }}
+       
+    }{% unless forloop.last %},{% endunless %}
+	{% endfor %}
+{% endcapture %}
+[{{ results }}]

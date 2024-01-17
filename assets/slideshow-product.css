@@ -1,0 +1,193 @@
+.wrapper-carousel-product li {
+    position: relative;
+}
+
+.wrapper-carousel-product li:hover a {
+    color: #F7921F;
+}
+
+.wrapper-carousel-product .card__heading {
+    font-size: 1.6rem;
+    margin-top: 1rem;
+}
+
+.wrapper-carousel-product .card-information {
+    margin-top: 0.5rem;
+}
+
+.wrapper-carousel-product .card__heading a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.media-image img {
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+
+}
+
+
+.slideshow-product-title {
+    margin-bottom: 2.5rem;
+    color: #F7921F;
+    font-weight: 600;
+    text-align: center;
+}
+
+.wrapper-carousel-product .lSPrev {
+    margin-left: -10px;
+}
+
+.wrapper-carousel-product .lSAction>.lSNext {
+    right: -20px;
+}
+
+.wrapper-carousel-product .banner_holder {
+    right: 20px;
+}
+
+.wrapper-carousel-product {
+    position: relative;
+    max-height: 500px;
+    overflow: hidden;
+}
+
+.link__lSPrev.link-slider,
+.link__lSNext.link-slider {
+    position: absolute;
+    top: 43% !important;
+}
+
+.link__lSPrev.link-slider.product-link-slider-prev {
+    left: 0;
+}
+
+.link__lSNext.link-slider.product-link-slider-next {
+    right: 0;
+}
+
+.wrapper-carousel-product .lSSlideOuter {
+    max-width: 1250px;
+    width: 100%;
+    margin: auto;
+}
+
+.wrapper-carousel-product:has(.lSSlideOuter) .list-product {
+    display: block;
+}
+
+.wrapper-carousel-product .list-product {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+@media screen and (min-width:1024px) {
+    .wrapper-carousel-product .list-product li:nth-child(n+5) {
+        display: none;
+    }
+
+    .wrapper-carousel-product:has(.lSSlideOuter) .list-product li:nth-child(n+5) {
+        display: unset !important;
+    }
+}
+.wrapper-carousel-product:has(.lSSlideOuter) .link__lSPrev.link-slider,
+.wrapper-carousel-product:has(.lSSlideOuter) .link__lSNext.link-slider {
+    display: block;
+}
+
+.wrapper-carousel-product .link__lSPrev.link-slider,
+.wrapper-carousel-product .link__lSNext.link-slider {
+    display: none;
+}
+
+@media screen and (max-width:769px) {
+    .wrapper-carousel-product .list-product {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .wrapper-carousel-product .list-product li:nth-child(n+3) {
+        display: none;
+    }
+
+    .wrapper-carousel-product:has(.lSSlideOuter) .list-product li:nth-child(n+3) {
+        display: unset !important;
+    }
+    .slideshow-product-title {
+        margin-bottom: 15px;
+    }
+
+    .wrapper-carousel-product {
+        max-height: unset;
+    }
+
+    .wrapper-carousel-product li {
+        padding: 20px 13px;
+        border: 1px solid #CBCBCB;
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        -ms-border-radius: 20px;
+        -o-border-radius: 20px;
+    }
+
+    .link__lSPrev.link-slider,
+    .link__lSNext.link-slider {
+        top: 37% !important;
+    }
+
+    .wrapper-carousel-product .lSSlideOuter {
+        width: 98%;
+    }
+}
+
+.btn-slide-product-all {
+    display: inline-block;
+    background-color: #F7921F;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all .35s ease-Out;
+    border: 1px solid transparent;
+}
+
+
+.btn-slide-affter {
+    width: 100%;
+    height: 100%;
+    left: -100px;
+    background: #fff;
+    position: absolute;
+    transition: all .35s ease-Out;
+    bottom: 0;
+    z-index: -1;
+    border: 1px solid transparent;
+}
+
+@media screen and (min-width:1024px) {
+    .btn-slide-product-all:hover .btn-slide-affter {
+        left: 0;
+        z-index: 1;
+    }
+
+    .btn-slide-product-all .btn-slide-affter~span {
+        position: relative;
+        z-index: 2;
+    }
+
+    .btn-slide-product-all:hover .btn-slide-affter~span {
+        color: #F7921F;
+    }
+}

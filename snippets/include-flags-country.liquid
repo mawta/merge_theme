@@ -1,0 +1,596 @@
+<div id="box-shipping-country">
+  <div class="popup-shipping-country hidden">
+    <h4 class="text-center title">Update Your Preferences</h4>
+    <div class="content-shipping-country">
+      <div class="shipping-country-top">
+        <label>Select your shipping country</label>
+        <select class="select-currencies" name="state"></select>
+      </div>
+      <div class="shipping-country-bot">
+        <label>Select your currency</label>
+        <div class="select-currency" id="currencies-country">
+          <select class="currencies-country">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="CAD">CAD ($)</option>
+            <option value="AUD">AUD ($)</option>
+            <option value="GBP">GBP (£)</option>
+          </select>
+        </div>
+        <div class="select_wrap hidden" id="currency_wrapper">
+          <select class="currencies" name="currencies" data-default-shop-currency="USD" data-currency-converter="">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="CAD" selected="selected">CAD ($)</option>
+            <option value="AUD">AUD ($)</option>
+            <option value="GBP">GBP (£)</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-change-country">Save & Continue</button>
+      <p class="sub-text-country text-center">
+        Learn more about our <a href="/pages/shipping-delivery" target="_blank">Shipping Policy</a>
+      </p>
+    </div>
+    <img loading="eager" class="img-closed-popup-shipping" src="{{ 'Icon-closed.svg' | asset_url }}" alt="icon closed">
+  </div>
+  <div class="bg-country hidden"></div>
+</div>
+<script>
+  const API_ENDPOINT_URL = "https://api-custom.medzt.com";
+  const urlImage = '{{ "US.svg" | asset_url }}';
+  const filePath = urlImage.split("assets/")[0];
+  var sourceFB = [];
+
+  function convertTimeCutOff(date) {
+    var newDate = new Date(date);
+    var nameMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return [newDate.getDate(), nameMonths[newDate.getMonth()]];
+  }
+  var listCollectionsAndDate = [
+    {
+      productLines: "Pillow",
+      dateUS: "Dec 2 2023, 23:59",
+      dateAU: "Dec 1 2023, 23:59",
+      dateCA: "Dec 3 2023, 23:59",
+      dateGB: "Dec 3 2023, 23:59",
+      dateEU: "Dec 3 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Mug",
+      dateUS: "Dec 13 2023, 23:59:59",
+      dateAU: "Dec 5 2023, 23:59",
+      dateCA: "Dec 5 2023, 23:59",
+      dateGB: "Dec 5 2023, 23:59",
+      dateEU: "Dec 5 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Classic Tee",
+      dateUS: "Dec 11 2023, 23:59",
+      dateAU: "Dec 3 2023, 23:59",
+      dateCA: "Dec 3 2023, 23:59",
+      dateGB: "Dec 3 2023, 23:59",
+      dateEU: "Dec 3 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Blanket",
+      dateUS: "Dec 11 2023, 23:59:59",
+      dateAU: "Dec 1 2023, 23:59",
+      dateCA: "Dec 3 2023, 23:59",
+      dateGB: "Dec 5 2023, 23:59",
+      dateEU: "Dec 1 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Ugly Sweater",
+      dateUS: "Dec 6 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Nov 30 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Pajamas Set",
+      dateUS: "Dec 7 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Nov 30 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Men's Boxer Brief",
+      dateUS: "Dec 7 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Nov 30 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Sweatshirt With Design On Sleeve",
+      dateUS: "Dec 3 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Nov 30 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Photo Background Removal Acrylic Ornament",
+      dateUS: "Dec 7 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Nov 30 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Custom Shaped Acrylic Plaque",
+      dateUS: "Dec 6 2023, 23:59",
+      dateAU: "Dec 1 2023, 23:59",
+      dateCA: "Dec 3 2023, 23:59",
+      dateGB: "Dec 5 2023, 23:59",
+      dateEU: "Dec 1 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Christmas Tree Wood Ornament",
+      dateUS: "Dec 6 2023, 23:59",
+      dateAU: "Dec 1 2023, 23:59",
+      dateCA: "Dec 3 2023, 23:59",
+      dateGB: "Dec 1 2023, 23:59",
+      dateEU: "Dec 1 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Glass Ornament Ver 1",
+      dateUS: "Dec 5 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Nov 30 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Acrylic Plaque",
+      dateUS: "Dec 7 2023, 23:59",
+      dateAU: "Dec 2 2023, 23:59",
+      dateCA: "Dec 4 2023, 23:59",
+      dateGB: "Dec 6 2023, 23:59",
+      dateEU: "Dec 2 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "2 Layers Wooden Plaque",
+      dateUS: "Dec 7 2023, 23:59",
+      dateAU: "Dec 1 2023, 23:59",
+      dateCA: "Dec 3 2023, 23:59",
+      dateGB: "Dec 1 2023, 23:59",
+      dateEU: "Dec 1 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Christmas Ball Photo Ornament",
+      dateUS: "Dec 5 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Nov 30 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Wine Tumbler",
+      dateUS: "Dec 3 2023, 23:59",
+      dateAU: "Dec 1 2023, 23:59",
+      dateCA: "Dec 2 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Tumbler",
+      dateUS: "Dec 3 2023, 23:59:59 PST",
+      dateAU: "Dec 1 2023, 23:59",
+      dateCA: "Dec 2 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Sweatshirt With Design On Sleeve",
+      dateUS: "Dec 3 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Nov 30 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Doormat",
+      dateUS: "Dec 3 2023, 23:59",
+      dateAU: "Dec 1 2023, 23:59",
+      dateCA: "Dec 2 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    }, 
+    {
+      productLines: "Ornament",
+      dateUS: "Dec 10 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Dec 4 2023, 23:59",
+      dateGB: "Dec 6 2023, 23:59",
+      dateEU: "Dec 2 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Postcard",
+      dateUS: "Dec 10 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Nov 30 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+    {
+      productLines: "Other",
+      dateUS: "Dec 1 2023, 23:59",
+      dateAU: "Nov 30 2023, 23:59",
+      dateCA: "Nov 30 2023, 23:59",
+      dateGB: "Nov 30 2023, 23:59",
+      dateEU: "Nov 30 2023, 23:59",
+      dateOther: "Nov 29 2023, 23:59",
+    },
+  ];
+  var dateToday = new Date().getTime();
+  var codeCountryUser = getCookieByKey('code_country');
+  var dayCutOff;
+  var monthCutOff;
+
+  function getCookieByKey(key) {
+    var keyValue = document.cookie.match("(^|;) ?" + key + "=([^;]*)(;|$)");
+    return keyValue
+      ? keyValue[2]
+      : null;
+  }
+  function setCookieByKey(key, value, expiry) {
+    var expires = new Date();
+    expires.setTime(expires.getTime() + expiry * 24 * 60 * 60 * 1000);
+    document.cookie = key + "=" + value + "; Path=/;" + expires.toUTCString();
+  }
+  function renderFlagCountry(respon) {
+    $(".img-country").attr("src", `${filePath}assets/${respon.detected_values.country.handle}.svg`);
+    $(".shipping-country").text(respon.detected_values.country.name);
+    $(".shipping-country").prepend(`<img class="img-shipping-country" alt="img-flags" width="20px" height="20px" src="${filePath}assets/${respon.detected_values.country.handle}.svg"/>`);
+    $(".shipping-country-last").text(respon.detected_values.country.name);
+
+    setCookieByKey('country_name', respon.detected_values.country_name, 1);
+    setCookieByKey('code_country', respon.detected_values.country.handle, 1);
+
+  }
+  const currencyMap = {
+    GBP: "GBP (£)",
+    EUR: "EUR (€)",
+    CAD: "CAD ($)",
+    AUD: "AUD ($)",
+    USD: "USD ($)"
+  };
+
+  function changeCurrencyHeader(currencySelected) {
+    $(".currencies-country").val(currencySelected);
+    document.querySelector(".currency").innerText = currencyMap[currencySelected];
+    document.querySelector(".currency-mb").innerText = currencyMap[currencySelected];
+  }
+
+  function changeCurrencyByCode(codeCountry) {
+    let currencySelected = "USD";
+    if (codeCountry === "GB") {
+      currencySelected = "GBP";
+    } else if (codeCountry === "EUR") {
+      currencySelected = "EUR";
+    } else if (codeCountry === "CA") {
+      currencySelected = "CAD";
+    } else if (codeCountry === "AU") {
+      currencySelected = "AUD";
+    }
+
+    $(".currencies-country").val(currencySelected);
+    $("#currency_wrapper .currencies").val(currencySelected).trigger("change");
+    document.querySelector(".currency").innerText = currencyMap[currencySelected];
+    document.querySelector(".currency-mb").innerText = currencyMap[currencySelected];
+  }
+  function defaultCurrencies(codeCountry) {
+    const codeCurrency = getCookieByKey('currency');
+
+    if (codeCurrency && codeCurrency !== null) {
+      changeCurrencyHeader(codeCurrency);
+      $("#currency_wrapper .currencies").val(codeCurrency).trigger("change");
+      return;
+    };
+
+    const arrCodeCountries = ["AT", "BE", "CY", "EE", "FI", "FR", "DE", "IE", "GR", "IT", "LV", "LT", "LU", "MT", "PT", "SK", "SI", "ES"];
+
+    let selectedCountry = (arrCodeCountries.indexOf(codeCountry) > -1);
+
+    sourceFB = setSourceFB();
+
+    if (sourceFB.length == 0 || codeCountry == "USD") {
+      $("#currency_wrapper .currencies").val("USD").trigger("change");
+      document.querySelector(".currency").innerText = "USD ($)";
+      document.querySelector(".currency-mb").innerText = "USD ($)";
+      $(".currencies-country").val("USD");
+      return
+    }
+
+    changeCurrencyByCode(selectedCountry ? "EUR" : codeCountry);
+  }
+  function setDataCountries(listCountries) {
+    const codeCountry = getCookieByKey('code_country');
+    const countryName = getCookieByKey('country_name');
+
+    const priorityCountries = ["US", "CA", "AU", "GB", "FR", "DE", "IT", "NL", "AT", "BE"];
+
+    var selectElement = document.querySelector(".select-currencies");
+    for (var j = 0; j < priorityCountries.length; j++) {
+      var codeCountrySelect = priorityCountries[j];
+      var optionElement = document.createElement("option");
+
+      optionElement.value = codeCountrySelect;
+      optionElement.setAttribute("data-val", listCountries[codeCountrySelect]);
+      optionElement.setAttribute("data-image", `${filePath}assets/${codeCountrySelect}.svg`);
+      optionElement.innerText = listCountries[codeCountrySelect];
+      selectElement.appendChild(optionElement);
+
+      delete listCountries[codeCountrySelect];
+    }
+    $(".select-currencies").find('option').filter(function () {
+      return $(this).val() === '';
+    }).remove();
+
+    for (var key in listCountries) {
+      var optionElement = document.createElement("option");
+      optionElement.value = key;
+      optionElement.setAttribute("data-val", listCountries[key]);
+      optionElement.setAttribute("data-image", `${filePath}assets/${key}.svg`);
+      optionElement.innerText = listCountries[key];
+      selectElement.appendChild(optionElement);
+    }
+
+    var shippingCountryElement = document.querySelector(".shipping-country");
+
+    if (shippingCountryElement) {
+      shippingCountryElement.innerHTML = `<img class="img-shipping-country" alt="img-flags" width="20px" height="20px" src="${filePath}assets/${codeCountry}.svg"/><span>${countryName}</span>`;
+    }
+    if (document.querySelector(".shipping-country-last")) {
+      document.querySelector(".shipping-country-last").innerText = countryName;
+    }
+
+    $(".select-currencies").val(codeCountry).trigger('change');
+
+    defaultCurrencies(codeCountry);
+
+  }
+  async function handleCountryAndGetListCountry() {
+    var countryCode = getCookieByKey('code_country')
+    if (!countryCode && !getCookieByKey('country_name')) {
+      const response = await fetch("/browsing_context_suggestions.json");
+      const dataLocation = await response.json();
+
+      if (dataLocation && dataLocation.detected_values) {
+         renderFlagCountry(dataLocation);
+      }
+    } else {
+      $(".img-country").attr("src", `${filePath}assets/${countryCode}.svg`);
+    }
+
+    const dataListCountries = JSON.parse(window.localStorage.getItem('list_countries'));
+    if (dataListCountries) {
+      setDataCountries(dataListCountries);
+    } else {
+      $.ajax({
+        method: "GET",
+        url: `${API_ENDPOINT_URL}/country`,
+        dataType: "json",
+        success: function (respon) {
+          if (respon && respon.data) {
+            var divShipping = "";
+            const arrCountries = respon.data;
+            window.localStorage.setItem('list_countries', JSON.stringify(arrCountries));
+            setDataCountries(arrCountries);
+          }
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      });
+    }
+
+  }
+  function showDateCutOff(codeCountry, itemDate) {
+    var dateCutOff; 
+    if (codeCountry == "US") {
+      dateCutOff = itemDate.dateUS;
+   } else if (codeCountry == "AU" && itemDate.dateAU) {
+      dateCutOff = itemDate.dateAU;
+    
+   } else if (codeCountry == "GB" && itemDate.dateGB) {
+       dateCutOff = itemDate.dateGB;
+   } else if (codeCountry == "EU" && itemDate.dateEU) {
+      dateCutOff = itemDate.dateEU;
+   } else if (codeCountry == "CA" && itemDate.dateCA) {
+    dateCutOff = itemDate.dateCA;
+   } else {
+       dateCutOff = itemDate.dateOther;
+   }
+    var currentDate = new Date().getTime();
+    var dateCutOffTime = new Date(dateCutOff).getTime();
+
+    var dayCutOff = convertTimeCutOff(dateCutOff)[0];
+    var monthCutOff = convertTimeCutOff(dateCutOff)[1]; 
+    if (currentDate < dateCutOffTime){
+      $(".date-after-us").text(`${monthCutOff} ${dayCutOff}`); 
+    }else {
+   
+      $(".date-after-us").text('now'); 
+    }
+     $(".date-cutoff").text(`${monthCutOff} ${dayCutOff}`);
+    
+}
+  function loadDateCutOff(codeCountryParam = false) {
+    const arrCodeCountriesEU = ["AT","AL","AD","BY","BE","BA","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IS","IE","IT","XK","LV","LI","LT","LU","MK","MT","MD","MC","ME","NL","NO","PL","PT","RO","RU","SM","RS","SK","SI","ES","SE","CH","TR","UA","VA"];
+    if (codeCountryParam) {
+        codeCountryUser = codeCountryParam;
+    }
+
+    if (arrCodeCountriesEU.includes(codeCountryParam)) {
+        codeCountryUser = 'EU'
+    }
+    var nameProduct = $(".product_name_title").text();
+    var typeProduct = $(".product-type").text();
+    var tagProduct = $(".product-tags").text();
+    var vendorProduct = $(".product-vendor").text();
+
+    if(typeProduct.includes("AMZ") || vendorProduct.includes("AMZ")){
+      return $(".box-cut-off").addClass('hidden');
+    } 
+
+    for (var index = 0; index < listCollectionsAndDate.length; index++) {
+        var itemDate = listCollectionsAndDate[index];
+
+        if (nameProduct.indexOf(itemDate.productLines) > 0 || 
+            nameProduct.indexOf('Shirt') > 0 && itemDate.productLines == "Classic Tee" && $("input[type='radio'][value='Classic Tee']:checked").length ||
+            itemDate.productLines == typeProduct || itemDate.productLines == tagProduct) {
+            showDateCutOff(codeCountryUser, itemDate);
+          break;
+        } else {
+          showDateCutOff(codeCountryUser, itemDate);
+        }
+    }
+  
+  }
+
+ 
+  handleCountryAndGetListCountry();
+
+
+  $(".btn-change-country").on("click", function () {
+    $(".popup-shipping-country").toggleClass("hidden");
+    $(".bg-country").toggleClass("hidden");
+
+    const currency = $(".currencies-country").val();
+    const country = $(".select-currencies").val();
+    $("#currency_wrapper .currencies").val(currency).trigger("change");
+
+    if (country) {
+      const option = $(`.select-currencies option[value="${country}"]`);
+      var divShippingCountry = "";
+      divShippingCountry += `<img class="img-shipping-country" alt="img-flags" width="20px" height="20px" style="width:20px;margin-right:5px;" src="${option.attr("data-image")}" />`;
+      divShippingCountry += `${option.attr("data-val")}`;
+
+
+      $(".img-country").attr("src", option.attr("data-image"));
+      $(".img-country-mb").attr("src", option.attr("data-image"));
+
+      $(".shipping-country").html(divShippingCountry);
+      $(".shipping-country-last").text(option.attr("data-val"));
+
+      setCookieByKey("code_country", country, 2);
+      setCookieByKey("country_name", option.attr("data-val"), 2);
+
+      if ($(".product__info-wrapper.grid__item").length) {
+        const variantSelects = new VariantSelects();
+      }
+
+      if (typeof getDayShipping != "undefined") {
+        getDayShipping();
+      }
+    }
+    const currencySelected = $("#currency_wrapper .currencies").val();
+    changeCurrencyHeader(currencySelected);
+    
+  });
+
+  function getUTMAttributes() {
+    // Retrieve UTMAttributes from Shopify cookie
+    var shopifyCookieRegEx = /^_shopify_sa_p/;
+    var utmRegEx = /^utm_/;
+    var timestampRegEx = /^_shopify_sa_t/;
+    var utmParams = {};
+    var shopifyCookie = "";
+    var timestamp = "";
+    document.cookie.split(";")
+      .map(function (s) {
+        return s.trim();
+      })
+      .forEach(function (s) {
+        if (shopifyCookieRegEx.test(s)) {
+          shopifyCookie = s;
+        }
+        if (timestampRegEx.test(s)) {
+          timestamp = decodeURIComponent(s.split("=")[1]);
+        }
+        return;
+      });
+    var utmValuesFromCookie = shopifyCookie.split("=")[1];
+    decodeURIComponent(utmValuesFromCookie)
+      .split("&")
+      .forEach(function (s) {
+        var key = s.split("=")[0];
+        var val = s.split("=")[1];
+        if (utmRegEx.test(key)) {
+          return utmParams[key] = val;
+        }
+        return;
+      });
+    if (!Object.keys(utmParams).length) {
+      return undefined;
+    }
+    return utmParams;
+  }
+  function getUTMByURL() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var utmParams = {};
+
+    urlParams.forEach(function (value, key) {
+      if (key.startsWith("utm_")) {
+        utmParams[key] = value;
+      }
+    });
+
+    if (Object.keys(utmParams).length === 0) {
+      return undefined;
+    }
+
+    return utmParams;
+  }
+  function setSourceFB() {
+    var source = ['fb', 'ig', 'facebook', 'instagram', 'an', 'tiktok'];
+    var sourceFB = [];
+
+    var utm_attributes = getUTMAttributes();
+    if (utm_attributes) {
+      Object.keys(utm_attributes).forEach(function (key) {
+        if (source.includes(utm_attributes[key])) {
+          sourceFB.push(utm_attributes[key])
+        }
+      });
+    }
+
+    if (sourceFB.length == 0) {
+      const data = getUTMByURL();
+      if (data) {
+        Object.keys(data).forEach(function (key) {
+          if (source.includes(data[key])) {
+            sourceFB.push(data[key])
+          }
+        });
+      }
+    }
+    return sourceFB;
+  }
+</script>

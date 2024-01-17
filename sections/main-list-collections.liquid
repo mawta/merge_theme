@@ -1,10 +1,10 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
-
 <div class="page-width">
-  <h1 class="title title--primary inline-richtext{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+  <h1 class="title inline-richtext{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     {{ section.settings.title }}
   </h1>
+ 
   {%- liquid
     case section.settings.sort
       when 'products_high', 'products_low'
@@ -24,6 +24,72 @@
     endif
   -%}
   {%- paginate collections by paginate_by -%}
+    <div class="clearfix breadcrumb-collection">
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@id": "{{ shop.url }}",
+                "name": "{{ 'general.breadcrumbs.home' | t }}"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@id": "{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}",
+                "name": "{% if collection.handle != blank %}{{ collection.handle }}{% else %}Product Collections{% endif %}"
+              }
+            }
+            {% if current_tags %}
+              {% for tag in current_tags %}
+                {% unless tag contains 'meta-' %}
+                  ,
+                  {
+                    "@type": "ListItem",
+                    "position": {{ forloop.index | plus: 2 }},
+                    "item": {
+                      "@id": "{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}",
+                      "name": "{{ tag }}"
+                    }
+                  }
+                {% endunless %}
+              {% endfor %}
+            {% endif %}
+          ]
+        }
+      </script>
+
+      <div class="breadcrumb_text medium-down--one-whole">
+        <a href="{{ shop.url }}" title="{{ shop.name | escape }}">
+          <span>{{ 'general.breadcrumbs.home' | t }}</span>
+        </a>
+        <span class="breadcrumb-divider">/</span>
+        <a href="{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}" title="{{ collection.title | escape }}" class="breadcrumb_link">
+          <span>Product Collections</span>
+        </a>
+        {% if current_tags %}
+          {% for tag in current_tags %}
+
+            {% unless tag contains 'meta-' %}
+              <span class="breadcrumb-divider">/</span>
+              <a href="{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}" title="{{ tag | escape }}">
+                <span>{{ tag }}</span>
+              </a>
+            {% endunless %}
+          {% endfor %}
+        {% endif %}
+
+        {% if paginate.pages != 0 and settings.pagination_type != 'load_more' and settings.pagination_type != 'infinite_scroll' %}
+          <span class="breadcrumb-divider">/</span> {{ 'general.breadcrumbs.page' | t: current_page: paginate.current_page, pages: paginate.pages }}
+        {% endif %}
+      </div>
+    </div>
     <ul
       class="collection-list grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
       role="list"
@@ -40,7 +106,7 @@
             card_collection: collection,
             media_aspect_ratio: section.settings.image_ratio,
             columns: 3
-          %}
+          %}          
         </li>
       {%- endfor -%}
     </ul>

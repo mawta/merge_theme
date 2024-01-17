@@ -1,0 +1,32 @@
+{% comment %}
+** LD Header (half and half view) - homepage partial **
+- Draggable section
+- Uses blocks
+{% endcomment %}
+   <!-- Start: Main -->
+
+   <div class="page-profile--logo">
+    <a href="https://macorner.co/" target="_blank">
+      <img src="{{ section.settings.logo | img_url: '410x' }}" alt="{{ shop.name | escape }}" />
+    </a>
+  </div>
+  
+  {% schema %}
+  {
+    "name": "LD Header",
+    "class": "image-with-text-section",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo",
+        "info": "400 x 100px recommended"
+      }
+    ],
+    "presets": [{
+      "name": "LD Header",
+      "category": "Image"
+    }]
+  }
+  {% endschema %}
+  

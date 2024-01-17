@@ -35,6 +35,18 @@
               {{- country.currency.iso_code }}
               {{ country.currency.symbol }} |</span
             >
+            <span>
+              {% assign nameCode = country.iso_code | append: '.svg' %}
+              <img
+                loading="eager"
+                height="20px"
+                width="20px"
+                class="img-shipping-country"
+                src="{{ nameCode | asset_url }}"
+                alt="country shipping"
+              >
+              |</span
+            >
             {{ country.name }}
           </a>
         </li>

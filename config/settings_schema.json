@@ -154,10 +154,10 @@
       {
         "type": "range",
         "id": "page_width",
-        "min": 1000,
+        "min": 1200,
         "max": 1600,
-        "step": 100,
-        "default": 1200,
+        "step": 10,
+        "default": 1440,
         "unit": "px",
         "label": "t:settings_schema.layout.settings.page_width.label"
       },
@@ -400,6 +400,50 @@
         "unit": "px",
         "label": "t:settings_schema.global.settings.blur.label",
         "default": 0
+      }
+    ]
+  },
+  {
+    "name": "Currency",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_multiple_currencies",
+        "label": "Enable currency converter",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "currency_format",
+        "label": "Format",
+        "options": [
+          {
+            "value": "money_format",
+            "label": "Without currency ($10.00)"
+          },
+          {
+            "value": "money_with_currency_format",
+            "label": "With currency ($10.00 CAD)"
+          }
+        ],
+        "default": "money_with_currency_format"
+      },
+      {
+        "type": "paragraph",
+        "content": "If native multi-currencies is configured on your store, the theme currency converter settings below will be disabled. [Learn more](https:\/\/help.shopify.com\/en\/manual\/payments\/shopify-payments\/multi-currency\/setup)"
+      },
+      {
+        "type": "text",
+        "id": "supported_currencies",
+        "label": "Supported currencies",
+        "default": "USD CAD INR GBP AUD EUR JPY",
+        "info": "Use the country's ISO [currency code](http:\/\/www.xe.com\/iso4217.php). Separate your currency codes with a space."
+      },
+      {
+        "type": "text",
+        "id": "default_currency",
+        "label": "Default currency",
+        "default": "USD"
       }
     ]
   },
@@ -1362,6 +1406,17 @@
         "id": "social_vimeo_link",
         "label": "t:settings_schema.social-media.settings.social_vimeo_link.label",
         "placeholder": "t:settings_schema.social-media.settings.social_vimeo_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_amazon_link",
+        "label": "Amazon"
+      },
+      {
+        "type": "image_picker",
+        "id": "og_image_fallback",
+        "label": "Social sharing image",
+        "info": "Used when an image cannot be found. [Learn more](https:\/\/help.outofthesandbox.com\/hc\/en-us\/articles\/115006910147-Specify-what-image-text-is-shown-when-someone-shares-your-site-on-Facebook-#section5)"
       }
     ]
   },
@@ -1438,6 +1493,12 @@
       },
       {
         "type": "checkbox",
+        "id": "display_savings",
+        "label": "Show total savings",
+        "default": false
+      },
+      {
+        "type": "checkbox",
         "id": "show_vendor",
         "label": "t:settings_schema.cart.settings.show_vendor.label",
         "default": false
@@ -1457,13 +1518,18 @@
         "id": "cart_drawer_collection",
         "label": "t:settings_schema.cart.settings.cart_drawer.collection.label",
         "info": "t:settings_schema.cart.settings.cart_drawer.collection.info"
-      },
-      {
-        "type": "color_scheme",
-        "id": "cart_color_scheme",
-        "label": "t:sections.all.colors.label",
-        "default": "background-1"
       }
+    ]
+  },
+  {
+    "name": "Customily Local",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "customily_local",
+            "label": "Enable customily local",
+            "default": false
+        }
     ]
   }
 ]

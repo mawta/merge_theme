@@ -1,0 +1,382 @@
+{% comment %}
+** LD Slideshow - homepage partial **
+- Draggable section
+- Uses blocks
+{% endcomment %}
+
+{% comment %}Is the color set to transparent?{% endcomment %}
+
+{% if section.blocks.size > 0 %}
+  <section>
+    {% for block in section.blocks %}
+      {% if block.type == "logo" %}
+        <div class="page-profile--logo">
+          <a href="#" target="_blank">
+            <img src="{{ block.settings.logo | img_url: '410x' }}" alt="{{ shop.name | escape }}" />
+          </a>
+        </div>
+      {%endif %}
+    {%endfor%}
+<div class="page-profile--body  disable-background p-0">
+  <div class="page-profile--header  header-background">
+      <div class="box-profile  banner-slide">
+    <div class="swiper mySwiper swiper-initialized swiper-horizontal swiper-pointer-events">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+        {% if block.type == "image" %}
+          <div class="swiper-slide">
+            <a  {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} title="{{ block.settings.title }}">
+                <img class="img-fluid"
+                    src="{{ block.settings.image | img_url: '870x' }}" alt="">
+            </a>
+           </div>
+           {%endif %}
+        {% endfor %}
+      </div>
+      <div class="swiper-pagination"></div>
+
+  </div>
+  {% for block in section.blocks %}
+ 
+    {% if block.type == "ld-profile-social" %} 
+    {% include 'ld-profile-social', settings: block.settings %}
+    {%endif %} 
+  {% endfor %} 
+  <div>
+     <div class="search__container" data-autocomplete-{{ settings.enable_autocomplete }}>
+      <form class="search search__form" action="{{ routes.search_url }}">
+        <div class="search__wrapper">
+          {% if settings.search_option != 'everything' %}
+            <input type="hidden" name="type" value="product" />
+          {% endif %}
+          <input type="text" name="q" placeholder="Search for items, brands and inspiration" value="{{ search.terms | replace: '*', ''}}" x-webkit-speech autocapitalize="off" autocomplete="off" autocorrect="off" />
+          <button type="submit" name="submit" class="search__button icon-search" value=" " >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> 
+              <path d="M21.71 20.29L18 16.61C19.4401 14.8144 20.1375 12.5353 19.9488 10.2413C19.7601 7.9473 18.6997 5.81278 16.9855 4.27664C15.2714 2.7405 13.0338 1.91951 10.7329 1.98247C8.43207 2.04543 6.24275 2.98756 4.61517 4.61514C2.98759 6.24272 2.04546 8.43203 1.9825 10.7329C1.91954 13.0338 2.74053 15.2714 4.27667 16.9855C5.81281 18.6997 7.94733 19.7601 10.2413 19.9488C12.5353 20.1375 14.8144 19.4401 16.61 18L20.29 21.68C20.383 21.7737 20.4936 21.8481 20.6154 21.8989C20.7373 21.9497 20.868 21.9758 21 21.9758C21.132 21.9758 21.2627 21.9497 21.3846 21.8989C21.5065 21.8481 21.6171 21.7737 21.71 21.68C21.8903 21.4935 21.991 21.2443 21.991 20.985C21.991 20.7257 21.8903 20.4765 21.71 20.29ZM11 18C9.61556 18 8.26218 17.5895 7.11103 16.8203C5.95989 16.0511 5.06268 14.9579 4.53287 13.6788C4.00306 12.3997 3.86443 10.9922 4.13453 9.63436C4.40463 8.2765 5.07131 7.02922 6.05028 6.05025C7.02925 5.07128 8.27653 4.4046 9.63439 4.1345C10.9923 3.8644 12.3997 4.00303 13.6788 4.53284C14.9579 5.06265 16.0511 5.95986 16.8203 7.111C17.5895 8.26215 18 9.61553 18 11C18 12.8565 17.2625 14.637 15.9498 15.9497C14.637 17.2625 12.8565 18 11 18Z" fill="#0B2A4A"></path>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  </section>
+    
+  <script>
+    // START SWIPER SLIDER
+    var swiper = new Swiper(".mySwiper", {
+        spaceBetween: 30,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+    // END SWIPER SLIDER
+
+</script>
+{% endif %}
+
+{% schema %}
+
+{
+  "name": "LD Slideshow",
+  "class": "slideshow-section under-menu",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "wide_display",
+      "label": "Wide display",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "slideshow_text_animation",
+      "label": "Text animation",
+      "options": [
+        {
+          "value": "fadeIn",
+          "label": "Fade In"
+        },
+        {
+          "value": "fadeInUp",
+          "label": "Fade Up"
+        },
+        {
+          "value": "fadeInDown",
+          "label": "Fade Down"
+        },
+        {
+          "value": "",
+          "label": "None"
+        }
+      ],
+      "default": "fadeInDown"
+    },
+    {
+      "type": "select",
+      "id": "slideshow_animation",
+      "label": "Gallery transition",
+      "options": [
+        {
+          "value": "fade",
+          "label": "Fade"
+        },
+        {
+          "value": "slide",
+          "label": "Slide"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "range",
+      "id": "slideshow_speed",
+      "label": "Change slides every",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "default": 6,
+      "unit": "sec"
+    },
+    {
+      "type": "checkbox",
+      "id": "activate_adaptiveHeight",
+      "label": "Enable adaptive height",
+      "info": "Slideshow will adjust based on height of individual slides"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_text_below_image",
+      "label": "Show text below image",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "mobile_text_color",
+      "label": "Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image screen desktop",
+          "info": "1440 x 480px recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image screen mobile",
+          "info": "1440 x 480px recommended"
+        },
+        {
+          "type": "richtext",
+          "id": "pretext",
+          "label": "Preheading"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Your headline"
+        },
+        {
+          "type": "richtext",
+          "id": "subtitle",
+          "label": "Subheading"
+        },
+        {
+          "type": "checkbox",
+          "id": "caption_background",
+          "label": "Display text background"
+        },
+        {
+          "type": "checkbox",
+          "id": "caption_background_transparency",
+          "label": "Enable text background transparency"
+        },
+        {
+          "type": "text",
+          "id": "button1",
+          "label": "First button label"
+        },
+        {
+          "type": "url",
+          "id": "button1_link",
+          "label": "First slide link"
+        },
+        {
+          "type": "checkbox",
+          "id": "button1_highlight",
+          "label": "Highlight first button"
+        },
+        {
+          "type": "text",
+          "id": "button2",
+          "label": "Second button label"
+        },
+        {
+          "type": "url",
+          "id": "button2_link",
+          "label": "Second slide link"
+        },
+        {
+          "type": "checkbox",
+          "id": "button2_highlight",
+          "label": "Highlight second button"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "Mobile"
+        },
+        {
+          "type": "select",
+          "id": "mobile_image_crop",
+          "label": "Image cropping",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ld-profile-social",
+      "name": "Profile Social",
+      "settings": [
+      {
+        "type": "url",
+        "id": "facebook_link",
+        "label": "Facebook link"
+      },
+      {
+        "type": "url",
+        "id": "instagram_link",
+        "label": "Instagram link"
+      },
+      {
+        "type": "url",   
+        "id": "amazon_link",
+        "label": "Amazon link"
+      },
+      {
+        "type": "url",
+        "id": "twitter_link",
+        "label": "Twitter link"
+      },
+      {
+        "type": "url",
+        "id": "youtube_link",
+        "label": "Youtube link"
+      },
+      {
+        "type": "url",
+        "id": "tiktok_link",
+        "label": "Tiktok link"
+      }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "LD Slideshow",
+    "category": "Image",
+    "settings": {
+    },
+    "blocks": [
+      {
+        "type": "image",
+        "settings": {
+          "image": "",
+          "title": "Turbo Shopify Theme",
+          "subtitle": "",
+          "text_align": "center"
+        }
+      },
+      {
+        "type": "image",
+          "settings": {
+          "image": "",
+          "title": "",
+          "subtitle": "",
+          "text_align": "center"
+        }
+        
+      },
+      {
+        "type": "ld-profile-social",
+        "settings": {
+          "instagram_link": "",
+          "facebook_link": "",
+          "amazon_link": "",
+          "twitter_link": "",
+          "youtube_link": "",
+          "tiktok_link": ""
+        }
+      }
+    ]
+  }]
+}
+
+{% endschema %}

@@ -15,139 +15,213 @@
 {%- endstyle -%}
 
 <div class="customer account section-{{ section.id }}-padding">
-  <div>
-    <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
-    <a href="{{ routes.account_logout_url }}">
-      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none" viewBox="0 0 18 19">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4.5a3 3 0 116 0 3 3 0 01-6 0zm3-4a4 4 0 100 8 4 4 0 000-8zm5.58 12.15c1.12.82 1.83 2.24 1.91 4.85H1.51c.08-2.6.79-4.03 1.9-4.85C4.66 11.75 6.5 11.5 9 11.5s4.35.26 5.58 1.15zM9 10.5c-2.5 0-4.65.24-6.17 1.35C1.27 12.98.5 14.93.5 18v.5h17V18c0-3.07-.77-5.02-2.33-6.15-1.52-1.1-3.67-1.35-6.17-1.35z" fill="currentColor">
-      </svg>
-      {{ 'customer.log_out' | t }}
-    </a>
-  </div>
-
-  <div>
-    <div>
-      <h2>{{ 'customer.orders.title' | t }}</h2>
-
-      {% paginate customer.orders by 20 %}
-        {%- if customer.orders.size > 0 -%}
-          <table role="table" class="order-history">
-            <caption class="visually-hidden">
-              {{ 'customer.orders.title' | t }}
-            </caption>
-            <thead role="rowgroup">
-              <tr role="row">
-                <th id="ColumnOrder" scope="col" role="columnheader">{{ 'customer.orders.order_number' | t }}</th>
-                <th id="ColumnDate" scope="col" role="columnheader">{{ 'customer.orders.date' | t }}</th>
-                <th id="ColumnPayment" scope="col" role="columnheader">{{ 'customer.orders.payment_status' | t }}</th>
-                <th id="ColumnFulfillment" scope="col" role="columnheader">
-                  {{ 'customer.orders.fulfillment_status' | t }}
-                </th>
-                <th id="ColumnTotal" scope="col" role="columnheader">{{ 'customer.orders.total' | t }}</th>
-              </tr>
-            </thead>
-            <tbody role="rowgroup">
-              {%- for order in customer.orders -%}
-                <tr role="row">
-                  <td
-                    id="RowOrder"
-                    role="cell"
-                    headers="ColumnOrder"
-                    data-label="{{ 'customer.orders.order_number' | t }}"
-                  >
-                    <a
-                      href="{{ order.customer_url }}"
-                      aria-label="{{ 'customer.orders.order_number_link' | t: number: order.name }}"
-                    >
-                      {{ order.name }}
-                    </a>
-                  </td>
-                  <td headers="RowOrder ColumnDate" role="cell" data-label="{{ 'customer.orders.date' | t }}">
-                    {{ order.created_at | time_tag: format: 'date' }}
-                  </td>
-                  <td
-                    headers="RowOrder ColumnPayment"
-                    role="cell"
-                    data-label="{{ 'customer.orders.payment_status' | t }}"
-                  >
-                    {{ order.financial_status_label }}
-                  </td>
-                  <td
-                    headers="RowOrder ColumnFulfillment"
-                    role="cell"
-                    data-label="{{ 'customer.orders.fulfillment_status' | t }}"
-                  >
-                    {{ order.fulfillment_status_label }}
-                  </td>
-                  <td headers="RowOrder ColumnTotal" role="cell" data-label="{{ 'customer.orders.total' | t }}">
-                    {{ order.total_net_amount | money_with_currency }}
-                  </td>
-                </tr>
-              {%- endfor -%}
-            </tbody>
-          </table>
-        {%- else -%}
-          <p>{{ 'customer.orders.none' | t }}</p>
-        {%- endif -%}
-
-        {%- if paginate.pages > 1 -%}
-          {%- if paginate.parts.size > 0 -%}
-            <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
-              <ul role="list">
-                {%- if paginate.previous -%}
-                  <li>
-                    <a href="{{ paginate.previous.url }}" aria-label="{{ 'general.pagination.previous' | t }}">
-                      <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                      </svg>
-                    </a>
-                  </li>
-                {%- endif -%}
-
-                {%- for part in paginate.parts -%}
-                  <li>
-                    {%- if part.is_link -%}
-                      <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">
-                        {{- part.title -}}
-                      </a>
-                    {%- else -%}
-                      {%- if part.title == paginate.current_page -%}
-                        <span aria-current="page" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">
-                          {{- part.title -}}
-                        </span>
-                      {%- else -%}
-                        <span>{{ part.title }}</span>
-                      {%- endif -%}
-                    {%- endif -%}
-                  </li>
-                {%- endfor -%}
-
-                {%- if paginate.next -%}
-                  <li>
-                    <a href="{{ paginate.next.url }}" aria-label="{{ 'general.pagination.next' | t }}">
-                      <svg aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                      </svg>
-                    </a>
-                  </li>
-                {%- endif -%}
-              </ul>
-            </nav>
-          {%- endif -%}
-        {%- endif -%}
-      {% endpaginate %}
+  {% paginate customer.orders by 20 %}
+    <a name="pagecontent" id="pagecontent"></a>
+    <header class="account-header clearfix ">
+      <div class=" account-header-logout">
+        <span>
+          
+        </span>
+      </div>
+      <h4 class="name-customer text-center">
+        <a class="" href="{{ routes.account_url }}" title="{{ 'layout.customer.my_account' | t }}">Hi,
+          {{customer.name}}
+        </a>
+        <a href="{{ routes.account_logout_url }}" id="customer_logout_link" cclass="">
+          <svg class="icon-logout" xmlns="http://www.w3.org/2000/svg" version="1.0" width="240.000000pt" height="240.000000pt" viewBox="0 0 240.000000 240.000000" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(0.000000,240.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+              <path d="M1171 1816 c-8 -9 -11 -113 -9 -361 3 -319 4 -349 21 -359 12 -8 22 -8 35 0 16 10 17 40 20 359 2 359 1 375 -38 375 -10 0 -23 -6 -29 -14z"/>
+              <path d="M766 1613 c-92 -101 -142 -203 -164 -340 -14 -88 -14 -105 0 -189 59 -347 383 -571 723 -499 447 95 629 622 343 993 -43 55 -78 73 -103 52 -24 -20 -18 -38 29 -98 246 -314 117 -747 -253 -856 -71 -21 -211 -21 -282 0 -132 39 -247 129 -313 246 -109 196 -84 432 65 617 27 33 49 64 49 69 0 12 -34 42 -48 42 -6 0 -27 -17 -46 -37z"/>
+            </g>
+          </svg>
+        </a>
+      </h4>
+    </header>
+    <div class="section section-customer clearfix ">
+      <aside class="account-sidebar text-center relative">
+        <img src="{{'account-info.svg' | asset_url }}" alt="account info" width="44px" height="44px">
+        <h4 class="title-viewOrder">{{ 'customer.account.account_info' | t }}</h4>
+        <p class="email note ">{{ customer.email }}</p>
+      </aside>
+      <main
+        class="account-address text-center relative">
+        <img src="{{'account-history.svg' | asset_url }}" alt="account info" width="44px" height="44px">
+        <h4 class="title-viewOrder">{{ 'customer.account.primary' | t }}</h4>
+        <div class="address note">
+          {% if customer.default_address != nil %}
+          <!-- <p class="mb-1">{{ customer.default_address.address1 }}</p> -->
+          {% if customer.default_address.address2 != "" %}
+          <!-- <p class="mb-1">{{ customer.default_address.address2 }}</p> -->
+          {% endif %}
+          <!-- <p>{{ customer.default_address.city}}{% if customer.default_address.province_code %},
+            {{customer.default_address.province_code}}{% endif %} {{ customer.default_address.zip}}</p>
+          <p class="mb-1">{{customer.default_address.country}}</p>
+          <p class="mb-1">{{ customer.default_address.phone }}</p> -->
+          {% else %}
+          <p class="mb-1">{{ 'customer.addresses.no_addresses' | t }}</p>
+          {% endif %}
+          <p class="mb-1"><a class="" href="{{ routes.account_addresses_url }}">{{ 'customer.account.sub_address' | t }}</a></p>
+        </div>
+      </main>
+      <main
+        class=" account-order text-center relative">
+        <div id="customer_orders">
+          <img src="{{'account-cart.svg' | asset_url }}" alt="account info" width="44px" height="44px">
+          <h4 class="title-viewOrder">{{ 'customer.orders.title' | t }}</h4>
+          <a class="cursor-pointer customer-viewOrders " href="/account?view=list_orders">{{ 'customer.account.sub_orders' | t }}
+          </a>
+        </div>
+      </main>
     </div>
-
-    <div>
-      <h2>{{ 'customer.account.details' | t }}</h2>
-
-      {{ customer.default_address | format_address }}
-
-      <a href="{{ routes.account_addresses_url }}">
-        {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
-      </a>
-    </div>
-  </div>
+    {% endpaginate %}
+  
+  <script type="text/javascript">
+    const decodeHTMLEntities = text => {
+      // Create a new element or use one from cache, to save some element creation overhead
+      const el = decodeHTMLEntities.__cache_data_element
+        = decodeHTMLEntities.__cache_data_element
+        || document.createElement('div');
+  
+      const enc = text
+        // Prevent any mixup of existing pattern in text
+        .replace(/⪪/g, '⪪#')
+        // Encode entities in special format. This will prevent native element encoder to replace any amp characters
+        .replace(/&([a-z1-8]{2,31}|#x[0-9a-f]+|#\d+);/gi, '⪪$1⪫');
+  
+      // Encode any HTML tags in the text to prevent script injection
+      el.textContent = enc;
+  
+      // Decode entities from special format, back to their original HTML entities format
+      el.innerHTML = el.innerHTML
+        .replace(/⪪([a-z1-8]{2,31}|#x[0-9a-f]+|#\d+)⪫/gi, '&$1;')
+        .replace(/#⪫/g, '⪫');
+  
+      // Get the decoded HTML entities
+      const dec = el.textContent;
+  
+      // Clear the element content, in order to preserve a bit of memory (it is just the text may be pretty big)
+      el.textContent = '';
+  
+      return dec;
+    }
+    let arr_properties;
+    const keySavePropertiesOrder = "add-to-cart";
+    function setLocalStorageItem(key, value, ttl) {
+      if (!key) {
+        return;
+      }
+      const now = new Date();
+      const item = {
+        value,
+        expiry: ttl ? now.getTime() + ttl * 3600000 : null,
+      };
+  
+      localStorage.setItem(key, JSON.stringify(item));
+    }
+    const dataPropertiesCacheOreder = getLocalStorageItem(keySavePropertiesOrder);
+    function getLocalStorageItem(key) {
+      if (!key) {
+        return;
+      }
+      const itemStr = localStorage.getItem(key);
+      if (!itemStr) {
+        return null;
+      }
+      const item = JSON.parse(itemStr);
+      const now = new Date();
+      if (now.getTime() > item.expiry) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return item.value;
+    }
+    const convertProperties = () => {
+      let data = [];
+      let arrProperties = arr_properties;
+      for (let i = 0; i < arrProperties.length; i++) {
+        for (let j = 0; j < arrProperties[i].length; j++) {
+          let dataItem = decodeHTMLEntities(arrProperties[i][j]);
+          data.push(dataItem);
+        }
+      }
+      let dataProperties = {};
+      for (var i = 0; i < data.length; i += 2) {
+        dataProperties[data[i]] = data[i + 1];
+      }
+      return dataProperties;
+    }
+    function addToCartOrder(product_id,variant_id) {
+      var urlPreview;
+      var urlCustomization;
+      for (var i = 0; i < arr_properties.length; i++) {
+        for (var j = 0; j < arr_properties[i].length; j++) {
+          if (arr_properties[i][j] == '_customily-thumb') {
+            urlPreview = decodeHTMLEntities(arr_properties[i][j + 1]);
+          }
+          if (arr_properties[i][j] == '_customily-customization-url') {
+            urlCustomization = decodeHTMLEntities(arr_properties[i][j + 1]);
+          }
+        }
+      }
+      if (!urlPreview || !urlCustomization) {
+        return;
+      }
+      var productId = product_id;
+      var variantID= variant_id;
+      const item = {
+        variantID,
+        productId,
+        urlPreview,
+        urlCustomization
+      }
+      if (dataPropertiesCacheOreder) {
+        const indexProductAdd = dataPropertiesCacheOreder.findIndex(
+          (item) => item.productId === productId
+        );
+        if (indexProductAdd !== -1) {
+          dataPropertiesCacheOreder.splice(indexProductAdd, 1, item);
+        } else {
+          dataPropertiesCacheOreder.push(item);
+        }
+        setLocalStorageItem(keySaveProperties, dataPropertiesCacheOreder, 2)
+      } else {
+        const initListAddToCart = [item];
+        setLocalStorageItem(keySaveProperties, initListAddToCart, 2)
+      }
+    }
+    $(".add_to_cart").click(function () {
+      let dataInput = $(this).parent(".re-order");
+      let formData = {
+        'items': []
+      };
+      var product_id = dataInput.children(".data-order").attr('data-product-id');
+      var variant_id = dataInput.children(".data-order").attr('data-variant-ids');
+      arr_properties = JSON.parse(dataInput.children().children(".text-custom")[0].innerHTML);
+      var price = dataInput.children(".data-order").attr('data-price');
+      var quantity = dataInput.children(".data-order").attr('data-quantities');
+      addToCartOrder(product_id,variant_id);
+      formData.items.push({
+        "id": parseInt(variant_id),
+        "quantity": parseInt(quantity),
+        "properties": convertProperties(),
+        "price": parseInt(price)
+      });
+      fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => {
+          window.location.href = "/cart";
+          return response.json();
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    })
+  </script>
 </div>
 
 {% schema %}

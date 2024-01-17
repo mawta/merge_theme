@@ -1,0 +1,283 @@
+{{ 'section-collection-tabs.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+  
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+{%- endstyle -%}
+
+{% if section.settings.title contains "Valentine" %}
+  {%- assign collectionTitle = "valentine-tabs" -%}
+{% elsif section.settings.title contains "Friends" %} 
+  {%- assign collectionTitle = "friends-tabs" -%} 
+{% else %} 
+  {%- assign collectionTitle = "african-americans-tabs" -%} 
+{% endif %}
+
+<div class="container page-width section-{{ section.id }}-padding {{ collectionTitle }} length-tabs-{{ section.blocks.size}}">
+  {% if section.settings.title != blank %}
+    <div class="sixteen columns">
+      <h2 class="title center">{{ section.settings.title | escape }}</h2>
+    </div>
+  {% endif %}
+  <div class="sixteen columns">
+    <div class="collection-tab-img">
+      {% if section.settings.image_preview != blank %}
+        <a href="{{ section.settings.url_collection }}">
+        <img
+        alt="{{ section.settings.image_preview.alt | escape }}"
+        src="{{ section.settings.image_preview | img_url: '2000x' }}"
+        loading="eager"
+        class="hidden-xs"
+       >
+      <img
+      srcset="
+        {% if section.settings.image_preview_mb.src.width >= 288 %}
+          {{ section.settings.image_preview_mb.src | image_url: width: 288 }} 288w,{% endif %}
+        {% if section.settings.image_preview_mb.src.width >= 576 %}
+          {{ section.settings.image_preview_mb.src | image_url: width: 576 }} 576w,{% endif %}
+        {% if section.settings.image_preview_mb.src.width >= 550 %}
+          {{ section.settings.image_preview_mb.src | image_url: width: 550 }} 550w,{% endif %}
+        {% if section.settings.image_preview_mb.src.width >= 1100 %}
+          {{ section.settings.image_preview_mb.src | image_url: width: 1100 }} 1100w,{% endif %}
+        {{ section.settings.image_preview_mb.src | image_url }} {{ section.settings.image_preview_mb.src.width }}w
+      "
+      src="{{ section.settings.image_preview_mb.src | image_url: width: 400 }}"
+      sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+      loading="eager"
+      width="576"
+      height="{{ auto | divided_by: section.settings.image_preview_mb.aspect_ratio }}"
+      alt="{{ section.settings.image_preview_mb.alt | escape }}"
+      class="hidden-xl"
+      />
+      </a>
+      {%endif%}
+    </div>
+    <div class="box-action-tabs">
+      <button class="pf_arrow-prev">{% render 'icon-caret' %}</button>
+      <div class="tab-collection">
+          {% for block in section.blocks %}
+              {%- assign collection = block.settings.collection -%}
+              {%- assign collectionName =collection.title -%}
+              {%if block.settings.name_collection != blank%}
+                {%- assign collectionName = block.settings.name_collection -%}
+              {% endif %}
+              <button class="tab-collection-title {%if forloop.index == 1 %}active {%endif%}"  slug-col="{{collection.handle}}">{{collectionName}}</button>
+          {%endfor%}
+      </div>
+      <button class="pf_arrow-next">{% render 'icon-caret' %}</button>
+    </div>
+    
+        {% assign outerIndex = 0 %}
+        {% for block in section.blocks %}
+        
+          {%- assign collection = block.settings.collection -%}
+        <div class=" featured-collection-product {{outerIndex}} {%if outerIndex == 0 %} active {%endif%} grid"  slug-col="{{collection.handle}}">
+            {% assign products = collection.products | sort: section.settings.sort_by  %} 
+            {% assign titleProduct = "I Am Always With You - Personalized Custom Shaped Acrylic Photo Ornament" %}
+
+            {% for product in collection.products %}
+              {% if product.title contains titleProduct and collection.title contains "ORNAMENT FAMILY" %}
+                <div
+                class="product-item"
+                data-cascade>
+                    <a href="{{ product.url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                    <div class="image__container">
+                        <img
+                            srcset="
+                        {% if product.featured_media.preview_image.width >= 288 %}
+                            {{ product.featured_media.preview_image | image_url: width: 288 }} 288w,{% endif %}
+                        {% if product.featured_media.preview_image.width >= 576 %}
+                            {{ product.featured_media.preview_image | image_url: width: 576 }} 576w,{% endif %}
+                        {% if product.featured_media.preview_image.width >= 550 %}
+                            {{ product.featured_media.preview_image | image_url: width: 550 }} 550w,{% endif %}
+                        {% if product.featured_media.preview_image.width >= 1100 %}
+                            {{ product.featured_media.preview_image | image_url: width: 1100 }} 1100w,{% endif %}
+                        {{ product.featured_media.preview_image | image_url }} {{ product.featured_media.preview_image.width }}w
+                                            "
+                        src="{{ product | image_url: width: 400 }}"
+                        sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                        loading="eager"
+                        width="576"
+                        class="animated-bg"
+                        onload="this.classList.remove('animated-bg')" 
+                        height="{{ 576 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+                        alt="{{ product.title | escape }}">
+                    
+                    </div>
+                    </a>
+                    <a href="{{ product.url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                    <h3 class="title">{{ product.title }}</h3>
+                    </a>
+                    <span class="price money">{{ product.price | money }}</span>
+                </div>
+              {% endif %}
+            {% endfor %}
+            {% for product in products limit: 9 %}
+              
+                {% unless product.title contains titleProduct and collection.title contains "ORNAMENT FAMILY"  %}                
+                {% if product != blank  %}
+                  <div
+                  class="product-item"
+                  data-cascade>
+                    <a href="{{ product.url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                    <div class="image__container">
+                        <img
+                            srcset="
+                        {% if product.featured_media.preview_image.width >= 288 %}
+                            {{ product.featured_media.preview_image | image_url: width: 288 }} 288w,{% endif %}
+                        {% if product.featured_media.preview_image.width >= 576 %}
+                            {{ product.featured_media.preview_image | image_url: width: 576 }} 576w,{% endif %}
+                        {% if product.featured_media.preview_image.width >= 550 %}
+                            {{ product.featured_media.preview_image | image_url: width: 550 }} 550w,{% endif %}
+                        {% if product.featured_media.preview_image.width >= 1100 %}
+                            {{ product.featured_media.preview_image | image_url: width: 1100 }} 1100w,{% endif %}
+                        {{ product.featured_media.preview_image | image_url }} {{ product.featured_media.preview_image.width }}w
+                                            "
+                        src="{{ product | image_url: width: 400 }}"
+                        sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                        loading="eager"
+                        width="576"
+                        class="animated-bg"
+                        onload="this.classList.remove('animated-bg')" 
+                        height="{{ 576 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+                        alt="{{ product.title | escape }}">
+                    
+                    </div>
+                    </a>
+                    <a href="{{ product.url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                    <h3 class="title">{{ product.title }}</h3>
+                    </a>
+                    <span class="price money">{{ product.price | money }}</span>
+                    </div>
+                {% endif %}
+              {% endunless %}
+               
+            {% endfor %}
+            </div>
+            {% assign outerIndex = outerIndex | plus: 1 %}     
+            <div class="text-center collection-shop-all {%if forloop.index == 1 %}active {%endif%}" slug-col="{{collection.handle}}">
+              <a href="{{ collection.url }}">Shop All</a>
+            </div>    
+        {%endfor%}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Collection Tabs",
+    "class": "collection-tabs",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured collection product"
+      },
+      {
+          "type": "image_picker",
+          "id": "image_preview",
+          "label": "Image banner desktop"
+      },
+      {
+          "type": "image_picker",
+          "id": "image_preview_mb",
+          "label": "Image banner mb"
+      },
+      {
+          "type": "url",
+          "id": "url_collection",
+          "label": "Url banner"
+      },
+      {
+        "id": "sort_by",
+        "type": "select",
+        "label": "Sort by",
+        "options": [
+          {
+            "value": "manual",
+            "label": "Manual"
+          },
+          {
+            "value": "best-selling",
+            "label": "Best selling"
+          },
+          {
+            "value": "title-ascending",
+            "label": "Title, A-Z"
+          },
+          {
+            "value": "title-descending",
+            "label": "Title, Z-A"
+          }, {
+            "value": "price-ascending",
+            "label": "Price, low to high"
+          }, {
+            "value": "price-descending",
+            "label": "Price, high to low"
+          }, {
+            "value": "created-ascending",
+            "label": "Date, old to new"
+          }, {
+            "value": "created-descending",
+            "label": "Date, new to old"
+          }
+        ],
+        "default": "manual"
+      },
+        {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+        },
+        {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+        }
+    ],
+    "blocks": [
+        {
+            "type": "text_block",
+            "name": "Collection",
+            "settings": [
+                {
+                    "id": "collection",
+                    "type": "collection",
+                    "label": "Select a collection"
+                },
+                {
+                    "id": "name_collection",
+                    "type": "text",
+                    "label": "Name collection"
+                }
+            ]
+        }
+    ],
+    "presets": [
+      {
+        "name": "Collection Tabs",
+        "category": "Product",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

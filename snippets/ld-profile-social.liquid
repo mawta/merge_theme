@@ -1,0 +1,49 @@
+
+<div class="box-profile-middle  ml-box-profile">
+    <div class="prf-name-bar">
+        <div class="prf-name-bar--title d-flex  prf-name lign-items-center">
+           {{ shop.name }}
+        </div>
+        <div class="list-profile--social "> 
+            <ul class="list-unstyled prf-social align-items-center">
+                {% if settings.facebook_link != '' %}
+                <li><a href="{{ settings.facebook_link }}" title="{{ shop.name }} on Facebook" rel="me" target="_blank">
+                    <img src="{{ "facebook.png" | asset_url }}" alt="{{ shop.name | escape }}" />
+                  </a></li>
+                {% endif %}
+                {% if settings.instagram_link != '' %}
+                <li><a href="{{ settings.instagram_link }}" title="{{ shop.name }} on Instagram" rel="me" target="_blank"
+                   > <img src="{{ "instagram.png" | asset_url }}" alt="{{ shop.name | escape }}" />
+                </a>  
+                </li>
+                {% endif %}
+                {% if settings.tiktok_link != '' %}
+                <li><a href="{{ settings.tiktok_link }}" title="{{ shop.name }} on tiktok" rel="me" target="_blank">
+                    <img src="{{ "tiktok.png" | asset_url }}" alt="{{ shop.name | escape }}" />
+                  </a></li>
+                {% endif %}
+              
+                {% if settings.amazon_link != '' %}
+                <li><a href="{{ settings.amazon_link }}" title="{{ shop.name }} on Amazon" rel="me" target="_blank">
+                    <img height="32" width="32" src="{{ "amazon_icon.png" | asset_url }}" alt="{{ shop.name | escape }}" />
+                  
+                  </a></li>
+                {% endif %}
+                
+                {% if settings.twitter_link != '' %}
+                <li><a href="{{ settings.twitter_link }}" title="{{ shop.name }} on Twitter" rel="me" target="_blank">
+                    <img src="{{ "twitter.png" | asset_url }}" alt="{{ shop.name | escape }}" />
+                  </a></li>
+                {% endif %}
+              
+                {% if settings.youtube_link != '' %}
+                <li><a href="{{ settings.youtube_link }}" title="{{ shop.name }} on YouTube" rel="me" target="_blank">
+                    <img src="{{ "youtube.png" | asset_url }}" alt="{{ shop.name | escape }}" />
+                  
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+        </div>
+    </div>
+</div>

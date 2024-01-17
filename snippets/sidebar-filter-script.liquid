@@ -1,0 +1,688 @@
+<script src="{{ 'jquery.twbsPagination.min.js' | asset_url }}"></script>
+<script src="{{ 'jquery-ui.js' | asset_url }}"></script>
+<script src="{{ 'jquery.ui.touch-punch.min.js' | asset_url }}"></script>
+<script src="{{ 'js-url.min.js' | asset_url }}"></script>
+<script>
+  
+  function getCookieRecentlyProduct(key) {
+    var keyValue = document.cookie.match("(^|;) ?" + key + "=([^;]*)(;|$)");
+    return keyValue ? keyValue[2] : null;
+  }
+
+
+  $(".tag-active-wrapper").hide();
+  var listFacets =[] 
+  const closeIcon = ` <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="1.41406" width="18" height="2" rx="1" transform="rotate(45 1.41406 0)" fill="#9E9EA7"/> <rect width="18" height="2" rx="1" transform="matrix(-0.707107 0.707107 0.707107 0.707107 12.7275 0)" fill="#9E9EA7"/></svg>`;
+  var $pagination;
+  const baseUrl = "https://www.searchanise.com/getresults";
+  const limit = "20";
+  var priceMin = 0,
+    priceMax = 0,
+    priceMinCurrent = 0,
+    priceMaxCurrent = 0;
+  var isCallApiOutSide =false;
+  $pagination = $("#pagination-product");
+
+  let heightOccasion =0;
+  let heightRecipient = 0;
+  let heightProductType = 0;
+  
+  const myParams = {
+    api_key: "2P6K1e5E2u",
+    maxResults: 20,
+    items: true,
+    suggestions: true,
+    queryCorrection: true,
+    suggestionsMaxResults: 3,
+    ResultsTitleStrings: 2,
+    ResultsDescriptionStrings: 0,
+    facets: true,
+    facetsShowUnavailableOptions: false,
+    categories: true,
+    categoryStartIndex: 0,
+    categoriesMaxResults: 20,
+    pageStartIndex: 0,
+    pagesMaxResults: 20
+  };
+  const collectionCurrently = $("#collection").val();
+  let sortBy = " relevance";
+  let sortOrder = "desc";
+
+  if($(".name-collection").length){
+      myParams.collection = $(".name-collection").attr("name-collection");
+      const sortByDefault = $(".name-collection").attr("sort-by")
+      sortBy = sortByDefault == "best-selling" ? "sales_amount" : sortByDefault.split("-")[0];
+      $(".main-collection-title").text($(".name-collection").text());
+  }
+
+  let filter = {};
+  let pageProduct = 1; 
+  let totalProduct = 0;
+  let totalPages = 1;
+  const windowWidth = $(window).width();
+  var defaultOpts = {
+      visiblePages: windowWidth > 768 ? 5 : windowWidth > 360 ? 4 : 3,
+      totalPages: 1,
+      first: `<i><svg width="12" height="11" viewBox="0 0 12 11" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" clip-rule="evenodd" d="M4.7598 0.205025L0.305025 4.6598C0.0316582 4.93317 0.0316582 5.37638 0.305025 5.64975L4.7598 10.1045C5.03316 10.3779 5.47638 10.3779 5.74975 10.1045C6.02311 9.83115 6.02311 9.38794 5.74975 9.11457L2.48995 5.85477H10.8C11.1866 5.85477 11.5 5.54137 11.5 5.15477C11.5 4.76817 11.1866 4.45477 10.8 4.45477H2.48995L5.74975 1.19497C6.02311 0.921608 6.02311 0.478393 5.74975 0.205025C5.47638 -0.0683417 5.03316 -0.0683417 4.7598 0.205025Z"/></svg></i>`,
+      last: `<i><svg width="12" height="11" viewBox="0 0 12 11" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" clip-rule="evenodd" d="M7.2402 0.205025L11.695 4.6598C11.9683 4.93317 11.9683 5.37638 11.695 5.64975L7.2402 10.1045C6.96684 10.3779 6.52362 10.3779 6.25025 10.1045C5.97689 9.83115 5.97689 9.38794 6.25025 9.11457L9.51005 5.85477H1.2C0.813401 5.85477 0.5 5.54137 0.5 5.15477C0.5 4.76817 0.813401 4.45477 1.2 4.45477H9.51005L6.25025 1.19497C5.97689 0.921608 5.97689 0.478393 6.25025 0.205025C6.52362 -0.0683417 6.96684 -0.0683417 7.2402 0.205025Z"/></svg></i>`,
+      onPageClick: function (event, currentPage) {
+        if (currentPage !== pageProduct) {
+          $("#search-loading").show();
+          $(".product-list").hide();
+          $(".tag-active-wrapper").hide();
+          callApiGetCollection(currentPage);
+          pageProduct = currentPage;
+        }
+      },
+    };
+  $(document).ready(function () {
+    convertParamsFromUrl();
+  });
+  
+  function callApiGetCollection(currentPage = 1) {
+    let listProductRecently = getCookieRecentlyProduct("recentlyViewedIDProduct") || "";
+    if(listProductRecently){
+      listProductRecently = listProductRecently.split("%252C").join(",");
+    }
+    var currentParams = {
+       ...myParams,    
+       sortBy: sortBy,
+       sortOrder: sortOrder,
+       startIndex: (currentPage - 1) * limit,
+       recentlyViewedProducts:listProductRecently,
+       ...filter,
+    };
+
+    if (filter["restrictBy[product_type]"] =="" || !filter["restrictBy[product_type]"]) delete filter["restrictBy[product_type]"];
+    if (filter["restrictBy[snize_facet3]"] =="" || !filter["restrictBy[snize_facet3]"]) delete filter["restrictBy[snize_facet3]"];
+    if (filter["restrictBy[snize_facet2]"] =="" || !filter["restrictBy[snize_facet2]"]) delete filter["restrictBy[snize_facet2]"];
+
+    const queryString = new URLSearchParams(currentParams).toString();
+    $.ajax({
+      method: "GET",
+      url: `${baseUrl}?${queryString}`,
+      dataType: "json",
+      success: function (res) {
+
+        $(".tag-active-wrapper").show();
+    
+        if (res.facets && res.facets.length && !compareArrays(listFacets,res.facets)) {
+          bindDataFacets(res.facets);
+          listFacets = res.facets
+        }
+        
+        if(res.facets && res.facets.length){
+          bindDataFacetsPrice(res.facets);
+        }
+        
+        if (res.items && res.items.length) {
+          bindProduct(res.items);
+          totalProduct = res.totalItems || 0;
+          totalPages = Math.ceil(totalProduct / limit) || 1;
+          
+          if (totalProduct == 0) {
+            $(".product-list").hide();
+            $("#pagination-product").css("display", "none");
+          } else {
+            $("#product-not-found").hide();
+            $(".product-list").show();
+            $("#pagination-product").css("display", "block");
+          }
+        
+          renderPagination(currentPage);
+          updateTagActiveWrapper();
+          renderSlideRange();
+        }else{
+          $(".product-list").empty();
+          $(".product-list").append("<h2 class='text-center' style='padding-bottom:10px'>No results found.</h2>");
+          $("#pagination-product").css("display", "none");
+          
+           heightOccasion = $("#occasion-filter").height();
+           heightRecipient = $("#recipient-filter").height();
+           heightProductType = $("#product-type-filter").height();
+
+           if(heightOccasion <=0 && heightRecipient <=0 && heightProductType <=0){
+             isReloadSideBar = true;
+           }
+          
+        }   
+        parseQueryToUrl();
+      },
+      error: function (err) {
+         console.log(err)
+      },
+    });
+  }
+  
+  function renderPagination(page) {
+    $pagination.twbsPagination("destroy");
+   
+    
+    $pagination.twbsPagination({
+      ...defaultOpts,
+      startPage: Number(page),
+      totalPages: totalPages,
+    });
+  }
+
+  function bindDataFacetsPrice(dataFacets){
+    const availablePrice = dataFacets.find((item) => item.attribute === "price") || {};
+    updatePricePanel(availablePrice);
+  }
+  
+  function bindDataFacets(dataFacets) {
+    const availableOccasions = dataFacets.find((item) => item.attribute === "snize_facet3") || {};
+    const availableRecipients = dataFacets.find((item) => item.attribute === "snize_facet2") || {};
+    const availableProductTypes = dataFacets.find((item) => item.attribute === "product_type") || {};   
+    updateOccasionPanel(availableOccasions);
+    updateRecipientPanel(availableRecipients);
+    updateProductTypePanel(availableProductTypes);
+  }
+  
+  function updatePricePanel(fieldPrice) {
+    const buckets = fieldPrice.buckets;
+    let contentPanel = "";
+    if (buckets.length > 0) {
+      priceMin = Number(buckets[0].from);
+      priceMax = Number(buckets[0].to);
+      priceMinCurrent = Number(buckets[0].left);
+      priceMaxCurrent = Number(buckets[0].right);
+      contentPanel += `
+      <div class="price-filters">
+                 <div class="control-filter">
+                   <label for="price-filter-min">$</label>
+             <input type="number" id="price-filter-min" pattern="[0-9]*" min="${priceMin}" max="${priceMax}" aria-label="Minimum price for filtering products">
+                 </div>
+         <div class="control-filter">
+                  <label for="price-filter-max" pattern="[0-9]*" max="${priceMax}" aria-label="Maximum price for filtering products">$</label>
+          <input type="number" id="price-filter-max" >
+                 </div>				
+      </div>
+         <div id="slider-range"></div>`;
+      $("#price-filter").empty();
+      $("#price-filter").append(contentPanel); 
+    }
+  }
+  
+  function bindProduct(dataProduct) {
+    let products = "";
+    dataProduct.forEach(function (product,index) {
+      const linkImageHover = product.shopify_images && product.shopify_images[1] ? product.shopify_images[1] : product.image_link;
+      const linkImageOld = product.image_link ? product.image_link : "";
+      let banner_holder = "";
+      products += ` 
+            <div class="grid__item product-${product.product_id} animate--slide-in"  data-cascade style="--animation-order: ${index};"> 
+              <div class="product-wrap">
+                  <div class="smartwishlist" data-product="${product.product_id}" data-variant="${product.shopify_variants[0].variant_id}"></div> 
+                  <div class="relative product_image"> 
+                      <a href="${product.link}"> 
+                        <div class="image__container">
+                          <img src="${linkImageOld}" width="100%" class="lazyload old-img" />
+                          <img src="${linkImageHover}" width="100%" class="lazyload new-img" />
+                        </div>
+                      </a>
+                      <div class="banner_holder">
+                      <button type="button" aria-label="Add to wishlist" button-wishlist="" 
+                      class="button-wishlist" data-product-handle="${product.link.split("products/")[1]}"> <style scoped="">
+                           </style>
+                      
+                      <svg class="icon icon-heart " viewBox="0 0 290 256" xmlns="http://www.w3.org/2000/svg"> <path d="M258.844192 127.790368L145 241.63456 31.1558082 127.790368c-26.9461761-26.946176-26.9461761-70.6345598 0-97.5807359 26.9461762-26.94617613 70.6345598-26.94617613 97.5807358 0L145 46.4730881l16.263456-16.263456c26.946176-26.94617613 70.63456-26.94617613 97.580736 0 26.946176 26.9461761 26.946176 70.6345599 0 97.5807359z" stroke-width="20" fill-rule="evenodd"></path>
+                      </svg></button>
+                      </div>
+                   </div> 
+                   <a class="product-info__caption" href="${product.link}" > 
+                     <div class="product-details"> 
+                         <span class="title" >${product.title}</span> 
+                         <span class="price sale"> 
+                         <span class="money" data-currency-usd="$${Number(product.price).toFixed(2)} USD" data-currency="USD">
+                             $${Number(product.price).toFixed(2)} USD</span> 
+                    <div class="banner_holder">
+                        ${banner_holder}
+                    </div></span> 
+                    </div></a></div></div>
+          `;
+    });
+    $(".product-list").empty();
+    $(".product-list").append(`<script src="{{ 'wishlist.js' | asset_url }}"/> `);
+    $(".product-list").append(products);
+
+    var shopCurrency = Shopify.currency_settings.shop_currency;
+    const currency = getCookieRecentlyProduct("currency") || "USD";
+    Currency.convertAll(shopCurrency, currency, 'span.money', Shopify.theme_settings.currency_format);
+  
+  }
+  
+  function updateOccasionPanel(occasions) {
+    updateExpandPanel(occasions.buckets || [], "occasion", "Occasions");
+  }
+  
+  function updateRecipientPanel(recipients) {
+    updateExpandPanel(recipients.buckets || [], "recipient", "Recipients");
+  }
+  
+  function updateProductTypePanel(productTypes) {
+    updateExpandPanel(
+      productTypes.buckets || [],
+      "product-type",
+      "Product types"
+    );
+  }
+  
+  function updateExpandPanel(allBuckets, keyField, title) {
+    let contentPanel = "";
+
+    const arraylength = allBuckets.length;
+      
+      allBuckets.forEach(function (item,index) {
+        contentPanel += `<div class="tag-item">
+                            <input id="${item.value}" type="checkbox" value="${item.value}"/>
+                            <label class="tag-item-label" for="${item.value}">${item.value} (${item.count})</label>
+                         </div>`;
+      });
+     
+
+    $(`#${keyField}-filter`).empty();
+    $(`#${keyField}-filter`).append(contentPanel);
+    $(`#${keyField}-filter`).prev(".title-sort").addClass("active-svg")
+  
+  }
+  
+  function parseQueryToUrl() {
+    const searchParams = new URLSearchParams(window.location.search);
+    const utm_source = searchParams.get("utm_source");
+    const utm_medium = searchParams.get("utm_medium");
+    const utm_campaign = searchParams.get("utm_campaign");
+    const utm_content = searchParams.get("utm_content");
+    var query = "",
+      siteUrl = "https://" + $.url("hostname"),
+      url1 = $.url("1") ? "/" + $.url("1") + "/" : "",
+      url2 = $.url("2") ? $.url("2") + "/" : "",
+      url3 = $.url("3"),
+      path = url1 + url2;
+    const params = {};
+    if (filter.q) params.q = filter.q;
+    if (filter["restrictBy[product_type]"]) params.rb_product_type = filter["restrictBy[product_type]"];
+    if (filter["restrictBy[snize_facet3]"]) params.rb_snize_facet3 = filter["restrictBy[snize_facet3]"];
+    if (filter["restrictBy[snize_facet2]"]) params.rb_snize_facet2 = filter["restrictBy[snize_facet2]"];
+    if (filter["restrictBy[price]"]) params.rb_price = filter["restrictBy[price]"];
+   
+    params.sort_by = sortBy;
+    params.sort_order = sortOrder;
+   
+   
+    if (pageProduct >1){
+      params.page = pageProduct 
+    }
+    if (utm_source) params.utm_source = utm_source;
+    if (utm_medium) params.utm_medium = utm_medium;
+    if (utm_campaign) params.utm_campaign = utm_campaign;
+    if (utm_content) params.utm_content = utm_content;
+   
+    query =  $.param(params);
+    if(query.replace(/\s/g,"") == ""){
+       window.history &&
+      window.history.pushState &&
+      window.history.pushState("", "", path);
+       return;
+   }
+    var urlString = path + `?${query}`;
+    window.history &&
+      window.history.pushState &&
+      window.history.pushState("", "", urlString);
+  }
+  
+  function selectPage(currentPage) {
+    page = currentPage;
+    addLoading();
+    callApiGetCollection(pageProduct);
+  }
+  
+  $(document).on("click", ".tag-item input", function () {
+    const input = $(this);
+    const collectionTypeSort = $(this).parent().parent(".tag-selectable-wrapper");
+    const dataSort = collectionTypeSort.attr("data-collection");
+    checkDataSort(dataSort, input.val());
+    pageProduct = 1
+
+    selectPage(pageProduct);
+    updateTagActiveWrapper();
+  });
+ 
+   $(document).on("change", "#sorter-wrapper", function () {
+     const sorterData = $(this).val();
+     sortBy = sorterData.split("-")[0];
+     sortOrder = sorterData.split("-")[1];
+     selectPage(1);
+   });
+  
+  $(document).on("click",".filter-mobile",function(){
+    $(".content-collections .four.columns.medium-down--one-whole").toggleClass("active");
+    $(".bg-wapper-sort").toggleClass("active");
+  });
+  
+  $(".filter-sorter-icon,.bg-wapper-sort").on("click", function () {
+    $(".content-collections .four.columns.medium-down--one-whole").toggleClass("active");
+    $(".bg-wapper-sort").toggleClass("active");
+  });
+
+  $(".filter-sorter-mobile .clear-filters").on("click",function () {
+      isReloadSideBar = true;
+      filter = {};
+      selectPage(1);
+      updateTagActiveWrapper();
+  });
+  
+  function checkDataSort(dataSort, dataInput) {
+    const snize_facet3 = filter["restrictBy[snize_facet3]"]
+      ? filter["restrictBy[snize_facet3]"]
+      : "";
+    const snize_facet2 = filter["restrictBy[snize_facet2]"]
+      ? filter["restrictBy[snize_facet2]"]
+      : "";
+    const product_type = filter["restrictBy[product_type]"]
+      ? filter["restrictBy[product_type]"]
+      : "";
+  
+    if (dataSort === "occasion-filter") {
+      filter["restrictBy[snize_facet3]"] = removeFieldSortDuplicate(
+        snize_facet3,
+        dataInput
+      );
+    } else if (dataSort === "recipient-filter") {
+      filter["restrictBy[snize_facet2]"] = removeFieldSortDuplicate(
+        snize_facet2,
+        dataInput
+      );
+    } else {
+      filter["restrictBy[product_type]"] = removeFieldSortDuplicate(
+        product_type,
+        dataInput
+      );
+    }
+  }
+  
+  function removeFieldSortDuplicate(listField, field) {
+    if (listField.indexOf(field) != -1) {
+      return listField.replace(`${field}|`, "");
+    }
+  
+    return listField + field + "|";
+  }
+  
+  function convertParamsFromUrl() {
+    const searchParams = new URLSearchParams(window.location.search);
+    let sort_by = searchParams.get("sort_by") || "relevance";
+    const sort_order = searchParams.get("sort_order") || "desc";
+    const currentPage = searchParams.get("page") || 1;
+    const q = searchParams.get("q") || "";
+    const rb_product_type = searchParams.get("rb_product_type") || "";
+    const rb_snize_facet3 = searchParams.get("rb_snize_facet3") || "";
+    const rb_snize_facet2 = searchParams.get("rb_snize_facet2") || "";
+    const rb_price = searchParams.get("rb_price") || "";
+
+    if($(".name-collection").length){
+      const sortByDefault = $(".name-collection").attr("sort-by")
+      sort_by = sortByDefault == "best-selling" ? "sales_amount" : sortByDefault.split("-")[0];
+
+    }
+    sortBy = sort_by;
+    sortOrder = sort_order;
+    pageProduct = Number(currentPage);
+    if (q) filter.q = q;
+    if (rb_product_type) filter["restrictBy[product_type]"] = rb_product_type;
+    if (rb_snize_facet3) filter["restrictBy[snize_facet3]"] = rb_snize_facet3;
+    if (rb_snize_facet2) filter["restrictBy[snize_facet2]"] = rb_snize_facet2;
+    if (rb_price) filter["restrictBy[price]"] = rb_price;
+
+    $("#sorter-wrapper").val(`${sort_by}-${sort_order}`); 
+    $('.search-text').text(q);
+    selectPage(pageProduct);
+    updateTagActiveWrapper();
+  }
+  
+  function updateTagActiveWrapper() {
+    let tagsActive = "";
+    const list_snize_facet3 = filter["restrictBy[snize_facet3]"]
+      ? filter["restrictBy[snize_facet3]"]
+          .split("|")
+          .map((item) => ({ parent: "snize_facet3", name: item }))
+      : [];
+    const list_snize_facet2 = filter["restrictBy[snize_facet2]"]
+      ? filter["restrictBy[snize_facet2]"]
+          .split("|")
+          .map((item) => ({ parent: "snize_facet2", name: item }))
+      : [];
+    const list_product_type = filter["restrictBy[product_type]"]
+      ? filter["restrictBy[product_type]"]
+          .split("|")
+          .map((item) => ({ parent: "product_type", name: item }))
+      : [];
+    const list_product_price = filter["restrictBy[price]"]
+      ? filter["restrictBy[price]"]
+          .split("|")
+          .map((item) => {
+            const minPrice = item.split(",")[0];
+            const maxPrice = item.split(",")[1];
+            return ({ parent: "price", name: `$${minPrice} - $${maxPrice}` })
+            return ({ parent: "price", name: item })
+          })
+      : [];
+   
+    const listFilter = [
+      ...list_snize_facet3,
+      ...list_snize_facet2,
+      ...list_product_type,
+      ...list_product_price
+    ];
+    listFilter.forEach(function (item) {
+      $(`input[id="${item.name}"]`).attr("checked", "checked");
+      $(`input[id="${item.name}"]`).prop("checked", true);
+  
+      tagsActive += `
+    <div class="tag-item" data-parent="${item.parent}" data-value="${item.name}">
+      <span>${item.name}</span> <i class="close-icon">
+        ${closeIcon}</i></div>
+    `;
+    });
+    if (tagsActive) {
+      tagsActive += `<div class="tag-item clear-filters"><span>Clear filters</span></div>`;
+    }
+    $("#current-active-filter-parent").empty();
+    $("#current-active-filter-parent").append(tagsActive);
+    $("#current-active-filter-parent .tag-item .close-icon").click(function () {
+      const data = $(this).parent(".tag-item").data();
+      let { parent, value } = data;
+      const restrictByFilterArray = filter[`restrictBy[${parent}]`].split("|");
+      value = value.replaceAll("$","").replaceAll(" - ",",")
+      const index = restrictByFilterArray.indexOf(value);
+      if (index > -1) {
+        restrictByFilterArray.splice(index, 1);
+      }
+      if($(`input[id="${value}"]`).length){
+       $(`input[id="${value}"]`).prop('checked', function(index, currentValue) {
+        return !currentValue;
+      });
+
+      }
+      
+      filter[`restrictBy[${parent}]`] = restrictByFilterArray.join("|");
+      if (!filter[`restrictBy[${parent}]`]) delete filter[`restrictBy[${parent}]`];
+      selectPage(1);
+      $(this).parent(".tag-item").remove();
+      resetFilter();
+      if ($("#current-active-filter-parent .tag-item").length <= 2) {
+        $("#current-active-filter-parent .clear-filters").remove();
+      }
+    });
+
+    $("#current-active-filter-parent .clear-filters").click(function () {
+      isReloadSideBar = true;
+      filter = {};
+      selectPage(1);
+      updateTagActiveWrapper();
+    });
+  }
+  
+  function renderSlideRange() {
+    var $slider = $("#slider-range");
+    //Set min and max values where relevant
+    $("#price-filter-min, #price-filter-max").map(function () {
+      $(this).attr({
+        min: priceMinCurrent,
+        max: priceMaxCurrent,
+      });
+    });
+    $("#price-filter-min").attr({
+      placeholder: "min " + priceMinCurrent,
+      value: priceMinCurrent,
+    });
+    $("#price-filter-max").attr({
+      placeholder: "max " + priceMaxCurrent,
+      value: priceMaxCurrent,
+    });
+  
+    $slider.slider({
+      range: true,
+      min: priceMin,
+      max: priceMax,
+      values: [priceMinCurrent, priceMaxCurrent],
+      stop: function(event, ui) {
+        $("#price-filter-min").val(ui.values[0]);
+        $("#price-filter-max").val(ui.values[1]);
+        filter["restrictBy[price]"] = `${ui.values[0]},${ui.values[1]}`;
+        updateDataSortPrice()
+      },
+    });
+    
+  
+    $("#price-filter-min, #price-filter-max").map(function () {
+      $(this).on("input", function () {
+        isCallApiOutSide = true;
+        $slider.slider("values", [
+        $("#price-filter-min").val(),
+        $("#price-filter-max").val(),
+      ]);
+      filter["restrictBy[price]"] = `${$("#price-filter-min").val()},${$(
+        "#price-filter-max"
+      ).val()}`;
+      });
+    });
+  }
+  
+  $.fn.clickOutsideThisElement = function (callback) {
+      return this.each(function () {
+          var self = this;
+          $(document).click(function (e) {
+              if (!$(e.target).closest(self).length) {
+                  callback.call(self, e)
+              }
+          })
+      });
+  };
+  
+  $("#price-filter").clickOutsideThisElement(function () {
+    if(isCallApiOutSide){
+      updateDataSortPrice();
+      isCallApiOutSide = false;
+    }
+  })
+  
+  function updateDataSortPrice() {
+      selectPage(pageProduct);
+      updateTagActiveWrapper();
+    }
+
+  function resetFilter() {
+    resetFilterPanel('#occasion-filter', 'snize_facet3');
+    resetFilterPanel('#recipient-filter', 'snize_facet2');
+    resetFilterPanel('#product-type-filter', 'product_type');
+    resetPricePanel();
+    resetShippingMethodPanel();
+  }
+  function resetFilterPanel(filterWrapper, keyField) {
+    const listActiveItemArray = filter[`restrictBy[${keyField}]`] ? filter[`restrictBy[${keyField}]`].split('|') : [];
+
+    $(`${filterWrapper} .tag-item`).each(function() {
+  
+      $(`input`).prop('checked', false);
+     
+    })
+  }
+  function resetPricePanel() {
+    const priceValue = filter[`restrictBy[price]`] || '';
+    const listPrice = [];
+    $('input[name="price"]').each(function() {
+      listPrice.push($(this).val());
+    })
+    if (listPrice.includes(priceValue)) {
+      $(`input[name="price"][value="${priceValue}"]`).prop("checked", true);
+    } else {
+      $(`input[name="price"][value="custom"]`).prop("checked", true);
+      const splitPrices = priceValue.split(',');
+      if (splitPrices && splitPrices.length === 2) {
+        const lowPrice = splitPrices[0] || '';
+        const highPrice = splitPrices[1] || '';
+        $('input[name="low-price"]').val(lowPrice);
+        $('input[name="high-price"]').val(highPrice)
+      }
+    }
+  }
+
+  function resetShippingMethodPanel() {
+    const shippingMethodValue = filter[`restrictBy[snize_facet3]`] ? filter[`restrictBy[snize_facet3]`].split('|') : [];
+    $.each($("input[name='shipping[]']"), function () {
+      if (shippingMethodValue.includes($(this).val())) {
+        $(this).prop('checked', true);
+      } else {
+        $(this).prop('checked', false);
+      }
+    });
+  }
+  
+  function compareArrays(array1, array2) {
+    if (array1.length !== array2.length) {
+      return false;
+    }
+
+    var sortedArray1 = array1.slice().sort();
+    var sortedArray2 = array2.slice().sort();
+
+    
+    for (var i = 0; i < sortedArray1.length; i++) {
+      if (sortedArray1[i] !== sortedArray2[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+  $(document).on("click",".title-sort.active-svg",function(){
+    $(this).next().toggleClass("hidden");
+    $(this).toggleClass("active");
+  })
+  function addLoading(){
+    var loadingSideBar = ` <p class="card-excerpt" id="excerpt">
+                    &nbsp;
+                    <span class="animated-bg animated-bg-text">&nbsp;</span>
+                    <span class="animated-bg animated-bg-text">&nbsp;</span>
+                    <span class="animated-bg animated-bg-text">&nbsp;</span>
+                  </p>`;
+    var loadingProduct = `<div class="grid__item">
+                            <div class="card-header animated-bg" id="header">&nbsp;</div>
+                            <p class="card-excerpt" id="excerpt">
+                              &nbsp;
+                              <span class="animated-bg animated-bg-text">&nbsp;</span>
+                              <span class="animated-bg animated-bg-text">&nbsp;</span>
+                              <span class="animated-bg animated-bg-text">&nbsp;</span>
+                            </p>
+                          </div>`;
+    for (let index = 0; index < 3; index++) {
+      loadingProduct += loadingProduct     
+    }
+    $(".tag-selectable-wrapper").empty();
+    $(".product-list.grid.product-grid").empty();
+
+    $(".product-list.grid.product-grid").append(loadingProduct);
+    $(".tag-selectable-wrapper").append(loadingSideBar);
+  }
+</script>

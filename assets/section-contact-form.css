@@ -1,39 +1,32 @@
-.contact img {
-  max-width: 100%;
+.contact.page-width .btn-submit{
+    display: inline-block;
+    padding: 15px 20px;
+    background-color:#fc6514 ;
+    text-transform: uppercase;
+    color: #fff;
+    border-radius: 999px;
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    -ms-border-radius: 999px;
+    -o-border-radius: 999px;
+    transition: 0.3s all;
+    -webkit-transition: 0.3s all;
+    -moz-transition: 0.3s all;
+    -ms-transition: 0.3s all;
+    -o-transition: 0.3s all;
+    border: 1px solid transparent;
+    font-weight: bold;
 }
-
-.contact .form__message {
-  align-items: flex-start;
+.contact.page-width .btn-submit:hover{
+  border: 1px solid #fc6514 ;
+  background: #fff;
+  color: #fc6514 ;
+  transition: 0.3s all;
+  -webkit-transition: 0.3s all;
+  -moz-transition: 0.3s all;
+  -ms-transition: 0.3s all;
+  -o-transition: 0.3s all;
 }
-
-.contact .icon-success {
-  margin-top: 0.2rem;
-}
-
-.contact .field {
-  margin-bottom: 1.5rem;
-}
-
-@media screen and (min-width: 750px) {
-  .contact .field {
-    margin-bottom: 2rem;
-  }
-}
-
-.contact__button {
-  margin-top: 3rem;
-}
-
-@media screen and (min-width: 750px) {
-  .contact__button {
-    margin-top: 4rem;
-  }
-}
-
-@media screen and (min-width: 750px) {
-  .contact__fields {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 2rem;
-  }
+.contact.page-width{
+  text-align: center;
 }

@@ -1,0 +1,26 @@
+{% capture js_variables %}
+
+    Shopify = window.Shopify || {};
+    
+    {% comment %} /* # Theme settings
+    ================================================== */ {% endcomment %}
+    Shopify.theme_settings = {};
+    Shopify.currency_settings = {};
+    
+    
+    {% comment %} Currency {% endcomment %}
+    Shopify.theme_settings.show_multiple_currencies = {{ settings.show_multiple_currencies | json }};
+    Shopify.theme_settings.currency_format = {% if settings.show_multiple_currencies == true %}{{ settings.currency_format | json }}{% else %}'money_format'{% endif %};
+    
+    Shopify.currency_settings.shopifyMultiCurrencyIsEnabled = {% if shop.enabled_currencies.size > 1 %}true{% else %}false{% endif %};
+    Shopify.currency_settings.shop_currency = {{ shop.currency | json }};
+    Shopify.currency_settings.default_currency = {{ settings.default_currency | json }};
+    Shopify.currency_settings.money_with_currency_format = {{ shop.money_with_currency_format | strip_html | json }};
+    Shopify.currency_settings.money_format = {{ shop.money_format | strip_html | json }};
+    
+
+    
+    {% endcapture %}
+    {%- assign js_variables = js_variables | split: 'Shopify.' -%}
+    {%- for variable in js_variables -%}{%- assign variableblock = variable | strip -%}{% if forloop.first %}{{ variableblock }}{% else %}{{ variableblock | prepend: 'Shopify.' }}{% endif %}{%- endfor -%}
+    

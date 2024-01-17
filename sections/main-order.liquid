@@ -1,377 +1,702 @@
-{{ 'customer.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 'tracking-order.css' |asset_url }}">
+<div class="bg-find-order"></div>
+<div class="bg-preview-edit"></div>
+<div class="overlay-modal-edit-info"></div>
+<div class="bg-edit-design"></div>
+<div class="page-width">
+  <a name="pagecontent" id="pagecontent"></a>
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
-
-<div class="customer order section-{{ section.id }}-padding">
-  <svg style="display:none">
-    <symbol id="icon-discount" viewBox="0 0 12 12">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M7 0h3a2 2 0 012 2v3a1 1 0 01-.3.7l-6 6a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4l6-6A1 1 0 017 0zm2 2a1 1 0 102 0 1 1 0 00-2 0z" fill="currentColor">
-    </symbol>
-  </svg>
-  <div>
-    <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
-    <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>
+  <div style="background: #ffffff; display: block;" id="search-loading">
+    <div style="width: 100%;">
+      <div class="title-wrapper">
+        <h1 class="title text-center">Account details</h1>
+      </div>
+      <div style="padding: 30% 0;"><svg preserveAspectRatio="xMidYMid" viewBox="0 0 100 100" height="50px" width="50px"
+          style="margin: auto; display: block;" xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns="http://www.w3.org/2000/svg">
+          <circle stroke-dasharray="164.93361431346415 56.97787143782138" r="35" stroke-width="10" stroke="#fb6413"
+            fill="none" cy="50" cx="50">
+            <animateTransform keyTimes="0;1" values="0 50 50;360 50 50" dur="1s" repeatCount="indefinite" type="rotate"
+              attributeName="transform"></animateTransform>
+          </circle>
+        </svg></div>
+    </div>
+  </div>
+  <div class="tracking-order-main-content">
+    <div class="account-header clearfix">
+      <div class=" account-header-title">
+        <h1 class="text-center relative">
+          <a href="{{ routes.account_url }}?view=list_orders" class="back-account">
+            <svg title="Return to account" xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt"
+              height="512.000000pt" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+              <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                <path
+                  d="M1825 4250 c-58 -29 -1579 -1552 -1600 -1602 -19 -48 -19 -128 0 -176 11 -26 247 -268 783 -806 807 -808 815 -816 902 -816 67 0 113 20 161 70 71 72 84 161 38 250 -10 19 -272 289 -583 600 l-566 565 1897 5 1898 5 45 25 c24 14 58 45 75 68 27 40 30 51 30 122 0 71 -3 82 -30 122 -17 23 -51 54 -75 68 l-45 25 -1898 5 -1897 5 571 570 c385 385 577 583 590 610 49 104 3 231 -103 286 -50 26 -140 25 -193 -1z" />
+              </g>
+            </svg>
+          </a>
+          <a href="{{ routes.account_url }}">{{ 'customer.account.details' | t }}</a>
+        </h1>
+      </div>
+    </div>
+    <div class="order-info">
+      <div class="info-subtotal">
+        <div class="subtotal-detail">
+          <p class="order-subtotal"><span>Subtotal:</span> <span class="pull-right order_subtotal_js"></span></p>
+          <p class="order-discount"><span class="order-discount-span"> <svg fill="none" height="18" width="22"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill="#F7981D"
+                  d="M5.444 0A5.194 5.194 0 0 0 .25 5.194c0 .832.477 1.59 1.227 1.95l.487.234c1.151.553 1.151 2.191 0 2.744l-.487.234a2.163 2.163 0 0 0-1.227 1.95A5.194 5.194 0 0 0 5.444 17.5h11.112a5.194 5.194 0 0 0 5.194-5.194c0-.832-.477-1.59-1.227-1.95l-.487-.234c-1.151-.553-1.151-2.191 0-2.744l.487-.234a2.163 2.163 0 0 0 1.227-1.95A5.194 5.194 0 0 0 16.556 0H5.444Zm8.743 5.563a.75.75 0 0 1 0 1.06L8.53 12.28a.75.75 0 0 1-1.06-1.06l5.657-5.657a.75.75 0 0 1 1.06 0ZM8 6.75a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm6 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"
+                  clip-rule="evenodd" fill-rule="evenodd"></path>
+              </svg> <span class="discount_message">Offer Discount</span> </span> <span
+              class="pull-right order_discount_js"></span></p>
+          <p class="order-shipping"><span>Shipping:</span> <span class="pull-right order_shipping_js"></span></p>
+          <p class="order-total"><span>Order Total:</span> <span class="pull-right order_total_js"></span></p>
+        </div>
+        <div class="order-info-customer">
+          <div class="order-info-top">
+            <h5 class="subtitle">Customer information</h5>
+          </div>
+          <div class="customer-information page clearfix">
+            <div class="eight columns">
+              <p class="label">Email</p>
+              <p class="ci_email">&nbsp;</p>
+              <p class="label">Shipping Address</p>
+              <div class="ci_shipping_address"></div>
+            </div>
+            <div class="eight columns">
+              <p class="label">Shipping Method</p>
+              <p class="ci_shipping_method">&nbsp;</p>
+              <p class="label">Billing Address</p>
+              <div class="ci_billing_address"></div>
+            </div>
+          </div>
+          <div class="order-actions">
+            <p><strong>You can edit or cancel your order within 2 hours after checkout!</strong></p>
+            <div><button id="btn-cancel-order" class="trc-btn trc-btn-default">Cancel Order</button></div>
+          </div>
+        </div>
+        <p class="help-text">Need help? <a id="contact-us-btn" href="/pages/contact-us">Contact Us</a></p>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <div>
-      <h2>{{ 'customer.order.title' | t: name: order.name }}</h2>
-      {%- assign order_date = order.created_at | time_tag: format: 'date_at_time' -%}
-      <p>{{ 'customer.order.date_html' | t: date: order_date }}</p>
-      {%- if order.cancelled -%}
-        {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
-        <p>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</p>
-        <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
-      {%- endif -%}
-
-      <table role="table" class="order-details">
-        <caption class="visually-hidden">
-          {{ 'customer.order.title' | t: name: order.name }}
-        </caption>
-        <thead role="rowgroup">
-          <tr role="row">
-            <th id="ColumnProduct" scope="col" role="columnheader">{{ 'customer.order.product' | t }}</th>
-            <th id="ColumnSku" scope="col" role="columnheader">{{ 'customer.order.sku' | t }}</th>
-            <th id="ColumnPrice" scope="col" role="columnheader">{{ 'customer.order.price' | t }}</th>
-            <th id="ColumnQuantity" scope="col" role="columnheader">{{ 'customer.order.quantity' | t }}</th>
-            <th id="ColumnTotal" scope="col" role="columnheader">{{ 'customer.order.total' | t }}</th>
-          </tr>
-        </thead>
-        <tbody role="rowgroup">
-          {%- for line_item in order.line_items -%}
-            <tr role="row">
-              <td
-                id="Row{{ line_item.key }}"
-                headers="ColumnProduct"
-                role="rowheader"
-                scope="row"
-                data-label="{{ 'customer.order.product' | t }}"
-              >
-                <div>
-                  {%- if line_item.url != blank -%}
-                    <a href="{{ line_item.url }}">{{ line_item.title }}</a>
-                  {%- else -%}
-                    <p>{{ line_item.title }}</p>
-                  {%- endif -%}
-                  {%- assign property_size = line_item.properties | size -%}
-                  {%- unless line_item.selling_plan_allocation == null and property_size == 0 -%}
-                    <div class="properties">
-                      {%- unless line_item.product.has_only_default_variant -%}
-                        <span>
-                          {{ line_item.variant.title }}
-                        </span>
-                      {%- endunless -%}
-                      {%- unless line_item.selling_plan_allocation == null -%}
-                        <span>
-                          {{ line_item.selling_plan_allocation.selling_plan.name }}
-                        </span>
-                      {%- endunless -%}
-                      {%- if property_size != 0 -%}
-                        {%- for property in line_item.properties -%}
-                          {% assign property_first_char = property.first | slice: 0 %}
-                          {%- if property.last != blank and property_first_char != '_' -%}
-                            <span>{{ property.first }}:</span>
-                            <span>
-                              {%- if property.last contains '/uploads/' -%}
-                                <a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
-                              {%- else -%}
-                                {{ property.last }}
-                              {%- endif -%}
-                            </span>
-                          {%- endif -%}
-                        {%- endfor -%}
-                      {%- endif -%}
+  <div class="sixteen columns page clearfix">
+    <div class="wrapper-modal-edit-shipping-address hidden">
+      <div class="modal-edit-info">
+        <div class="header-modal">
+          <span class="title text-center">Edit info shipping</span>
+        </div>
+        <svg class="btn-closed-address" xmlns="http://www.w3.org/2000/svg" version="1.1"
+          xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="512" height="512" x="0"
+          y="0" viewBox="0 0 32 32" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+          <g>
+            <path
+              d="M21 12.46 17.41 16 21 19.54A1 1 0 0 1 21 21a1 1 0 0 1-.71.29 1 1 0 0 1-.7-.29L16 17.41 12.46 21a1 1 0 0 1-.7.29 1 1 0 0 1-.71-.29 1 1 0 0 1 0-1.41L14.59 16l-3.54-3.54a1 1 0 0 1 1.41-1.41L16 14.59l3.54-3.54A1 1 0 0 1 21 12.46zm4.9 13.44a14 14 0 1 1 0-19.8 14 14 0 0 1 0 19.8zM24.49 7.51a12 12 0 1 0 0 17 12 12 0 0 0 0-17z"
+              data-name="Layer 22" fill="#9b9999" opacity="1" data-original="#000000" class=""></path>
+          </g>
+        </svg>
+        <div class="content-modal floating-labels">
+          <form class="edit_checkout address animate-floating-labels" accept-charset="UTF-8" method="post">
+            <div class="step__sections">
+              <div class="section section--shipping-address" data-shipping-address="">
+                <div class="section__content">
+                  <div class="fieldset">
+                    <div class="field field--required field--half field--show-floating-label"
+                      data-address-field="first_name">
+                      <div class="field__input-wrapper"><label class="field__label field__label--visible"
+                          for="checkout_shipping_address_first_name">First name</label>
+                        <input placeholder="First name" class="field__input" required type="text"
+                          name="checkout[shipping_address][first_name]" id="checkout_shipping_address_first_name"
+                          value="" maxlength="30" />
+                      </div>
                     </div>
-                  {%- endunless -%}
 
-                  {%- if line_item.line_level_discount_allocations != blank -%}
-                    <ul role="list" aria-label="{{ 'customer.order.discount' | t }}">
-                      {%- for discount_allocation in line_item.line_level_discount_allocations -%}
-                        <li>
-                          <svg aria-hidden="true" focusable="false" viewBox="0 0 12 12">
-                            <use href="#icon-discount" />
-                          </svg>
-                          {{- discount_allocation.discount_application.title }} (-
-                          {{- discount_allocation.amount | money -}}
-                          )
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                  {%- endif -%}
-
-                  {%- if line_item.fulfillment -%}
-                    <div class="fulfillment">
-                      {%- assign created_at = line_item.fulfillment.created_at | time_tag: format: 'date' -%}
-                      <span>{{ 'customer.order.fulfilled_at_html' | t: date: created_at }}</span>
-
-                      {%- if line_item.fulfillment.tracking_url -%}
-                        <a href="{{ line_item.fulfillment.tracking_url }}">
-                          {{ 'customer.order.track_shipment' | t }}
-                        </a>
-                      {%- endif -%}
-                      <span>
-                        {{ line_item.fulfillment.tracking_company }}
-                        {%- if line_item.fulfillment.tracking_number -%}
-                          #{{ line_item.fulfillment.tracking_number }}
-                        {%- endif -%}
-                      </span>
+                    <div class="field field--required field--half field--show-floating-label"
+                      data-address-field="last_name">
+                      <div class="field__input-wrapper"><label class="field__label field__label--visible"
+                          for="checkout_shipping_address_last_name">Last name</label>
+                        <input placeholder="Last name" class="field__input" type="text"
+                          name="checkout[shipping_address][last_name]" id="checkout_shipping_address_last_name"
+                          maxlength="30" required value="" />
+                      </div>
                     </div>
-                  {%- endif -%}
-                </div>
-              </td>
-              <td
-                headers="Row{{ line_item.key }} ColumnSku"
-                role="cell"
-                data-label="{{ 'customer.order.sku' | t }}"
-              >
-                {{ line_item.sku }}
-              </td>
-              <td
-                headers="Row{{ line_item.key }} ColumnPrice"
-                role="cell"
-                data-label="{{ 'customer.order.price' | t }}"
-              >
-                {%- if line_item.original_price != line_item.final_price or line_item.unit_price_measurement -%}
-                  <dl>
-                    {%- if line_item.original_price != line_item.final_price -%}
-                      <dt>
-                        <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
-                      </dt>
-                      <dd class="regular-price">
-                        <s>{{ line_item.original_price | money }}</s>
-                      </dd>
-                      <dt>
-                        <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
-                      </dt>
-                      <dd>
-                        <span>{{ line_item.final_price | money }}</span>
-                      </dd>
-                    {%- else -%}
-                      <dt>
-                        <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
-                      </dt>
-                      <dd>
-                        {{ line_item.original_price | money }}
-                      </dd>
-                    {%- endif -%}
-                    {%- if line_item.unit_price_measurement -%}
-                      <dt>
-                        <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
-                      </dt>
-                      <dd class="unit-price">
-                        <span>
-                          {%- capture unit_price_separator -%}
-                            <span aria-hidden="true">/</span
-                            ><span class="visually-hidden">{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
-                          {%- endcapture -%}
-                          {%- capture unit_price_base_unit -%}
-                            {%- if line_item.unit_price_measurement.reference_value != 1 -%}
-                              {{- line_item.unit_price_measurement.reference_value -}}
-                            {%- endif -%}
-                            {{ line_item.unit_price_measurement.reference_unit }}
-                          {%- endcapture -%}
-                          <span data-unit-price>{{ line_item.unit_price | money }}</span>
-                          {{- unit_price_separator -}}
-                          {{- unit_price_base_unit -}}
-                        </span>
-                      </dd>
-                    {%- endif -%}
-                  </dl>
-                {%- else -%}
-                  <span>{{ line_item.final_price | money }}</span>
-                {%- endif -%}
-              </td>
-              <td
-                headers="Row{{ line_item.key }} ColumnQuantity"
-                role="cell"
-                data-label="{{ 'customer.order.quantity' | t }}"
-              >
-                {{ line_item.quantity }}
-              </td>
-              <td
-                headers="Row{{ line_item.key }} ColumnTotal"
-                role="cell"
-                data-label="{{ 'customer.order.total' | t }}"
-              >
-                {%- if line_item.original_line_price != line_item.final_line_price -%}
-                  <dl>
-                    <dt>
-                      <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
-                    </dt>
-                    <dd class="regular-price">
-                      <s>{{ line_item.original_line_price | money }}</s>
-                    </dd>
-                    <dt>
-                      <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
-                    </dt>
-                    <dd>
-                      <span>{{ line_item.final_line_price | money }}</span>
-                    </dd>
-                  </dl>
-                {%- else -%}
-                  {{ line_item.original_line_price | money }}
-                {%- endif -%}
-              </td>
-            </tr>
-          {%- endfor -%}
-        </tbody>
-        <tfoot role="rowgroup">
-          <tr role="row">
-            <td id="RowSubtotal" role="rowheader" scope="row" colspan="4">
-              {{ 'customer.order.subtotal' | t }}
-            </td>
-            <td headers="RowSubtotal" role="cell" data-label="{{ 'customer.order.subtotal' | t }}">
-              {{ order.line_items_subtotal_price | money }}
-            </td>
-          </tr>
-          {%- if order.cart_level_discount_applications != blank -%}
-            <tr role="row">
-              {%- for discount_application in order.cart_level_discount_applications -%}
-                <td id="RowDiscount" role="rowheader" scope="row" colspan="4">
-                  {{ 'customer.order.discount' | t }}
-                  <span class="cart-discount">
-                    <svg aria-hidden="true" focusable="false" viewBox="0 0 12 12">
-                      <use href="#icon-discount" />
-                    </svg>
-                    {{- discount_application.title -}}
-                  </span>
-                </td>
-                <td headers="RowDiscount" role="cell" data-label="{{ 'customer.order.discount' | t }}">
-                  <div>
-                    <span>-{{ discount_application.total_allocated_amount | money }}</span>
-                    <span class="cart-discount">
-                      <svg aria-hidden="true" focusable="false" viewBox="0 0 12 12">
-                        <use href="#icon-discount" />
-                      </svg>
-                      {{- discount_application.title -}}
-                    </span>
+
+                    <div data-address-field="address1" data-autocomplete-field-container="true"
+                      class="field field--required field--show-floating-label">
+
+                      <div class="field__input-wrapper"><label class="field__label field__label--visible"
+                          for="checkout_shipping_address_address1">Address</label>
+                        <input placeholder="Address" class="field__input" maxlength="30" type="text"
+                          name="checkout[shipping_address][address1]" id="checkout_shipping_address_address1" required
+                          value="" />
+                      </div>
+                    </div>
+
+                    <div data-address-field="address2" data-autocomplete-field-container="true"
+                      class="field field--optional field--show-floating-label">
+
+                      <div class="field__input-wrapper"><label class="field__label field__label--visible"
+                          for="checkout_shipping_address_address2">Apartment, suite, etc.
+                          (optional)</label>
+                        <input placeholder="Apartment, suite, etc. (optional)" class="field__input" maxlength="30"
+                          type="text" name="checkout[shipping_address][address2]"
+                          id="checkout_shipping_address_address2" value="" />
+                      </div>
+                    </div>
+
+                    <div data-address-field="city" data-autocomplete-field-container="true"
+                      class="field field--required field--show-floating-label">
+
+                      <div class="field__input-wrapper"><label class="field__label field__label--visible"
+                          for="checkout_shipping_address_city">City</label>
+                        <input placeholder="City" class="field__input" required maxlength="30" type="text"
+                          name="checkout[shipping_address][city]" id="checkout_shipping_address_city" value="" />
+                      </div>
+                    </div>
+
+                    <div class="field hidden  field--required field--third field--show-floating-label"
+                      data-address-field="country" data-autocomplete-field-container="true">
+
+                      <div class="field__input-wrapper field__input-wrapper--select"><label
+                          class="field__label field__label--visible"
+                          for="checkout_shipping_address_country">Country/region</label>
+                        <input placeholder="Country/region" class="field__input" maxlength="30" type="text" disabled
+                          name="checkout[shipping_address][country]" id="checkout_shipping_address_country" value="" />
+
+                        </select>
+                      </div>
+                    </div>
+                    <div class="field hidden  field--required field--show-floating-label field--third"
+                      data-address-field="province" data-autocomplete-field-container="true">
+
+                      <div class="field__input-wrapper field__input-wrapper--select"><label
+                          class="field__label field__label--visible"
+                          for="checkout_shipping_address_province">State</label>
+
+                        <input placeholder="State" class="field__input" maxlength="30" type="text" disabled
+                          name="checkout[shipping_address][province]" id="checkout_shipping_address_province"
+                          value="" />
+                      </div>
+                    </div>
+                    <div class="field field--required field--third field--show-floating-label" data-address-field="zip"
+                      data-autocomplete-field-container="true">
+
+                      <div class="field__input-wrapper"><label class="field__label field__label--visible"
+                          for="checkout_shipping_address_zip">ZIP code</label>
+                        <input placeholder="ZIP code" class="field__input field__input--zip" required maxlength="30"
+                          type="text" name="checkout[shipping_address][zip]" id="checkout_shipping_address_zip"
+                          value="" />
+                      </div>
+                    </div>
                   </div>
-                </td>
-              {%- endfor -%}
-            </tr>
-          {%- endif -%}
-          {%- for shipping_method in order.shipping_methods -%}
-            <tr role="row">
-              <td id="RowShipping" role="rowheader" scope="row" colspan="4">
-                {{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})
-              </td>
-              <td
-                headers="RowShipping"
-                role="cell"
-                data-label="{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})"
-              >
-                {{ shipping_method.price | money }}
-              </td>
-            </tr>
-          {%- endfor -%}
-          {%- for tax_line in order.tax_lines -%}
-            <tr role="row">
-              <td id="RowTax" role="rowheader" scope="row" colspan="4">
-                {{ 'customer.order.tax' | t }} ({{ tax_line.title }}
-                {{ tax_line.rate | times: 100 }}%)
-              </td>
-              <td
-                headers="RowTax"
-                role="cell"
-                data-label="{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)"
-              >
-                {{ tax_line.price | money }}
-              </td>
-            </tr>
-          {%- endfor -%}
-          {%- if order.total_duties -%}
-            <tr role="row">
-              <td id="RowDuties" role="rowheader" scope="row" colspan="4">{{ 'customer.order.total_duties' | t }}</td>
-              <td headers="RowDuties" role="cell" data-label="{{ 'customer.order.total_duties' | t }}">
-                {{ order.total_duties | money }}
-              </td>
-            </tr>
-          {%- endif -%}
-          {%- if order.total_refunded_amount > 0 -%}
-            <tr role="row">
-              <td id="RowTotalRefund" role="rowheader" scope="row" colspan="3">
-                {{ 'customer.order.total_refunded' | t }}
-              </td>
-              <td
-                headers="RowTotalRefund"
-                role="cell"
-                colspan="2"
-                data-label="{{ 'customer.order.total_refunded' | t }}"
-              >
-                -{{ order.total_refunded_amount | money_with_currency }}
-              </td>
-            </tr>
-          {%- endif -%}
-          <tr role="row">
-            <td id="RowTotal" role="rowheader" scope="row" colspan="3">{{ 'customer.order.total' | t }}</td>
-            <td headers="RowTotal" role="cell" colspan="2" data-label="{{ 'customer.order.total' | t }}">
-              {{ order.total_net_amount | money_with_currency }}
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="footer-modal">
+              <button type="submit" id="submit-form-edit-info"> Update </button>
+              <button type="button" class="js-close-modal-edit-info">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div>
-      <div>
-        <h2>{{ 'customer.order.billing_address' | t }}</h2>
-        <p>
-          <strong>{{ 'customer.order.payment_status' | t }}:</strong>
-          {{ order.financial_status_label }}
-        </p>
-        {{ order.billing_address | format_address }}
-      </div>
-      <div>
-        <h2>{{ 'customer.order.shipping_address' | t }}</h2>
-        <p>
-          <strong>{{ 'customer.order.fulfillment_status' | t }}:</strong>
-          {{ order.fulfillment_status_label }}
-        </p>
-        {{ order.shipping_address | format_address }}
-      </div>
+    <div class="notification-error hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path
+          d="M9.83317 12.3333C9.83317 12.7936 9.46007 13.1667 8.99984 13.1667C8.5396 13.1667 8.1665 12.7936 8.1665 12.3333C8.1665 11.8731 8.5396 11.5 8.99984 11.5C9.46007 11.5 9.83317 11.8731 9.83317 12.3333Z"
+          fill="#F2994A"></path>
+        <path
+          d="M9.62484 4.83335C9.62484 4.48818 9.34501 4.20835 8.99984 4.20835C8.65466 4.20835 8.37484 4.48818 8.37484 4.83335H9.62484ZM8.37484 9.83335C8.37484 10.1785 8.65466 10.4584 8.99984 10.4584C9.34501 10.4584 9.62484 10.1785 9.62484 9.83335H8.37484ZM8.37484 4.83335V9.83335H9.62484V4.83335H8.37484ZM16.7082 9.00002C16.7082 13.2572 13.257 16.7084 8.99984 16.7084V17.9584C13.9474 17.9584 17.9582 13.9476 17.9582 9.00002H16.7082ZM8.99984 16.7084C4.74264 16.7084 1.2915 13.2572 1.2915 9.00002H0.0415039C0.0415039 13.9476 4.05229 17.9584 8.99984 17.9584V16.7084ZM1.2915 9.00002C1.2915 4.74283 4.74264 1.29169 8.99984 1.29169V0.041687C4.05229 0.041687 0.0415039 4.05247 0.0415039 9.00002H1.2915ZM8.99984 1.29169C13.257 1.29169 16.7082 4.74283 16.7082 9.00002H17.9582C17.9582 4.05247 13.9474 0.041687 8.99984 0.041687V1.29169Z"
+          fill="#F2994A"></path>
+      </svg>
+      <span class="notification-text">We’re sorry! You can’t edit your order after 2 hours of placing it as your
+        order
+        has already been in production.</span>
+    </div>
+    <div class="popup-preview-design hidden">
+      <div class="popup-content-design-order"></div>
     </div>
   </div>
-</div>
 
-{% schema %}
-{
-  "name": "t:sections.main-order.name",
-  "settings": [
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+</div>
+<script>
+  const BASE_URL_SHOPIFY = "https://api-prod.medzt.com/shopify";
+
+  function getCookieTrack(key) {
+    var keyValue = document.cookie.match("(^|;) ?" + key + "=([^;]*)(;|$)");
+    return keyValue ? keyValue[2] : null;
+  }
+  function toogleModalFindOrder() {
+    document.querySelector(".popup-find-my-order").classList.toggle("active");
+    document.querySelector(".bg-find-order").classList.toggle("active");
+  }
+  function handleButtonSubmit() {
+    var trackingBtn = document.querySelector('.btn-tracking-order');
+    trackingBtn.disabled = false;
+    trackingBtn.innerHTML = 'Track My Order';
+    document.querySelector('#order-not-found').style.display = 'block';
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+
+    if (document.querySelector(".bg-find-order")) {
+      document.querySelector(".bg-find-order").addEventListener("click", function () {
+        toogleModalFindOrder();
+      })
     }
-  ]
-}
-{% endschema %}
+    if (document.querySelector(".find-order-number")) {
+      document.querySelector(".find-order-number").addEventListener("click", function () {
+        toogleModalFindOrder();
+      })
+    }
+
+    if (document.querySelector(".btn-tracking-tutorial")) {
+      document.querySelector(".btn-tracking-tutorial").addEventListener("click", function () {
+        toogleModalFindOrder();
+      })
+
+    }
+
+    $(document).ready(function () {
+      $(".faq-item-title").click(function () {
+        $(this).parent().children(".faq-item-panel").slideToggle();
+        $(this).toggleClass("active");
+      })
+    });
+  })
+
+  function check_validate() {
+    $("form #customily-options .swatch-container").each(
+      function () {
+        var $checked = $(this).find('input[type="radio"]:checked');
+        if ($checked.length) {
+          $(this)
+            .closest(".customily_option")
+            .removeClass("customily-required-error");
+          $(this)
+            .closest(".customily_option")
+            .find(".customily-required-label span")
+            .hide();
+        } else {
+          $(this)
+            .closest(".customily_option")
+            .addClass("customily-required-error");
+          $(this)
+            .closest(".customily_option")
+            .find(".customily-required-label span")
+            .show();
+        }
+      }
+    );
+
+    $("form #customily-options select").each(function () {
+      if ($(this).val()) {
+        $(this)
+          .closest(".customily_option")
+          .removeClass("customily-required-error");
+        $(this)
+          .closest(".customily_option")
+          .find(".customily-required-label span")
+          .hide();
+      } else {
+        $(this).closest(".customily_option").addClass("customily-required-error");
+        $(this)
+          .closest(".customily_option")
+          .find(".customily-required-label span")
+          .show();
+      }
+    });
+
+    $('form #customily-options input[type="text"]').each(
+      function () {
+        if ($(this).val().length) {
+          $(this)
+            .closest(".customily_option")
+            .removeClass("customily-required-error");
+          $(this)
+            .closest(".customily_option")
+            .find(".customily-required-label span")
+            .hide();
+        } else {
+          $(this)
+            .closest(".customily_option")
+            .addClass("customily-required-error");
+          $(this)
+            .closest(".customily_option")
+            .find(".customily-required-label span")
+            .show();
+        }
+      }
+    );
+
+    $("form #customily-options .customily-file-input").each(
+      function () {
+        var $checked = $(this).find(".cl_remove-image").is(":visible");
+        if ($checked) {
+          $(this)
+            .closest(".customily_option")
+            .removeClass("customily-required-error");
+          $(this)
+            .closest(".customily_option")
+            .find(".customily-required-label span")
+            .hide();
+        } else {
+          $(this)
+            .closest(".customily_option")
+            .addClass("customily-required-error");
+          $(this)
+            .closest(".customily_option")
+            .find(".customily-required-label span")
+            .show();
+        }
+      }
+    );
+  }
+  var billingName = '', orderShopifyID = '', emailUser = '', createdAt = '';
+  $(window).on("load", function () {
+    const token = (window.location.href).split("orders/")[1];;
+    const trackingStatus = {
+      confirmed: {
+        label: 'Confirmed',
+        color: '#6662FF',
+        last_update_field: 'created_at',
+      },
+      'in_production': {
+        label: 'In production',
+        color: '#6662FF',
+        last_update_field: 'created_at',
+        showEstimateShip: true
+      },
+      'shipped_out': {
+        label: 'Shipped out',
+        color: '#6662FF',
+        last_update_field: 'last_updated_at',
+        showEstimateDelivery: true
+      },
+      delivered: {
+        label: 'Delivered',
+        color: '#6AB73D',
+        last_update_field: 'last_updated_at',
+      },
+      refunded: {
+        label: 'Refunded',
+        color: '#FF9500',
+        last_update_field: '',
+      },
+      cancelled: {
+        label: 'Cancelled',
+        color: '#FF0000',
+        last_update_field: 'cancelled_at',
+      }
+    };
+    console.log('token', token)
+    if (token) {
+      $.ajax({
+        method: "GET",
+        url: `${BASE_URL_SHOPIFY}/order-tracking-detail/${token}`,
+        contentType: "application/json; charset=utf-8",
+        success: function (res) {
+          if (res.data) {
+            const getCodeCountry = getCookieTrack('code_country') || '';
+            $(".edit-order-info-address").remove();
+            $(".order-info-top").append('<button class="edit-order-info-address">Edit Address</button>')
+            const data = res.data;
+            const dataShipping = data.shipping;
+            const dataBilling = data.billing;
+            $("#checkout_shipping_address_first_name").val(dataShipping.first_name);
+            $("#checkout_shipping_address_last_name").val(dataShipping.last_name);
+            $("#checkout_shipping_address_address1").val(dataShipping.address1);
+            $("#checkout_shipping_address_address2").val(dataShipping.address2);
+            $("#checkout_shipping_address_city").val(dataShipping.city);
+            $("#checkout_shipping_address_country").val(dataShipping.country);
+            var province = dataShipping.province || '';
+            $("#checkout_shipping_address_province").val(province);
+            $("#checkout_shipping_address_zip").val(dataShipping.zip);
+            $(".ci_shipping_address").append(`<p>${data.shipping.address1}</p>`);
+            $(".ci_shipping_address").append(`<p>${data.shipping.address2 ? data.shipping.address2 + '' : ' '}</p>`);
+            $(".ci_shipping_address").append(`<p>${data.shipping.city}</p>`);
+            $(".ci_shipping_address").append(`<p>${data.shipping.country}</p>`);
+            $(".ci_shipping_address").append(`<p>${data.shipping.phone}</p>`);
+            billingName = data.shipping.first_name + ' ' + data.shipping.last_name;
+            emailUser = data.email;
+            orderShopifyID = data.shopify_id;
+            createdAt = data.created_at;
+            $(".ci_email").html(data.email);
+            if (data.discount_amount > 0) {
+              $(".order_discount_js").html(`$${data.discount_amount} USD`);
+            } else {
+              $(".order-discount").css("display", "none");
+            }
+            $(".ci_billing_address").append(`<p>${data.billing.address1}</p>`);
+            $(".ci_billing_address").append(`<p>${data.billing.address2 ? data.billing.address2 + '' : ' '}</p>`);
+            $(".ci_billing_address").append(`<p>${data.billing.city}</p>`);
+            $(".ci_billing_address").append(`<p>${data.billing.country}</p>`);
+            $(".ci_billing_address").append(`<p>${data.billing.phone}</p>`);
+            $(".order_total_js").html(`$${data.total} USD`);
+            const subtotal = data.total - data.shipping_fee - data.discount_amount;
+            $(".order_subtotal_js").html(`$${subtotal.toFixed(2)} USD`);
+            $(".order_shipping_js").html(`$${data.shipping_fee} USD`);
+            $(".ci_shipping_method").html(data.shipping_method);
+            $(".title-tracking").append(`<p id="order_number">${data.name}</p>`)
+            //append element
+            var lineItem = "";
+
+            if (data.line_items) {
+              const dataLineItemsSort = data.line_items.sort((a, b) => a.shopify_id - b.shopify_id);
+              lineItem += `<div class="wrapper-lineItem">`;
+              for (var i = 0; i < dataLineItemsSort.length; i++) {
+                var dataLineItems = dataLineItemsSort[i];
+                if (dataLineItems.title != 'Tip') {
+                  lineItem += `<div class="order-line-item" data-id="${dataLineItems.id}">`;
+                  lineItem += `<div class="product-image">`;
+                  lineItem += `<img class="tracking-img" src=${dataLineItems.image} alt="image preview"/>`
+                  lineItem += `</div>`;
+                  lineItem += `<div class="product-info" data-customization=${dataLineItems.customization_id}>`;
+                  lineItem += `<p class="product-info-title" data-slug=${dataLineItems.product_slug}>${dataLineItems.title}</p>`;
+                  lineItem += `<p class="product-price">$${dataLineItems.price} USD</p>`;
+                  if (dataLineItems.options) {
+                    lineItem += `<div class="swatch-option">`;
+                    for (var j = 0; j < dataLineItems.options.length; j++) {
+                      lineItem += `<p>${dataLineItems.options[j].name} :${dataLineItems.options[j].value}</p>`;
+                    }
+                    lineItem += `</div>`;
+                  }
+                  lineItem += `<p class="quanlity">Qty: ${dataLineItems.quantity}</p>`;
+                  lineItem += `<button class="preview-your-design">Preview Your Design</button>`;
+                  lineItem += `<button class="edit-your-design">Edit Your Design</button>`;
+                  lineItem += `</div>`;
+                  lineItem += `<div class="status-info">`;
+                  const currentStatus = trackingStatus[dataLineItems.shipping_status] || '';
+                  if (currentStatus && currentStatus.label == 'Cancelled') {
+                    $(".edit-order-info-address,#btn-cancel-order").remove();
+                  } else {
+                    lineItem += `<p style="color: ${currentStatus ? currentStatus.color : ' '} ;font-weight: 700;">${currentStatus ? currentStatus.label : ' '}</p>`;
+                  }
+                  lineItem += `<a target="_blank" href=${dataLineItems.tracking_url}>${dataLineItems.tracking_number}</a>`;
+
+                  const localeOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+                  {% comment %} lineItem += `<p>Created tracking at: ${dataLineItems.created_tracking_at ? new Date(dataLineItems.created_tracking_at).toLocaleDateString("en-US", localeOptions) : ''}</p>`; {% endcomment %}
+                  if (dataLineItems.min_delivery_time && dataLineItems.max_delivery_time && dataLineItems.shipping_status != "cancelled") {
+                    lineItem += `<p>Estimated delivery time :<strong>${bindDateShipping(dataLineItems, createdAt)}</strong></p>`
+                  }
+                  lineItem += `</div>`
+                  lineItem += `</div>`;
+                }
+              }
+              lineItem += `</div>`
+
+              $(".order-info").prepend(lineItem);
+            }
+
+            var elementWhatDoIdo = "";
+            elementWhatDoIdo += `<div class="popup-what-do-i-do">`;
+            elementWhatDoIdo += `</div>`;
+            $(".order-info").prepend(elementWhatDoIdo);
+            $("#search-loading").toggle();
+            $(".tracking-order-main-content").show();
+          }
+        }
+      })
+    }
+
+  });
+
+  $(document).on("click", ".what-do-i-do-popup__content .btn-closed,.bg-preview-edit", function () {
+    $(".popup-what-do-i-do").toggleClass("active");
+    $(".bg-preview-edit ").toggleClass("active");
+  });
+
+  $(document).on("click", ".edit-order-info-address", function () {
+    if (checkCreatedAt(createdAt)) {
+      $(".wrapper-modal-edit-shipping-address").toggleClass("hidden");
+      $(".overlay-modal-edit-info").toggleClass("active");
+    } else {
+      const content = "We’re sorry! You can’t edit your order after 2 hours of placing it as your order has already been in production.";
+      const bgColor = "wraning";
+      notificationErrorChangeOrder(content, bgColor);
+    }
+  });
+  $(document).on("click", ".js-close-modal-edit-info,.overlay-modal-edit-info,.btn-closed-address", function () {
+    $(".wrapper-modal-edit-shipping-address").toggleClass("hidden");
+    $(".overlay-modal-edit-info").toggleClass("active");
+  })
+  $(".edit_checkout.address").submit(function (e) {
+    const fistName = document.getElementsByName("checkout[shipping_address][first_name]")
+    const lastName = document.getElementsByName("checkout[shipping_address][last_name]")
+    const address1 = document.getElementsByName("checkout[shipping_address][address1]")
+    const address2 = document.getElementsByName("checkout[shipping_address][address2]")
+    if (!fistName[0].value || !lastName[0].value || !address1[0].value) {
+      alert("Please enter all fields")
+      return;
+    }
+    function handleUpdateShippingAddress(method, url, done) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.open(method, url);
+      xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhttp.onload = function () {
+        done(null, xhttp.response);
+      };
+      xhttp.onerror = function () {
+        done(xhttp.response);
+      };
+      xhttp.send(JSON.stringify({
+        "order_id": parseInt(orderShopifyID), "order_page": window.location.href, address: {
+          "first_name": fistName[0].value,
+          "last_name": lastName[0].value,
+          "address1": address1[0].value,
+          "address2": address2[0].value
+        }
+      }));
+    }
+    handleUpdateShippingAddress("POST", `${BASE_URL_SHOPIFY}/update-shipping-address`, function (err, res) {
+      if (err) { throw err; }
+      const content = "Update successful";
+      const bgColor = "success";
+      notificationErrorChangeOrder(content, bgColor);
+      $(".wrapper-modal-edit-shipping-address").addClass("hidden");
+      $(".overlay-modal-edit-info").removeClass("active");
+    })
+    e.preventDefault();
+  });
+  $(document).on('click', ".preview-your-design", function () {
+    var whatDoIdo = "";
+    const urlPreviewImage = $(this).parent().parent().children(".product-image").children(".tracking-img").attr("src");
+    whatDoIdo += `<p class="title center">Preview Your Design</p>`;
+    whatDoIdo += `<div class="what-do-i-do-popup__content">`;
+    whatDoIdo += `<img src="${urlPreviewImage}"/>`;
+    whatDoIdo += `<svg class="btn-closed" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="512" height="512" x="0" y="0" viewBox="0 0 32 32" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M21 12.46 17.41 16 21 19.54A1 1 0 0 1 21 21a1 1 0 0 1-.71.29 1 1 0 0 1-.7-.29L16 17.41 12.46 21a1 1 0 0 1-.7.29 1 1 0 0 1-.71-.29 1 1 0 0 1 0-1.41L14.59 16l-3.54-3.54a1 1 0 0 1 1.41-1.41L16 14.59l3.54-3.54A1 1 0 0 1 21 12.46zm4.9 13.44a14 14 0 1 1 0-19.8 14 14 0 0 1 0 19.8zM24.49 7.51a12 12 0 1 0 0 17 12 12 0 0 0 0-17z" data-name="Layer 22" fill="#9b9999" opacity="1" data-original="#000000" class=""></path></g></svg>`;
+    whatDoIdo += `</div>`;
+    $(".popup-what-do-i-do").html(whatDoIdo);
+    $(".popup-what-do-i-do").toggleClass("active");
+    $(".bg-preview-edit ").toggleClass("active");
+
+  });
+
+  $(document).on('click', '.edit-your-design', function () {
+    if (!checkCreatedAt(createdAt)) {
+      const content = "We’re sorry! You can’t edit your order after 2 hours of placing it as your order has already been in production.";
+      const bgColor = "wraning";
+      notificationErrorChangeOrder(content, bgColor);
+      return;
+    }
+    const urlImagePreview = $(this).parent().parent().children(".product-image").children(".tracking-img").attr("src");
+    lineItemIDProduct = $(this).parent().parent().attr('data-id');
+    urlOrderDetail = window.location.href;
+    var wrapperEdit = '';
+    var product_slug = $(this).parent().children(".product-info-title").attr('data-slug');
+    var customization_id = $(this).parent().attr("data-customization");
+    wrapperEdit += '<h2 class="title text-center">Edit Your Design</h2>';
+    const urlProductDetail = `https://macorner.co/products/${product_slug}?view=orders&customizationId=${customization_id}`;
+    history.replaceState(null, null, urlProductDetail);
+    $(".popup-content-design-order").load(urlProductDetail);
+    const checkElementImage = setInterval(changeUrlImagePreview, 200);
+    const checkOptions = setInterval(addImageLoading, 200);
+    function changeUrlImagePreview() {
+      if ($(".popup-content-design-order").height() > 0) {
+        $(".plaholder-product.ld-custom").children("img").attr('src', urlImagePreview);
+        $(".plaholder-product.ld-custom").addClass("active-img-design");
+        clearInterval(checkElementImage);
+      }
+    }
+    function addImageLoading() {
+      if ($("#customily-options").height() > 100) {
+        $(".loading-edit-orders").addClass("hidden");
+        $(".box-design-orders").prepend(`<input hidden id="lineItemID" value=${lineItemIDProduct} />`);
+        clearInterval(checkOptions);
+      }
+    }
+    $(".popup-preview-design").css("diplay", "block");
+    $(".popup-preview-design").toggleClass("hidden");
+    $(".bg-edit-design").toggleClass("active");
+  });
+
+  $(document).on("click", ".bg-edit-design,.btn-closed-edit-design", function () {
+    history.pushState({}, null, urlOrderDetail);
+    $(".popup-content-design-order").html('');
+    $(".popup-preview-design").css("diplay", "none");
+    $(".popup-preview-design").toggleClass("hidden");
+    $(".bg-edit-design").toggleClass("active");
+  })
+
+  $(document).on('click', ".btn-update-order", function () {
+    check_validate();
+    if ($(".customily_option").hasClass("customily-required-error")) {
+      // alert("Please check your design once again. Some required options have been left empty, unselected, or wrongly filled.");
+      $("#preview-container").hide();
+      $(".customily-required-error input").first().focus();
+      $(".customily-required-error select").first().focus();
+      return;
+    }
+    $("#customily-cart-btn").trigger("click");
+    let arrDataForm = $(".design-orders-options form").serializeArray();
+    const getFormDataInterval = setInterval(checkDataForm, 100);
+
+    function checkDataForm() {
+      const itemFind = arrDataForm.find(item => item.name == 'properties[_customily-customization-url]')
+      if (itemFind) {
+        updateCustomilyOrders()
+      } else {
+        $("#customily-cart-btn").trigger("click");
+        arrDataForm = $(".design-orders-options form").serializeArray();
+      }
+    }
+
+    function updateCustomilyOrders() {
+      clearInterval(getFormDataInterval);
+      var formdata = new FormData();
+      const newOptionsCustomize = (arrDataForm.filter(item => item.name != 'form_type')).filter(item => item.name != 'utf8');
+      for (const element of newOptionsCustomize) {
+        var key = element.name.split('properties[')[1];
+
+        if(key){
+          key = key.split(']')[0];
+          element.name = key;
+        }
+      }
+      // var designUrl = res[0].Url;
+      const fileBase64 = postCanvasToURL();
+      formdata.append("file", fileBase64, 'image.jpeg');
+      const lineItemIDProduct = $("#lineItemID").val();
+      formdata.append("line_item_id", lineItemIDProduct);
+      newOptionsCustomize.forEach((element, index) => {
+        if (element.name == "_customily-customization-url") {
+          formdata.append("customization_id", element.value.split("customizationId=")[1])
+        } else if (element.name == "_customily-production-url") {
+          formdata.append("design_url", element.value);
+        } else if (element.name != "_customily-thumb-id" && element.name != "_customily-personalization-id" && element.name != "_customily-thumb" && element.name != "_customily-preview") {
+          formdata.append(`properties[${index}].name`, element.name.replace("_", ""));
+          formdata.append(`properties[${index}].value`, element.value);
+        }
+      });
+      $.ajax({
+        url: `${BASE_URL_SHOPIFY}/edit-design-order?format=jpeg`,
+        type: "POST",
+        data: formdata,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+          if (res && res.status == 'ok') {
+            const content = "Update successful";
+            const bgColor = "success";
+            notificationErrorChangeOrder(content, bgColor);
+            location.reload();
+          }
+        },
+        error: function (respon, error, errorThrown) {
+          if (respon && respon.status == 400) {
+            const content = "Please contact us email: cs@macorner.co";
+            const bgColor = "wraning";
+            notificationErrorChangeOrder(content, bgColor);
+          }
+        }
+      })
+      history.pushState({}, null, urlOrderDetail);
+      $(".popup-preview-design").css("diplay", "none");
+      $(".popup-preview-design").toggleClass("hidden");
+      $(".bg-edit-design").toggleClass("active");
+    }
+
+  });
+</script>
+{% include 'edit-order-design' %}

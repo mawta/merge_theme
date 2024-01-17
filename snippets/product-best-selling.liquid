@@ -1,0 +1,64 @@
+{% assign isShowBest = false %}
+{% if product.tags contains 'Blanket' and value == '50" x 60"' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Outdoor Rug' and value == '55" x 96"' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Custom Shape Doormat' and value == '27" x 27"' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains '2 Layers Wood Sign' and value == '14 inches' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Custom Shaped Metal Sign' and value == '14 inches' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Metal Sign' and value == '12"x18"' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Metal Sign' and value == '18"x12"' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Postcard' and value == 'Set Of 10' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Custom Shaped Wood Sign' and value == '14 inches' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Matching Shirts' and value == '2 Items' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Clear Glass Can' and value == '16oz' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Pillow' and value == '18" x 18"' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Memorial Bench Keepsake' and value == '7" x 4.7" x 3.1"' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Acrylic Ornament'
+  and value == '6.25" x 4.4"'
+  or product.type contains 'Acrylic Ornament'
+  and value == '6.25 x 4.4 inches'
+%}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Acrylic Plaque'
+  and value == '6" x 8"'
+  or product.type contains 'Acrylic Plaque'
+  and value == '8" x 6"'
+%}
+  {% assign isShowBest = true %}
+{% elsif product.type contains '2 Layers Wooden Plaque' and value contains '8"' %}
+  {% assign isShowBest = true %}
+{% elsif value == '5 inches' %}
+  {% assign isShowBest = true %}
+{% elsif value == '5 Inches' %}
+  {% assign isShowBest = true %}
+{% elsif value == '5.5 Inches' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Window Hanging Suncatcher Ornament' and value contains '8"' %}
+  {% assign isShowBest = true %}
+{% elsif product.type contains 'Blankets' and value contains '30" x 40"' %}
+  {% assign isShowBest = true %}
+ 
+{% endif %}
+{% if isShowBest == true %}
+<span class="bestbadge {% if value == '30" x 40"' %}baby {% endif %}"> 
+    {% if value == '2 Items' %}
+      Best Choice
+    {% elsif value == '30" x 40"' %}
+      Baby
+    {% else %}
+      Best Selling
+    {% endif %}
+  </span>
+{% endif %}

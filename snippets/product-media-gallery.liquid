@@ -48,17 +48,30 @@
   role="region"
   {% if section.settings.enable_sticky_info %}
     class="product__column-sticky"
-  {% endif %}
+  {% endif -%}
   aria-label="{{ 'products.product.media.gallery_viewer' | t }}"
   data-desktop-layout="{{ section.settings.gallery_layout }}"
 >
-  <div id="GalleryStatus-{{ section.id }}" class="visually-hidden" role="status"></div>
-  <slider-component id="GalleryViewer-{{ section.id }}{{ id_append }}" class="slider-mobile-gutter">
+  <div
+    id="GalleryStatus-{{ section.id }}"
+    class="visually-hidden"
+    role="status"
+  ></div>
+  <slider-component id="GalleryViewer-{{ section.id }}{{ id_append }}" class="gallery-wrap
+  gallery-arrows--false
+  gallery-thumbnails--left slider-mobile-gutter">
     {%- unless is_duplicate -%}
       <a class="skip-to-content-link button visually-hidden quick-add-hidden" href="#ProductInfo-{{ section.id }}">
         {{ 'accessibility.skip_to_product_info' | t }}
       </a>
     {%- endunless -%}
+    <div class="banner_holder">
+      <button type="button" aria-label="Add to wishlist" button-wishlist="" 
+      class="button-wishlist" data-product-handle="{{ product.handle   }}"> <style scoped="">
+           </style>
+       {%- render 'icon-heart' -%}
+    </button>
+      </div>
     <ul
       id="Slider-Gallery-{{ section.id }}{{ id_append }}"
       class="product__media-list contains-media grid grid--peek list-unstyled slider slider--mobile"
@@ -187,7 +200,7 @@
           (min-width: {{ settings.page_width }}px) calc(({{ settings.page_width | minus: 100 | times: media_width | round }} - 4rem) / 4),
           (min-width: 990px) calc(({{ media_width | times: 100 }}vw - 4rem) / 4),
           (min-width: 750px) calc((100vw - 15rem) / 8),
-          calc((100vw - 8rem) / 3)
+                    calc((100vw - 8rem) / 3)
         {%- endcapture -%}
 
         {%- if featured_media != null -%}
@@ -221,7 +234,7 @@
             >
               {{
                 featured_media.preview_image
-                | image_url: width: 416
+                | image_url: width: 208
                 | image_tag:
                   loading: 'lazy',
                   sizes: sizes,
@@ -273,13 +286,13 @@
                   and forloop.index == 1
                 %}
                   aria-current="true"
-                {% endif %}
+                {% endif -%}
                 aria-controls="GalleryViewer-{{ section.id }}{{ id_append }}"
                 aria-describedby="{{ thumbnail_id }}"
               >
                 {{
                   media.preview_image
-                  | image_url: width: 416
+                  | image_url: width: 208
                   | image_tag:
                     loading: 'lazy',
                     sizes: sizes,

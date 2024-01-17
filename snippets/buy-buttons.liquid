@@ -55,17 +55,31 @@
           type="hidden"
           name="id"
           value="{{ product.selected_or_first_available_variant.id }}"
-          {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
-            disabled
-          {% endif %}
+          disabled
           class="product-variant-id"
         >
+        <div id="customily-options">
+          <span class="title-customize">{{ 'products.product.customize' | t }}</span>
+          {% if product.tags contains 'Photo Inserted' %}
+            <p class="upload_image_guidelines">
+              <img width="16px" height="16px" alt="icon-photo" src="{{ 'icon-photo-gift.svg' | asset_url }}" />
+              <span style="padding-left: 5px;">View photo upload guidelines here</span>
+            </p>
+          {% endif %}
+        </div>
 
         {%- if gift_card_recipient_feature_active -%}
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
         {%- endif -%}
 
+        {% include 'quantity-product', product: product, section: section, block: block %}
         <div class="product-form__buttons">
+          <div class="btn-preview-desktop">
+            <a href="#" id="btn-preview-desktop" class="button customily-preview-button ld-custom"
+              >Preview Your Personalization</a
+            >
+          </div>
+
           {%- liquid
             assign check_against_inventory = true
             if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
@@ -78,12 +92,13 @@
           <button
             id="ProductSubmitButton-{{ section_id }}"
             type="submit"
-            name="add"
+            name="add-to-cart"
             class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
             {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
               disabled
             {% endif %}
           >
+           
             <span>
               {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
                 {{ 'products.product.sold_out' | t }}
@@ -91,7 +106,17 @@
                 {{ 'products.product.add_to_cart' | t }}
               {%- endif -%}
             </span>
-            {%- render 'loading-spinner' -%}
+            <div class="loading-overlay__spinner hidden">
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="spinner"
+                viewBox="0 0 66 66"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+              </svg>
+            </div>
           </button>
           {%- if show_dynamic_checkout -%}
             {{ form | payment_button }}
@@ -113,6 +138,13 @@
       </div>
     </div>
   {%- endif -%}
+  <div id="pp-pay-later-message" class="hidden-xl"></div>
+  <div class="trustbadge-product">
+     <p class="text-center">
+     <img src="{{'icon-secure.jpg' |  asset_url }}" width="20px" height="20px" alt="icon-secure"/> 
+     Guaranteed safe & secure checkout via:</p>
+     <img class="payment" src="{{'icon_paymeny.jpg' | asset_url }}" width="100px" height="30px" alt="icon-payment"/>
+  </div>
 
   {%- if show_pickup_availability -%}
     {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
@@ -129,7 +161,6 @@
       data-root-url="{{ routes.root_url }}"
       data-variant-id="{{ product.selected_or_first_available_variant.id }}"
       data-has-only-default-variant="{{ product.has_only_default_variant }}"
-      data-product-page-color-scheme="gradient color-{{ section.settings.color_scheme }}"
     >
       <template>
         <pickup-availability-preview class="pickup-availability-preview">

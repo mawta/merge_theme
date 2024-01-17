@@ -1,0 +1,152 @@
+{% assign index = 0 %}
+<div class="page-profile--content">
+  <ul class="nav nav-tabs nav-tabs-banner" id="profile-tabs--link" role="tablist">
+    {% for block in section.blocks %}
+    {% if block.type == "tab" %}
+    <li class="nav-item">
+        <a class="nav-link {% if index ==  0%} active {%endif%}" id="{{ block.settings.title | replace: " ", "-" }}" data-toggle="tab" href="#{{ block.settings.title | replace: " ", "-" }}"
+            role="tab" aria-controls="{{ block.settings.title | replace: " ", "-" }}" aria-selected="false">
+            {{ block.settings.title}}
+        </a>
+    </li> 
+    {% assign index = index | plus: 1 %}
+    {%endif%}
+    {%endfor%}
+  
+</ul>
+{% assign indexTab = 0 %}
+{% for block in section.blocks %}
+    {% if block.type == "tab" %}
+		<div class="tab-pane fade{% if indexTab ==  0%} show active{%endif%}" id="{{ block.settings.title | replace: " ", "-" }}" role="tabpanel"
+		aria-labelledby="{{ block.settings.title | replace: " ", "-" }}" id="{{ block.settings.title | replace: " ", "-" }}">
+			<div class="product-hot">
+			 <div class="swiper prdHot--slide">
+						<div class="swiper-wrapper wrapper--prdHot"	>
+								<div class="swiper-slide" >
+										<div class="product-hot--link">
+												<a href="{{ block.settings.url_1}}">
+														<div class="product-hot--linkbody">
+																<img class="img-fluid product-hot--img"
+																		src="{{ block.settings.image_1 | img_url: '300x' }}"
+																		alt="">
+																<div class="product-hot--linkfooter"></div>
+														</div>
+												</a>
+												<div class="product-hot--linktitle">
+														<a href="{{ block.settings.url_1}}">
+																<h5 class="title">{{ block.settings.title_1}}</h5>
+														</a>
+												</div>
+										</div>
+								</div>
+								<div class="swiper-slide" >
+										<div class="product-hot--link">
+												<a href="{{ block.settings.url_2}}">
+														<div class="product-hot--linkbody">
+																<img class="img-fluid product-hot--img"
+																		src="{{ block.settings.image_2  | img_url: '300x'}}"
+																		alt="">
+																<div class="product-hot--linkfooter"></div>
+														</div>
+												</a>
+												<div class="product-hot--linktitle">
+														<a href="{{ block.settings.url_2}}">
+																<h5 class="title">{{ block.settings.title_2}}</h5>
+														</a>
+												</div>
+										</div>
+								</div>
+								<div class="swiper-slide" >
+								<div class="product-hot--link">
+										<a href="{{ block.settings.url_3}}">
+												<div class="product-hot--linkbody">
+														<img class="img-fluid product-hot--img"
+																src="{{ block.settings.image_3  | img_url: '300x'}}"
+																alt="">
+														<div class="product-hot--linkfooter"></div>
+												</div>
+										</a>
+										<div class="product-hot--linktitle">
+												<a href="{{ block.settings.url_3}}">
+														<h5 class="title">{{ block.settings.title_3}}</h5>
+												</a>
+										</div> 
+								</div>
+						</div>
+						</div>
+						<span class="swiper-notification" aria-live="assertive"
+								aria-atomic="true"></span>
+				</div>
+			</div>
+		</div>
+{% assign indexTab = indexTab | plus: 1 %}
+{%endif%}
+{%endfor%}
+</div>
+{% schema %}
+
+{
+    "name": "LD Special Product",
+    "class": "special-product",
+		"max_blocks": 3, 
+    "blocks": [
+    {
+      "type": "tab",
+      "name": "list Product Tab",
+      "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Tab"
+        },
+        {
+            "type": "text",
+            "id": "title_1",
+            "label": "Product title 1"
+        },
+        {
+            "type": "image_picker",   
+            "id": "image_1",
+            "label": "Image 1" 
+        },
+        {
+            "type": "url",   
+            "id": "url_1",
+            "label": "Image 1" 
+        },
+        {
+            "type": "text",
+            "id": "title_2",
+            "label": "Title 2"
+        },
+        {
+            "type": "image_picker",   
+            "id": "image_2",
+            "label": "Image 2" 
+        },
+        {
+            "type": "url",   
+            "id": "url_2",
+            "label": "Link 2" 
+        },
+        {
+            "type": "text",
+            "id": "title_3",
+            "label": "Title 3"
+        },
+        {
+            "type": "image_picker",   
+            "id": "image_3",
+            "label": "Image 3" 
+        },
+        {
+            "type": "url",   
+            "id": "url_3",
+            "label": "Link 3" 
+        }
+      ]
+    }
+  ]
+
+}
+{% endschema %}

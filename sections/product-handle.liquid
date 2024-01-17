@@ -1,0 +1,149 @@
+{{ 'product-events.css' | asset_url | stylesheet_tag }}
+
+{% assign image_per_row = section.settings.frontpage_collections_per_row %}
+<div class="container page-width">
+  {% if section.settings.title != blank %}
+    <div class="sixteen columns">
+      <h2 class="title center">{{ section.settings.title | escape }}</h2>
+    </div>
+  {% endif %}
+  <div class="sixteen columns">
+    <div class="clearfix equal-columns--outside-trim equal-columns--clear featured-collection-product" style="display:grid;grid-template-columns: repeat({{ section.settings.frontpage_product_col }}, minmax(0, 1fr));gap: 20px;">
+      {% for block in section.blocks %}
+        <div
+          class="product-item text-{{ block.settings.text_align }}"
+          style="--animation-order: {{ forloop.index }};"
+          data-cascade>
+            <a href="{{ block.settings.url_product }}" alt="{{ block.settings.title_col }}" title="{{ block.settings.title_col }}">
+              <div class="image__container">
+                {% if block.settings.image_preview != blank %}
+                  <img
+                    srcset="
+                  {% if block.settings.image_preview.src.width >= 288 %}
+                    {{ block.settings.image_preview.src | image_url: width: 288 }} 288w,{% endif %}
+                  {% if block.settings.image_preview.src.width >= 576 %}
+                    {{ block.settings.image_preview.src | image_url: width: 576 }} 576w,{% endif %}
+                  {% if block.settings.image_preview.src.width >= 550 %}
+                    {{ block.settings.image_preview.src | image_url: width: 550 }} 550w,{% endif %}
+                  {% if block.settings.image_preview.src.width >= 1100 %}
+                    {{ block.settings.image_preview.src | image_url: width: 1100 }} 1100w,{% endif %}
+                  {{ block.settings.image_preview.src | image_url }} {{ block.settings.image_preview.src.width }}w
+                                      "
+                  src="{{ block.settings.image_preview.src | image_url: width: 400 }}"
+                  sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                  loading="lazy"
+                  width="576"
+                  height="{{ 576 | divided_by: block.settings.image_preview.aspect_ratio }}"
+                  alt="{{ block.settings.image_preview.alt | escape }}">
+                {% endif %}
+              </div>
+            </a>
+            <a href="{{ block.settings.url_product }}" alt="{{ block.settings.title_col }}" title="{{ block.settings.title_col }}">
+              <h3 class="title">{{ block.settings.title_col | escape }}</h3>
+            </a>
+            <span class="price money">{{ block.settings.price_product }}</span>
+        
+        </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.frontpage_link != blank %}
+      <div class="center">
+        <a href="{{ section.settings.frontpage_link | escape }}" class="btn-slide-product-all">
+          <span class="btn-slide-affter"></span>
+          <span>Shop All</span>
+        </a>
+      </div>
+
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Product Handle",
+    "class": "product-handle",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured collection product"
+      }, {
+        "type": "range",
+        "id": "frontpage_collections_per_row",
+        "label": "Image per row",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 4
+      }, {
+        "type": "range",
+        "id": "frontpage_product_col",
+        "label": "Product Item",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 4
+      }, {
+        "type": "url",
+        "id": "frontpage_link",
+        "label": "Link Redirect"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "text_block",
+        "name": "Column",
+        "limit": 12,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image_preview",
+            "label": "Image Review"
+          },
+           {
+            "type": "select",
+            "id": "text_align",
+            "label": "Text alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              }, {
+                "value": "center",
+                "label": "Center"
+              }, {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default": "left"
+            },
+            {
+            "type": "text",
+            "id": "title_col",
+            "label": "Name product"
+            },
+             {
+            "type": "text",
+            "id": "price_product",
+            "label": "Price"
+            },
+            {
+            "type": "url",
+            "id": "url_product",
+            "label": "Url product"
+            }
+
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product Handle",
+        "category": "Product",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

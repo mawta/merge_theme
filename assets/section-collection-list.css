@@ -3,9 +3,43 @@
   margin-bottom: 0;
 }
 
+div.breadcrumb-collection {
+  margin-bottom: 2rem;
+}
+
+.collection-list .card__heading {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.collection-list .card__information {
+  padding: 0 !important;
+}
+
 .collection-list-title {
   margin: 0;
 }
+
+.collection-list__item .card__media img,
+.card__content,
+.card--card:after,
+.card--standard .card__inner:after,
+.collection-card-wrapper .card,
+.contains-card--collection,
+.card .card__inner .card__media,
+.card--card.gradient,
+.card__inner.gradient {
+  border-radius: 20px !important;
+  -webkit-border-radius: 20px !important;
+  -moz-border-radius: 20px !important;
+  -ms-border-radius: 20px !important;
+  -o-border-radius: 20px !important;
+}
+
 
 @media screen and (max-width: 749px) {
   .collection-list:not(.slider) {

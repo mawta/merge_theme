@@ -1,0 +1,141 @@
+<div class="page-width">
+  {% if section.settings.title != blank%}
+      <h2 class="title text-center">{{ section.settings.title | escape }}</h2>
+  {% endif %}
+   <div class="banner-top">
+        {% if section.settings.enable_image %}
+          <div class="images-pc">
+            {% if section.settings.image != blank %}
+              <img
+                srcset="{% if section.settings.image.src.width >= 288 %}
+                {{ section.settings.image.src | image_url: width: 288 }} 288w,{% endif %}
+              {% if section.settings.image.src.width >= 576 %}
+                {{ section.settings.image.src | image_url: width: 576 }} 576w,{% endif %}
+              {% if section.settings.image.src.width >= 550 %}
+                {{ section.settings.image.src | image_url: width: 550 }} 550w,{% endif %}
+              {% if section.settings.image.src.width >= 1100 %}
+                {{ section.settings.image.src | image_url: width: 1100 }} 1100w,{% endif %}
+              {{ section.settings.image.src | image_url }} {{ section.settings.image.src.width }}w"
+              src="{{ section.settings.image.src | image_url: width: 550, height: 550 }}"
+              sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+              loading="lazy"
+              width="1440"
+              height="auto"
+              alt="{{ product.preview_image.alt | escape }}">
+            {% endif %}
+          </div>
+          <div class="image-banner-mb">
+            {% if section.settings.image_mb != blank %}
+              <img
+              srcset="{% if section.settings.image_mb.src.width >= 288 %}
+              {{ section.settings.image_mb.src | image_url: width: 288 }} 288w,{% endif %}
+            {% if section.settings.image_mb.src.width >= 576 %}
+              {{ section.settings.image_mb.src | image_url: width: 576 }} 576w,{% endif %}
+            {% if section.settings.image_mb.src.width >= 550 %}
+              {{ section.settings.image_mb.src | image_url: width: 550 }} 550w,{% endif %}
+            {% if section.settings.image_mb.src.width >= 1100 %}
+              {{ section.settings.image_mb.src | image_url: width: 1100 }} 1100w,{% endif %}
+            {{ section.settings.image_mb.src | image_url }} {{ section.settings.image_mb.src.width }}w"
+            src="{{ section.settings.image_mb.src | image_url: width: 550, height: 550 }}"
+            sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+            loading="lazy"
+            width="576"
+            height="{{ 576 | divided_by: product.preview_image.aspect_ratio }}"
+            alt="{{ product.preview_image.alt | escape }}">
+          {% endif %}
+        </div>
+        {% endif %}
+        {% if section.settings.title_banner != blank%}
+           <h3 class="banner-top-title">{{ section.settings.title_banner | escape }}</h3>
+        {% endif %}
+    </div>
+   {% if section.settings.text != blank%}
+        <div class="sub-content">{{ section.settings.text }}</div>
+   {% endif %}
+   <div class="box-sub{% if section.settings.title contains "Refund Time" %} sub-refund-time {% endif %}">
+     {% for block in section.blocks %}
+          <div class="item-sub">
+             {% if section.settings.title contains "Refund Time" %}
+             {% else %}
+              <div class="title-sub">
+                {{ forloop.index }}
+              </div>
+            {% endif %}
+            {% if block.settings.text != blank %}
+            <div class="rte-setting">{{ block.settings.text }}</div>
+            {% endif %}
+          </div>
+      {% endfor %}
+   </div>
+</div>
+
+{% schema %}
+{
+  "name": "Refun text width image",
+  "class": "refund-text-image-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_image",
+      "label": "Show image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mb",
+      "label": "Image mobile"
+    },
+    {
+      "type": "text",
+      "id": "title_banner",
+      "label": "Heading Width Image",
+      "default": "Text columns with images"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Text columns with images"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Content</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Column",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Content</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Refund text width image",
+      "category": "Text"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -49,7 +49,8 @@
         {%- endfor -%}
       </ul>
     {%- endif -%}
-    <div class="field">
+    <div class="column-two">
+       <div class="field">
       <input
         type="text"
         name="customer[first_name]"
@@ -79,6 +80,8 @@
         {{ 'customer.register.last_name' | t }}
       </label>
     </div>
+    </div>
+   
     <div class="field">
       <input
         type="email"
@@ -126,6 +129,7 @@
         {{ 'customer.register.password' | t }}
       </label>
     </div>
+    <span style="text-align:left; font-size:12px;padding:0.5rem 0;display:block;">5 to 16 characters</span>
     {%- if form.errors contains 'password' -%}
       <span id="RegisterForm-password-error" class="form__message">
         <svg aria-hidden="true" focusable="false">
@@ -138,6 +142,8 @@
     <button>
       {{ 'customer.register.submit' | t }}
     </button>
+    <span class="note"><a href="{{ routes.account_login_url }}">Login</a> 
+    or <a href="{{ shop.url }}">{{ 'customer.login_page.sub_store' | t }}</a></span>
   {%- endform -%}
 </div>
 

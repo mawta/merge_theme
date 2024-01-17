@@ -1,5 +1,19 @@
-.search__input.field__input {
-  padding-right: 9.8rem;
+
+
+.search__input.field__input:focus,
+.search__input.field__input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.field:hover.field:after {
+  box-shadow: 0 0 0 calc(.1rem + var(--inputs-border-width)) #FB6413;
+
+}
+
+
+.field:focus {
+  border: none;
 }
 
 .search__button {
@@ -67,8 +81,4 @@
 /* Remove extra spacing for search inputs in Safari */
 input::-webkit-search-decoration {
   -webkit-appearance: none;
-}
-
-.template-search__results {
-  position: relative;
 }
