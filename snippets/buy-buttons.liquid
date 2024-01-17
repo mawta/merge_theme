@@ -59,7 +59,7 @@
           class="product-variant-id"
         >
         <div id="customily-options">
-          <span class="title-customize">{{ 'products.product.customize' | t }}</span>
+          {% comment %} <span class="title-customize">{{ 'products.product.customize' | t }}</span> {% endcomment %}
           {% if product.tags contains 'Photo Inserted' %}
             <p class="upload_image_guidelines">
               <img width="16px" height="16px" alt="icon-photo" src="{{ 'icon-photo-gift.svg' | asset_url }}" />
