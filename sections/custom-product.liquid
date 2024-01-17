@@ -695,7 +695,7 @@
         {%endif%}
       {%endunless%}
     </script>
-    <script>
+    {% comment %} <script>
         paypal1.Messages({
           placement: 'product',
           buyerCountry: 'US',
@@ -724,7 +724,7 @@
               },
           },
       }).render("#pp-pay-later-message-desktop");
-    </script>
+    </script> {% endcomment %}
     <script>
       var _learnq = _learnq || [];
       var item = {
