@@ -1,0 +1,75 @@
+<div class="container page-width">
+   {% if section.settings.title != blank%}
+      <h2 class="title text-center">{{ section.settings.title | escape }}</h2>
+  {% endif %}
+  <div class="box-service">
+     {% for block in section.blocks %}
+          <div class="item">
+            <div class="item-img">
+            {% if block.settings.image != blank %}
+              <img src="{{ block.settings.image.src |image_url }}" alt="{{ block.settings.image.alt }}" />
+            {% endif %}
+            </div>
+            {% if block.settings.title != blank %}
+                <h4 class="title-sub">{{ block.settings.title }}</h4>
+            {% endif %}
+            {% if block.settings.text != blank %}
+                <div class="rte-setting">{{ block.settings.text }}</div>
+            {% endif %}
+          </div>
+      {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Refun icon width text",
+  "class": "refund-icon-text-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Text columns with images"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Column",
+      "limit": 12,
+      "settings": [
+         {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Content</p>"
+        },
+         {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Refund icon width text",
+      "category": "Text"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

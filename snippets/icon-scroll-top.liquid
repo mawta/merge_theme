@@ -1,0 +1,69 @@
+<style>
+    #top_scroll_button {
+      border-radius: 50%;
+      bottom: 100px;
+      display: none;
+      z-index: 1000;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      -o-border-radius: 50%;
+      background-color:#fff;
+      cursor: pointer;
+      right: 1.5rem;
+      position: fixed;
+      height: 35px;
+  }
+  #top_scroll_button img {
+      width: 35px;
+      height: 35px;
+  }
+</style>
+<a id="top_scroll_button" class="show fixed right-6 cursor-pointer text-center bg-white">
+    <i>
+        <img src="{{ 'scroll.svg' | asset_url }}" alt="icon scroll top" width="35" height="35" />
+    </i>
+</a>
+<script>
+    window.addEventListener("scroll", function() {
+        var scroll = window.pageYOffset || document.documentElement.scrollTop;
+        var topScrollButton = document.querySelector("#top_scroll_button");
+      
+        if (scroll >= 1000) {
+          topScrollButton.style.display = "block";
+        } else {
+          topScrollButton.style.display = "none";
+        }
+        topScrollButton.addEventListener("click",function(){
+            scrollToTop(1000);
+        })
+      });
+      
+      function scrollToTop(duration) {
+        var start = window.pageYOffset || document.documentElement.scrollTop;
+        var startTime = null;
+      
+        function animation(currentTime) {
+          if (startTime === null) {
+            startTime = currentTime;
+          }
+      
+          var elapsedTime = currentTime - startTime;
+          var ease = easeInOutCubic(elapsedTime, start, -start, duration);
+          window.scrollTo(0, ease);
+      
+          if (elapsedTime < duration) {
+            requestAnimationFrame(animation);
+          }
+        }
+      
+        function easeInOutCubic(t, b, c, d) {
+          t /= d / 2;
+          if (t < 1) return c / 2 * t * t * t + b;
+          t -= 2;
+          return c / 2 * (t * t * t + 2) + b;
+        }
+      
+        requestAnimationFrame(animation);
+      }
+</script>

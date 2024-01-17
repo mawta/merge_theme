@@ -1,0 +1,57 @@
+{% style %}
+    .wood-swatch{
+      background-image: url("{{ 'wood-icon.jpg' | asset_url }}") !important;
+    }
+    .hippie-swatch label {
+      background-image: url("{{ "hippie.jpg" | asset_url }}");
+    }
+    .graphite-swatch{
+      background-image: url("{{ "Graphite-150x150.jpg" | asset_url }}") !important;
+    }
+    .moss-swatch{
+      background-image: url("{{ "Moss-150x150.jpg" | asset_url }}") !important;
+    }
+    .yam-swatch{
+      background-image: url("{{ "Yam-150x150.jpg" | asset_url }}")  !important;
+    } 
+    .pepper-swatch  {
+      background-image: url("{{ "Pepper-150x150.jpg" | asset_url }}")  !important;
+    }
+    .orchid-swatch  {
+      background-image: url("{{ "Orchid-150x150.jpg" | asset_url }}")  !important;
+    }
+    .light-green-swatch  {
+      background-image: url("{{ "Light-Green-150x150.jpg" | asset_url }}")  !important;
+    }
+    .ivory-swatch  {
+      background-image: url("{{ "Ivory-150x150.jpg" | asset_url }}")  !important;
+    }
+    .blue-jean-swatch  {
+      background-image: url("{{ "Blue-Jean-150x150.jpg" | asset_url }}")  !important;
+    }
+{% endstyle %}
+  
+{% include 'product__structured-data' %}
+
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+{{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+
+{% schema %}
+    {
+      "name": "Style Sttuctured product",
+      "class": "product-style",
+      "presets": [
+        {
+          "name": "Style Sttuctured product",
+          "category": "Product",
+          "settings": {}
+        }
+      ]
+    }
+{% endschema %}
+    

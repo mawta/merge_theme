@@ -1,0 +1,246 @@
+<script>
+  var monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+  const widthWindow = window.innerWidth;
+  if (widthWindow < 600 || 798 < widthWindow && widthWindow < 992) {
+    monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+  }
+  if ((window.location.href).indexOf("blanket") > 0) {
+    const labelSelected = $(".swatch_options").children("[data-option-index=0]").children().children("label");
+    labelSelected.on("click", function() {
+      const vairantIdProduct = $(this).parent(".swatch-element").attr("data-id");
+      getDayShipping(vairantIdProduct);
+    })
+  }
+  const waitCookieCodeCountry = setInterval(checkCookieCodeCountry, 200);
+
+  function checkCookieCodeCountry() {
+    if (getCookie('code_country')) {
+      getDayShipping();
+      stopwaitCookieCodeCountry()
+    }
+  }
+
+  function stopwaitCookieCodeCountry() {
+    clearInterval(waitCookieCodeCountry);
+  }
+
+  function getCookie(key) {
+    var keyValue = document.cookie.match("(^|;) ?" + key + "=([^;]*)(;|$)");
+    return keyValue
+      ? keyValue[2]
+      : null;
+  }
+  function disableOptionShipping(messageErr) {
+    $(".wrapper-ship").addClass("hidden");
+    $(".shipping .wt-grid.fulfillment").addClass("hidden");
+    $(".shipping-custom-date").html(`<p>${messageErr}</p>`);
+    $(".text-notification").text(messageErr);
+    $(".notification-shipping,.bg-notification-shipping").removeClass("hidden");
+
+  }
+  async function getDayShipping(variantIdProduct) {
+    const url = new URL(window.location.href);
+    let variantID = url.searchParams.get("variant");
+    if (!variantID) {
+      variantID = {{ product.selected_or_first_available_variant.id }};
+    }
+    if (variantIdProduct) {
+      variantID = variantIdProduct;
+    }
+
+    var countryCode = getCookie('code_country');
+    window.localStorage.removeItem('es_delivery_times');
+    if (!countryCode) {
+      return stopwaitCookieCodeCountry()
+    }
+    if (variantID) {
+      const urlRequest = `https://api-custom.medzt.com/estimated-delivery-time?variant_id=${variantID}&country_code=${countryCode}`;
+
+      $.ajax({
+        method: "GET",
+        url: urlRequest,
+        success: function(respon) {
+          if (respon && respon.data) {
+
+          var dataShipping = respon.data.es_delivery_times;
+          dataShipping = dataShipping.sort((a, b) => a.min_shipping_time - b.min_shipping_time);
+          var delivery_times = "";
+  
+          window.localStorage.setItem('es_delivery_times', JSON.stringify(dataShipping));
+          var shippingExpress = dataShipping.find(item => item.shipping_label != 'Standard Shipping');
+          var shippingStandard = dataShipping.find(item => item.shipping_label == 'Standard Shipping');
+  
+          if (! shippingExpress) {
+            $(".wrapper-ship #option-ship option[value='express']").remove();
+            $(".wrapper-ship .ship-label-op").text("Standard Shipping");
+            $(".wrapper-ship").addClass("hidden");
+            $(".express-shipping").remove();
+          } else if (! shippingStandard) {
+            $(".wrapper-ship #option-ship option[value='standard']").remove();
+            $(".wrapper-ship .ship-label-op").text("Express Shipping");
+            $(".wrapper-ship").addClass("hidden");
+            $(".express-shipping").remove();
+          } else {
+            $(".wrapper-ship").removeClass("hidden");
+            $(".wrapper-ship .ship-label-op").text(shippingStandard.shipping_label);
+            var allOptionShipping = `<option value="standard">Standard Shipping</option>`;
+            if (shippingExpress.shipping_label != 'Express Shipping') {
+              allOptionShipping += `<option value="2 Day">${
+                shippingExpress.shipping_label
+              }</option>`;
+            } else {
+              allOptionShipping += `<option value="express">${
+                shippingExpress.shipping_label
+              }</option>`;
+            } 
+            $(".wrapper-ship .input_common").html(allOptionShipping);
+
+            if($(".express-shipping").length == 0){
+              $(".box-shipping-content").append("<span class='express-shipping'>Or faster delivery with  <b>Express Shipping</b></span>")
+            }
+            
+          }
+          $(".date-time-new").text(`${
+            bindDateShipping(dataShipping.find(item => item.shipping_label == 'Standard Shipping'))
+          }`);
+         
+          const locationPathName = location.pathname;
+          const christmasGiftCard = locationPathName.includes("/christmas-gift-card");
+
+          if(!christmasGiftCard){
+            $(".new-shipping").removeClass("hidden");
+          }
+         
+          for (var i =0; i <dataShipping.length; i++) {
+            var itemShipping = dataShipping[i];
+            delivery_times += `<div class="one-half option-ship columns">`;
+            delivery_times += `<div class="text">`;
+            delivery_times += `<p>${
+              itemShipping.shipping_label
+            }</p>`;
+            delivery_times += `<p> Arrives by <b>${
+              bindDateShipping(itemShipping)
+            }</b> </p>`;
+            delivery_times += `</div>`;
+            delivery_times += `</div>`;
+          }
+          {% comment %}$(".shipping-custom-date").html(delivery_times);{% endcomment %}
+          if (dataShipping.length) {
+            bindDateShippingTab(dataShipping.find(item => item.shipping_label == 'Standard Shipping'));
+          }
+        } else {
+          $(".shipping-custom-date").addClass("hidden");
+          $(".wrapper-ship").addClass("hidden");
+          $(".shipping .wt-grid.fulfillment").addClass("hidden");
+        }
+        },
+        error: function (res, error, errorThrown) {
+           if(res && res.status==400 && res.responseJSON.msg){
+              disableOptionShipping(res.responseJSON.msg);
+           }
+        }
+     })
+    }
+
+  }
+ 
+  function bindDateShipping(bindItemShipping) {
+    const shipping_start = bindItemShipping.min_shipping_time;
+    const shipping_end = bindItemShipping.max_shipping_time
+    const dayStartConvert = convertDate(shipping_start)[0];
+    const monthStartConvert = convertDate(shipping_start)[1];
+    const dayEndConvert = convertDate(shipping_end)[0];
+    const monthEndConvert = convertDate(shipping_end)[1];
+    if (monthStartConvert == monthEndConvert) {
+      return monthStartConvert + ' ' + dayStartConvert + '-' + dayEndConvert
+    }
+    return monthStartConvert + ' ' + dayStartConvert + '-' + monthEndConvert + ' ' + dayEndConvert;
+  }
+  function convertDate(shippingDate) {
+    const date = new Date(shippingDate * 1000).toUTCString();
+
+    const dayConvert = new Date(date).getDate();
+    const monthConvert = monthNames[new Date(date).getMonth()];
+    return [dayConvert, monthConvert];
+  }
+  function bindDateShippingTab(dateShipping) {
+    const shippingProductStart = dateShipping.min_product_time;
+    const shippingProductEnd = dateShipping.max_product_time;
+    const shipping_start = dateShipping.min_shipping_time;
+    const shipping_end = dateShipping.max_shipping_time;
+    const toDate = new Date();
+    const toDay = toDate.getDate();
+    const toMonth = monthNames[toDate.getMonth()];
+
+    const dayShippingStartProduct = convertDate(shippingProductStart)[0];
+    const monthShippingStartProduct = convertDate(shippingProductStart)[1];
+    const dayShippingEndProduct = convertDate(shippingProductEnd)[0];
+    const monthShippingEndProduct = convertDate(shippingProductEnd)[1];
+
+    const dayShippingStart = convertDate(shipping_start)[0];
+    const monthShippingStart = convertDate(shipping_start)[1];
+    const dayShippingEnd = convertDate(shipping_end)[0];
+    const monthShippingEnd = convertDate(shipping_end)[1];
+
+
+    $(".timeline-date.timeline-current").text(`${toMonth} ${toDay}`);
+    if (monthShippingStartProduct == monthShippingEndProduct) {
+      $(".timeline-date.timeline-ship").text(`${monthShippingStartProduct} ${dayShippingStartProduct}-${dayShippingEndProduct}`);
+    } else {
+      $(".timeline-date.timeline-ship").text(`${monthShippingStartProduct} ${dayShippingStartProduct} - ${monthShippingEndProduct} ${dayShippingEndProduct}`);
+    }
+
+    if (monthShippingStart == monthShippingEnd) {
+      $(".timeline-date.timeline-delivered").text(`${monthShippingStart} ${dayShippingStart}-${dayShippingEnd}`);
+    } else {
+      $(".timeline-date.timeline-delivered").text(`${monthShippingStart} ${dayShippingStart} - ${monthShippingEnd} ${dayShippingEnd}`)
+    }
+  }
+  document.getElementById("option-ship").onchange = function(event) {
+    const dataOption = event.target.value;
+    const esDeliveryTimes = JSON.parse(window.localStorage.getItem('es_delivery_times'));
+    if (dataOption == "express") {
+      document.querySelector(".wrapper-ship .ship-label-op").innerText = "Express Shipping";
+      const dateShipping = esDeliveryTimes.find(item => item.shipping_label == 'Express Shipping');
+      bindDateShippingTab(dateShipping);
+    } else if (dataOption == "standard") {
+      document.querySelector(".wrapper-ship .ship-label-op").innerText = "Standard Shipping";
+      const dateShipping = esDeliveryTimes.find(item => item.shipping_label == 'Standard Shipping');
+      bindDateShippingTab(dateShipping);
+    } else if (dataOption == "2 Day") {
+      document.querySelector(".wrapper-ship .ship-label-op").innerText = "2 Day Shipping";
+      const dateShipping = esDeliveryTimes.find(item => item.shipping_label == '2 Day Shipping');
+      bindDateShippingTab(dateShipping);
+    }
+  };
+
+  $(".notification-shipping .btn-notification,.bg-notification-shipping").on("click",function(){
+    $(".notification-shipping,.bg-notification-shipping").addClass("hidden");
+  })
+</script>

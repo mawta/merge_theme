@@ -1,0 +1,113 @@
+{{ 'product-events.css' | asset_url | stylesheet_tag }}
+
+<div class="container page-width">
+  {% if section.settings.title != blank %}
+    <div class="sixteen columns">
+      <h2 class="title center">{{ section.settings.title | escape }}</h2>
+    </div>
+  {% endif %}
+  <div class="sixteen columns">
+    <div class="clearfix equal-columns--outside-trim equal-columns--clear featured-collection-product" style="display:grid;grid-template-columns: repeat(4, minmax(0, 1fr));gap: 20px;">
+    {% assign collection = collections[section.settings.collection] %}
+    {% assign products = collection.products | sort: section.settings.sort_by  %}  
+    {% for product in products limit: 8 %}
+        <div
+          class="product-item"
+          style="--animation-order: {{ forloop.index }};"
+          data-cascade>
+          {% if product != blank %}
+            <a href="{{ product.url }}">
+              <div class="image__container">
+                  <img
+                    srcset="
+                  {% if product.featured_media.preview_image.width >= 288 %}
+                    {{ product.featured_media.preview_image | image_url: width: 288 }} 288w,{% endif %}
+                  {% if product.featured_media.preview_image.width >= 576 %}
+                    {{ product.featured_media.preview_image | image_url: width: 576 }} 576w,{% endif %}
+                  {% if product.featured_media.preview_image.width >= 550 %}
+                    {{ product.featured_media.preview_image | image_url: width: 550 }} 550w,{% endif %}
+                  {% if product.featured_media.preview_image.width >= 1100 %}
+                    {{ product.featured_media.preview_image | image_url: width: 1100 }} 1100w,{% endif %}
+                  {{ product.featured_media.preview_image | image_url }} {{ product.featured_media.preview_image.width }}w
+                                      "
+                  src="{{ product | image_url: width: 400 }}"
+                  sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                  loading="lazy"
+                  width="576"
+                  height="{{ 576 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+                  alt="{{ product.title | escape }}">
+               
+              </div>
+            </a>
+            <a href="{{ product.url }}">
+              <h3 class="title">{{ product.title }}</h3>
+            </a>
+            <span class="price money">{{ product.price | money }}</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Product Trending",
+    "class": "product-trending",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured collection product"
+      }, {
+        "id": "collection",
+        "type": "collection",
+        "label": "Select a collection"
+      }, {
+        "id": "sort_by",
+        "type": "select",
+        "label": "Sort by",
+        "options": [
+          {
+            "value": "manual",
+            "label": "Manual"
+          },
+          {
+            "value": "best-selling",
+            "label": "Best selling"
+          },
+          {
+            "value": "title-ascending",
+            "label": "Title, A-Z"
+          },
+          {
+            "value": "title-descending",
+            "label": "Title, Z-A"
+          }, {
+            "value": "price-ascending",
+            "label": "Price, low to high"
+          }, {
+            "value": "price-descending",
+            "label": "Price, high to low"
+          }, {
+            "value": "created-ascending",
+            "label": "Date, old to new"
+          }, {
+            "value": "created-descending",
+            "label": "Date, new to old"
+          }
+        ],
+        "default": "manual"
+      }
+
+    ],
+    "presets": [
+      {
+        "name": "Product Trending",
+        "category": "Product",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

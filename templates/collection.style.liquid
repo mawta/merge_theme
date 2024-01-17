@@ -1,0 +1,21 @@
+{% layout none %}
+{% assign collection = collection.products | sort: 'title'  %}
+
+{% capture results %}
+	{% for product in collection %}
+		{% assign title ="" %}
+		{% if  product.tags contains "Christmas" %}
+			{% assign title = "Christmas" %}	
+    	{% else %}
+     		{% assign title = "Default" %}
+    	{% endif %}
+	{
+		"id": {{ product.id  }},
+        "title"    : {{ title | json }},
+        "url"      : {{ product.url | json }},
+        "slug": {{ product.handle| json }}
+       
+    }{% unless forloop.last %},{% endunless %}
+	{% endfor %}
+{% endcapture %}
+[{{ results }}]

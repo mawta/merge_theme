@@ -1,0 +1,755 @@
+<link rel="stylesheet" href="{{ 'tracking-order.css' |asset_url }}">
+<div class="bg-find-order"></div>
+<div class="bg-preview-edit"></div>
+<div class="overlay-modal-edit-info"></div>
+<div class="bg-edit-design"></div>
+<div class="page-width">
+    <a name="pagecontent" id="pagecontent"></a>
+
+    {% include 'page-multi-column', content: page.content %}
+
+    <div class="sixteen columns page clearfix">
+        <div class="wrapper-modal-edit-shipping-address hidden">
+            <div class="modal-edit-info">
+                <div class="header-modal">
+                    <span class="title text-center">Edit info shipping</span>
+                </div>
+                <svg class="btn-closed-address" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="512"
+                    height="512" x="0" y="0" viewBox="0 0 32 32" style="enable-background:new 0 0 512 512"
+                    xml:space="preserve" class="">
+                    <g>
+                        <path
+                            d="M21 12.46 17.41 16 21 19.54A1 1 0 0 1 21 21a1 1 0 0 1-.71.29 1 1 0 0 1-.7-.29L16 17.41 12.46 21a1 1 0 0 1-.7.29 1 1 0 0 1-.71-.29 1 1 0 0 1 0-1.41L14.59 16l-3.54-3.54a1 1 0 0 1 1.41-1.41L16 14.59l3.54-3.54A1 1 0 0 1 21 12.46zm4.9 13.44a14 14 0 1 1 0-19.8 14 14 0 0 1 0 19.8zM24.49 7.51a12 12 0 1 0 0 17 12 12 0 0 0 0-17z"
+                            data-name="Layer 22" fill="#9b9999" opacity="1" data-original="#000000" class=""></path>
+                    </g>
+                </svg>
+                <div class="content-modal floating-labels">
+                    <form class="edit_checkout address animate-floating-labels" accept-charset="UTF-8" method="post">
+                        <div class="step__sections">
+                            <div class="section section--shipping-address" data-shipping-address="">
+                                <div class="section__content">
+                                    <div class="fieldset">
+                                        <div class="field field--required field--half field--show-floating-label"
+                                            data-address-field="first_name">
+                                            <div class="field__input-wrapper"><label
+                                                    class="field__label field__label--visible"
+                                                    for="checkout_shipping_address_first_name">First name</label>
+                                                <input placeholder="First name" class="field__input" required
+                                                    type="text" name="checkout[shipping_address][first_name]"
+                                                    id="checkout_shipping_address_first_name" value="" maxlength="30" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field field--required field--half field--show-floating-label"
+                                            data-address-field="last_name">
+                                            <div class="field__input-wrapper"><label
+                                                    class="field__label field__label--visible"
+                                                    for="checkout_shipping_address_last_name">Last name</label>
+                                                <input placeholder="Last name" class="field__input" type="text"
+                                                    name="checkout[shipping_address][last_name]"
+                                                    id="checkout_shipping_address_last_name" maxlength="30" required
+                                                    value="" />
+                                            </div>
+                                        </div>
+
+                                        <div data-address-field="address1" data-autocomplete-field-container="true"
+                                            class="field field--required field--show-floating-label">
+
+                                            <div class="field__input-wrapper"><label
+                                                    class="field__label field__label--visible"
+                                                    for="checkout_shipping_address_address1">Address</label>
+                                                <input placeholder="Address" class="field__input" maxlength="30"
+                                                    type="text" name="checkout[shipping_address][address1]"
+                                                    id="checkout_shipping_address_address1" required value="" />
+                                            </div>
+                                        </div>
+
+                                        <div data-address-field="address2" data-autocomplete-field-container="true"
+                                            class="field field--optional field--show-floating-label">
+
+                                            <div class="field__input-wrapper"><label
+                                                    class="field__label field__label--visible"
+                                                    for="checkout_shipping_address_address2">Apartment, suite, etc.
+                                                    (optional)</label>
+                                                <input placeholder="Apartment, suite, etc. (optional)"
+                                                    class="field__input" maxlength="30" type="text"
+                                                    name="checkout[shipping_address][address2]"
+                                                    id="checkout_shipping_address_address2" value="" />
+                                            </div>
+                                        </div>
+
+                                        <div data-address-field="city" data-autocomplete-field-container="true"
+                                            class="field field--required field--show-floating-label">
+
+                                            <div class="field__input-wrapper"><label
+                                                    class="field__label field__label--visible"
+                                                    for="checkout_shipping_address_city">City</label>
+                                                <input placeholder="City" class="field__input" required maxlength="30"
+                                                    type="text" name="checkout[shipping_address][city]"
+                                                    id="checkout_shipping_address_city" value="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field hidden  field--required field--third field--show-floating-label"
+                                            data-address-field="country" data-autocomplete-field-container="true">
+
+                                            <div class="field__input-wrapper field__input-wrapper--select"><label
+                                                    class="field__label field__label--visible"
+                                                    for="checkout_shipping_address_country">Country/region</label>
+                                                <input placeholder="Country/region" class="field__input" maxlength="30"
+                                                    type="text" disabled name="checkout[shipping_address][country]"
+                                                    id="checkout_shipping_address_country" value="" />
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="field hidden  field--required field--show-floating-label field--third"
+                                            data-address-field="province" data-autocomplete-field-container="true">
+
+                                            <div class="field__input-wrapper field__input-wrapper--select"><label
+                                                    class="field__label field__label--visible"
+                                                    for="checkout_shipping_address_province">State</label>
+
+                                                <input placeholder="State" class="field__input" maxlength="30"
+                                                    type="text" disabled name="checkout[shipping_address][province]"
+                                                    id="checkout_shipping_address_province" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="field field--required field--third field--show-floating-label"
+                                            data-address-field="zip" data-autocomplete-field-container="true">
+
+                                            <div class="field__input-wrapper"><label
+                                                    class="field__label field__label--visible"
+                                                    for="checkout_shipping_address_zip">ZIP code</label>
+                                                <input placeholder="ZIP code" class="field__input field__input--zip"
+                                                    required maxlength="30" type="text"
+                                                    name="checkout[shipping_address][zip]"
+                                                    id="checkout_shipping_address_zip" value="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="footer-modal">
+                            <button type="submit" id="submit-form-edit-info"> Update </button>
+                            <button type="button" class="js-close-modal-edit-info">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="notification-error hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path
+                    d="M9.83317 12.3333C9.83317 12.7936 9.46007 13.1667 8.99984 13.1667C8.5396 13.1667 8.1665 12.7936 8.1665 12.3333C8.1665 11.8731 8.5396 11.5 8.99984 11.5C9.46007 11.5 9.83317 11.8731 9.83317 12.3333Z"
+                    fill="#F2994A"></path>
+                <path
+                    d="M9.62484 4.83335C9.62484 4.48818 9.34501 4.20835 8.99984 4.20835C8.65466 4.20835 8.37484 4.48818 8.37484 4.83335H9.62484ZM8.37484 9.83335C8.37484 10.1785 8.65466 10.4584 8.99984 10.4584C9.34501 10.4584 9.62484 10.1785 9.62484 9.83335H8.37484ZM8.37484 4.83335V9.83335H9.62484V4.83335H8.37484ZM16.7082 9.00002C16.7082 13.2572 13.257 16.7084 8.99984 16.7084V17.9584C13.9474 17.9584 17.9582 13.9476 17.9582 9.00002H16.7082ZM8.99984 16.7084C4.74264 16.7084 1.2915 13.2572 1.2915 9.00002H0.0415039C0.0415039 13.9476 4.05229 17.9584 8.99984 17.9584V16.7084ZM1.2915 9.00002C1.2915 4.74283 4.74264 1.29169 8.99984 1.29169V0.041687C4.05229 0.041687 0.0415039 4.05247 0.0415039 9.00002H1.2915ZM8.99984 1.29169C13.257 1.29169 16.7082 4.74283 16.7082 9.00002H17.9582C17.9582 4.05247 13.9474 0.041687 8.99984 0.041687V1.29169Z"
+                    fill="#F2994A"></path>
+            </svg>
+            <span class="notification-text">We’re sorry! You can’t edit your order after 2 hours of placing it as your
+                order
+                has already been in production.</span>
+        </div>
+        <div class="popup-preview-design hidden">
+            <div class="popup-content-design-order"></div>
+        </div>
+    </div>
+    <div class="">
+        <div class="product-selling">
+            <div class="title-best-selling">
+                <h2 class="title">Best-Selling Products</h2>
+                <a href="/collections/best-sellers" class="best-selling see-more">See All</a>
+            </div>
+
+            <div class="grid product-grid grid--2-col-tablet-down grid--4-col-desktop">
+                {% for product in collections.best-sellers.products | limit:4 %}
+                <div
+                    class="product-{{ product.id }} grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+                    <div class="product-wrap">
+                        <div class="relative product_image">
+                            <a href="{{ product.url }}">
+                                <img srcset="
+                        {%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                        {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+                        {%- if product.featured_media.width >= 533 -%}{{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+                        {%- if product.featured_media.width >= 720 -%}{{ product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+                        {%- if product.featured_media.width >= 940 -%}{{ product.featured_media | image_url: width: 940 }} 940w,{%- endif -%}
+                        {%- if product.featured_media.width >= 1066 -%}{{ product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+                        {{ product.featured_media | image_url }} {{ product.featured_media.width }}w
+                        " src="{{ product.featured_media | image_url: width: 533 }}"
+                                    sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                                    alt="{{ product.featured_media.alt | escape }}" class="motion-reduce" {% unless
+                                    lazy_load==false %} loading="lazy" {% endunless %}
+                                    width="{{ product.featured_media.width }}"
+                                    height="{{ product.featured_media.height }}">
+                            </a>
+                            <div class="banner_holder">
+                                <button type="button" aria-label="Add to wishlist" button-wishlist=""
+                                    class="button-wishlist"
+                                    data-product-handle="best-dad-ever-personalized-shirt-fathers-day-birthday-gift-for-dad-papa-daddy-grandpa-from-daughter-son-wife-fam260501dotd">
+
+                                    <svg class="icon icon-heart " viewBox="0 0 290 256"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M258.844192 127.790368L145 241.63456 31.1558082 127.790368c-26.9461761-26.946176-26.9461761-70.6345598 0-97.5807359 26.9461762-26.94617613 70.6345598-26.94617613 97.5807358 0L145 46.4730881l16.263456-16.263456c26.946176-26.94617613 70.63456-26.94617613 97.580736 0 26.946176 26.9461761 26.946176 70.6345599 0 97.5807359z"
+                                            stroke-width="20" fill-rule="evenodd"></path>
+                                    </svg></button>
+                            </div>
+                        </div>
+                        <div class="product-info__caption ">
+                            <div class="product-details">
+                                <a class="title" href="{{ product.url }}">{{ product.title }}</a>
+                                <div class="product-price ">
+                                    <span class="current_price"><span class="money">{{ product.price | money
+                                            }}</span></span>
+                                </div>
+                                {% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', concierge_install:
+                                true, product: product %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<style scoped="">
+    .banner_holder .icon {
+        fill: transparent;
+        stroke: #F16523;
+        transition: fill 0.3s ease;
+    }
+
+    .banner_holder .active .icon {
+        fill: #F16523;
+        stroke: #F16523;
+    }
+</style>
+<script>
+    const BASE_URL_SHOPIFY = "https://api-prod.medzt.com/shopify";
+
+    function getCookieTrack(key) {
+        var keyValue = document.cookie.match("(^|;) ?" + key + "=([^;]*)(;|$)");
+        return keyValue ? keyValue[2] : null;
+    }
+    function toogleModalFindOrder() {
+        document.querySelector(".popup-find-my-order").classList.toggle("active");
+        document.querySelector(".bg-find-order").classList.toggle("active");
+    }
+    function handleButtonSubmit() {
+        var trackingBtn = document.querySelector('.btn-tracking-order');
+        trackingBtn.disabled = false;
+        trackingBtn.innerHTML = 'Track My Order';
+        document.querySelector('#order-not-found').style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+
+        if (document.querySelector(".bg-find-order")) {
+            document.querySelector(".bg-find-order").addEventListener("click", function () {
+                toogleModalFindOrder();
+            })
+        }
+        if (document.querySelector(".find-order-number")) {
+            document.querySelector(".find-order-number").addEventListener("click", function () {
+                toogleModalFindOrder();
+            })
+        }
+
+        if (document.querySelector(".btn-tracking-tutorial")) {
+            document.querySelector(".btn-tracking-tutorial").addEventListener("click", function () {
+                toogleModalFindOrder();
+            })
+
+        }
+
+        $(document).ready(function () {
+            $(".faq-item-title").click(function () {
+                $(this).parent().children(".faq-item-panel").slideToggle();
+                $(this).toggleClass("active");
+            })
+        });
+    })
+    $(document).ready(function () {
+        if ($("#tracking-form").length < 0) {
+            return;
+        }
+        $("#tracking-form").submit(function (e) {
+            try {
+                e.preventDefault();
+                const trackingBtn = $('.btn-tracking-order');
+                trackingBtn.prop('disabled', true);
+                trackingBtn.html('Loading...');
+                $('#order-not-found').hide();
+                const payload = {};
+                payload.order_name = $("input[type=text][name=order_name]").val();
+                payload.email = $("input[type=email][name=email]").val();
+                $.ajax({
+                    method: "POST",
+                    url: `${BASE_URL_SHOPIFY}/order-tracking`,
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(payload),
+                    success: function (respon) {
+                        if (respon && respon.data.token) {
+                            window.location.href = "/pages/tracking-order-detail?token=" + respon.data.token;
+                        } else {
+                            trackingBtn.prop('disabled', false);
+                            trackingBtn.html("Track My Order");
+                            $('#order-not-found').show();
+                        }
+                    },
+                    error: function () {
+                        trackingBtn.prop('disabled', false);
+                        trackingBtn.html("Track My Order");
+                        $('#order-not-found').css("display", "block");
+                    }
+                })
+            } catch (err) {
+                console.log(err);
+                const trackingBtn = $('#tracking_btn');
+                trackingBtn.prop('disabled', false);
+                trackingBtn.html("Track My Order");
+                $('#order-not-found').show();
+            }
+        });
+    });
+
+    function check_validate() {
+  $("form #customily-options .swatch-container").each(
+    function () {
+      var $checked = $(this).find('input[type="radio"]:checked');
+      if ($checked.length) {
+        $(this)
+          .closest(".customily_option")
+          .removeClass("customily-required-error");
+        $(this)
+          .closest(".customily_option")
+          .find(".customily-required-label span")
+          .hide();
+      } else {
+        $(this)
+          .closest(".customily_option")
+          .addClass("customily-required-error");
+        $(this)
+          .closest(".customily_option")
+          .find(".customily-required-label span")
+          .show();
+      }
+    }
+  );
+
+  $("form #customily-options select").each(function () {
+    if ($(this).val()) {
+      $(this)
+        .closest(".customily_option")
+        .removeClass("customily-required-error");
+      $(this)
+        .closest(".customily_option")
+        .find(".customily-required-label span")
+        .hide();
+    } else {
+      $(this).closest(".customily_option").addClass("customily-required-error");
+      $(this)
+        .closest(".customily_option")
+        .find(".customily-required-label span")
+        .show();
+    }
+  });
+
+  $('form #customily-options input[type="text"]').each(
+    function () {
+      if ($(this).val().length) {
+        $(this)
+          .closest(".customily_option")
+          .removeClass("customily-required-error");
+        $(this)
+          .closest(".customily_option")
+          .find(".customily-required-label span")
+          .hide();
+      } else {
+        $(this)
+          .closest(".customily_option")
+          .addClass("customily-required-error");
+        $(this)
+          .closest(".customily_option")
+          .find(".customily-required-label span")
+          .show();
+      }
+    }
+  );
+
+  $("form #customily-options .customily-file-input").each(
+    function () {
+      var $checked = $(this).find(".cl_remove-image").is(":visible");
+      if ($checked) {
+        $(this)
+          .closest(".customily_option")
+          .removeClass("customily-required-error");
+        $(this)
+          .closest(".customily_option")
+          .find(".customily-required-label span")
+          .hide();
+      } else {
+        $(this)
+          .closest(".customily_option")
+          .addClass("customily-required-error");
+        $(this)
+          .closest(".customily_option")
+          .find(".customily-required-label span")
+          .show();
+      }
+    }
+  );
+}
+    var billingName = '', orderShopifyID = '', emailUser = '', createdAt = '';
+    $(window).on("load", function () {
+
+        const searchParams = new URLSearchParams(window.location.search);
+        const token = searchParams.get('token');
+        const trackingStatus = {
+            confirmed: {
+                label: 'Confirmed',
+                color: '#6662FF',
+                last_update_field: 'created_at',
+            },
+            'in_production': {
+                label: 'In production',
+                color: '#6662FF',
+                last_update_field: 'created_at',
+                showEstimateShip: true
+            },
+            'shipped_out': {
+                label: 'Shipped out',
+                color: '#6662FF',
+                last_update_field: 'last_updated_at',
+                showEstimateDelivery: true
+            },
+            delivered: {
+                label: 'Delivered',
+                color: '#6AB73D',
+                last_update_field: 'last_updated_at',
+            },
+            refunded: {
+                label: 'Refunded',
+                color: '#FF9500',
+                last_update_field: '',
+            },
+            cancelled: {
+                label: 'Cancelled',
+                color: '#FF0000',
+                last_update_field: 'cancelled_at',
+            }
+        };
+        if (token) {
+            $.ajax({
+                method: "GET",
+                url: `${BASE_URL_SHOPIFY}/order-tracking-detail/${token}`,
+                contentType: "application/json; charset=utf-8",
+                success: function (res) {
+                    if (res.data) {
+                        const getCodeCountry = getCookieTrack('code_country') || '';
+                        $(".edit-order-info-address").remove();
+                        $(".order-info-top").append('<button class="edit-order-info-address">Edit Address</button>')
+                        const data = res.data;
+                        const dataShipping = data.shipping;
+                        const dataBilling = data.billing;
+                        $("#checkout_shipping_address_first_name").val(dataShipping.first_name);
+                        $("#checkout_shipping_address_last_name").val(dataShipping.last_name);
+                        $("#checkout_shipping_address_address1").val(dataShipping.address1);
+                        $("#checkout_shipping_address_address2").val(dataShipping.address2);
+                        $("#checkout_shipping_address_city").val(dataShipping.city);
+                        $("#checkout_shipping_address_country").val(dataShipping.country);
+                        var province = dataShipping.province || '';
+                        $("#checkout_shipping_address_province").val(province);
+                        $("#checkout_shipping_address_zip").val(dataShipping.zip);
+                        $(".ci_shipping_address").append(`<p>${data.shipping.address1}</p>`);
+                        $(".ci_shipping_address").append(`<p>${data.shipping.address2 ? data.shipping.address2 + '' : ' '}</p>`);
+                        $(".ci_shipping_address").append(`<p>${data.shipping.city}</p>`);
+                        $(".ci_shipping_address").append(`<p>${data.shipping.country}</p>`);
+                        $(".ci_shipping_address").append(`<p>${data.shipping.phone}</p>`);
+                        billingName = data.shipping.first_name + ' ' + data.shipping.last_name;
+                        emailUser = data.email;
+                        orderShopifyID = data.shopify_id;
+                        createdAt = data.created_at;
+                        $(".ci_email").html(data.email);
+                        if (data.discount_amount > 0) {
+                            $(".order_discount_js").html(`$${data.discount_amount} USD`);
+                        } else {
+                            $(".order-discount").css("display", "none");
+                        }
+                        $(".ci_billing_address").append(`<p>${data.billing.address1}</p>`);
+                        $(".ci_billing_address").append(`<p>${data.billing.address2 ? data.billing.address2 + '' : ' '}</p>`);
+                        $(".ci_billing_address").append(`<p>${data.billing.city}</p>`);
+                        $(".ci_billing_address").append(`<p>${data.billing.country}</p>`);
+                        $(".ci_billing_address").append(`<p>${data.billing.phone}</p>`);
+                        $(".order_total_js").html(`$${data.total} USD`);
+                        const subtotal = data.total - data.shipping_fee - data.discount_amount;
+                        $(".order_subtotal_js").html(`$${subtotal.toFixed(2)} USD`);
+                        $(".order_shipping_js").html(`$${data.shipping_fee} USD`);
+                        $(".ci_shipping_method").html(data.shipping_method);
+                        $(".title-tracking").append(`<p id="order_number">${data.name}</p>`)
+                        //append element
+                        var lineItem = "";
+
+                        if (data.line_items) {
+                            const dataLineItemsSort = data.line_items.sort((a, b) => a.shopify_id - b.shopify_id);
+                            lineItem += `<div class="wrapper-lineItem">`;
+                            for (var i = 0; i < dataLineItemsSort.length; i++) {
+                                var dataLineItems = dataLineItemsSort[i];
+                                if (dataLineItems.title != 'Tip') {
+                                    lineItem += `<div class="order-line-item" data-id="${dataLineItems.id}">`;
+                                    lineItem += `<div class="product-image">`;
+                                    lineItem += `<img class="tracking-img" src=${dataLineItems.image} alt="image preview"/>`
+                                    lineItem += `</div>`;
+                                    lineItem += `<div class="product-info" data-customization=${dataLineItems.customization_id}>`;
+                                    lineItem += `<p class="product-info-title" data-slug=${dataLineItems.product_slug}>${dataLineItems.title}</p>`;
+                                    lineItem += `<p class="product-price">$${dataLineItems.price} USD</p>`;
+                                    if (dataLineItems.options) {
+                                        lineItem += `<div class="swatch-option">`;
+                                        for (var j = 0; j < dataLineItems.options.length; j++) {
+                                            lineItem += `<p>${dataLineItems.options[j].name} :${dataLineItems.options[j].value}</p>`;
+                                        }
+                                        lineItem += `</div>`;
+                                    }
+                                    lineItem += `<p class="quanlity">Qty: ${dataLineItems.quantity}</p>`;
+                                    lineItem += `<button class="preview-your-design">Preview Your Design</button>`;
+                                    lineItem += `<button class="edit-your-design">Edit Your Design</button>`;
+                                    lineItem += `</div>`;
+                                    lineItem += `<div class="status-info">`;
+                                    const currentStatus = trackingStatus[dataLineItems.shipping_status] || '';
+                                    if (currentStatus && currentStatus.label == 'Cancelled') {
+                                        $(".edit-order-info-address,#btn-cancel-order").remove();
+                                    } else {
+                                        lineItem += `<p style="color: ${currentStatus ? currentStatus.color : ' '} ;font-weight: 700;">${currentStatus ? currentStatus.label : ' '}</p>`;
+                                    }
+                                    lineItem += `<a target="_blank" href=${dataLineItems.tracking_url}>${dataLineItems.tracking_number}</a>`;
+
+                                    const localeOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+                                    {% comment %} lineItem += `<p>Created tracking at: ${dataLineItems.created_tracking_at ? new Date(dataLineItems.created_tracking_at).toLocaleDateString("en-US", localeOptions) : ''}</p>`; {% endcomment %}
+                                    if (dataLineItems.min_delivery_time && dataLineItems.max_delivery_time && dataLineItems.shipping_status != "cancelled") {
+                                        lineItem += `<p>Estimated delivery time :<strong>${bindDateShipping(dataLineItems, createdAt)}</strong></p>`
+                                    }
+                                    lineItem += `</div>`
+                                    lineItem += `</div>`;
+                                }
+                            }
+                            lineItem += `</div>`
+
+                            $(".order-info").prepend(lineItem);
+                        }
+
+                        var elementWhatDoIdo = "";
+                        elementWhatDoIdo += `<div class="popup-what-do-i-do">`;
+                        elementWhatDoIdo += `</div>`;
+                        $(".order-info").prepend(elementWhatDoIdo);
+                        $("#search-loading").toggle();
+                        $(".tracking-order-main-content").show();
+                    }
+                }
+            })
+        }
+
+    });
+
+    $(document).on("click", ".what-do-i-do-popup__content .btn-closed,.bg-preview-edit", function () {
+        $(".popup-what-do-i-do").toggleClass("active");
+        $(".bg-preview-edit ").toggleClass("active");
+    });
+
+    $(document).on("click", ".edit-order-info-address", function () {
+        if (checkCreatedAt(createdAt)) {
+            $(".wrapper-modal-edit-shipping-address").toggleClass("hidden");
+            $(".overlay-modal-edit-info").toggleClass("active");
+        } else {
+            const content = "We’re sorry! You can’t edit your order after 2 hours of placing it as your order has already been in production.";
+            const bgColor = "wraning";
+            notificationErrorChangeOrder(content, bgColor);
+        }
+    });
+    $(document).on("click", ".js-close-modal-edit-info,.overlay-modal-edit-info,.btn-closed-address", function () {
+        $(".wrapper-modal-edit-shipping-address").toggleClass("hidden");
+        $(".overlay-modal-edit-info").toggleClass("active");
+    })
+    $(".edit_checkout.address").submit(function (e) {
+        const fistName = document.getElementsByName("checkout[shipping_address][first_name]")
+        const lastName = document.getElementsByName("checkout[shipping_address][last_name]")
+        const address1 = document.getElementsByName("checkout[shipping_address][address1]")
+        const address2 = document.getElementsByName("checkout[shipping_address][address2]")
+        if (!fistName[0].value || !lastName[0].value || !address1[0].value) {
+            alert("Please enter all fields")
+            return;
+        }
+        function handleUpdateShippingAddress(method, url, done) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open(method, url);
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.onload = function () {
+                done(null, xhttp.response);
+            };
+            xhttp.onerror = function () {
+                done(xhttp.response);
+            };
+            xhttp.send(JSON.stringify({
+                "order_id": parseInt(orderShopifyID), "order_page": window.location.href, address: {
+                    "first_name": fistName[0].value,
+                    "last_name": lastName[0].value,
+                    "address1": address1[0].value,
+                    "address2": address2[0].value
+                }
+            }));
+        }
+        handleUpdateShippingAddress("POST", `${BASE_URL_SHOPIFY}/update-shipping-address`, function (err, res) {
+            if (err) { throw err; }
+            const content = "Update successful";
+            const bgColor = "success";
+            notificationErrorChangeOrder(content, bgColor);
+            $(".wrapper-modal-edit-shipping-address").addClass("hidden");
+            $(".overlay-modal-edit-info").removeClass("active");
+        })
+        e.preventDefault();
+    });
+    $(document).on('click', ".preview-your-design", function () {
+        var whatDoIdo = "";
+        const urlPreviewImage = $(this).parent().parent().children(".product-image").children(".tracking-img").attr("src");
+        whatDoIdo += `<p class="title center">Preview Your Design</p>`;
+        whatDoIdo += `<div class="what-do-i-do-popup__content">`;
+        whatDoIdo += `<img src="${urlPreviewImage}"/>`;
+        whatDoIdo += `<svg class="btn-closed" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="512" height="512" x="0" y="0" viewBox="0 0 32 32" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M21 12.46 17.41 16 21 19.54A1 1 0 0 1 21 21a1 1 0 0 1-.71.29 1 1 0 0 1-.7-.29L16 17.41 12.46 21a1 1 0 0 1-.7.29 1 1 0 0 1-.71-.29 1 1 0 0 1 0-1.41L14.59 16l-3.54-3.54a1 1 0 0 1 1.41-1.41L16 14.59l3.54-3.54A1 1 0 0 1 21 12.46zm4.9 13.44a14 14 0 1 1 0-19.8 14 14 0 0 1 0 19.8zM24.49 7.51a12 12 0 1 0 0 17 12 12 0 0 0 0-17z" data-name="Layer 22" fill="#9b9999" opacity="1" data-original="#000000" class=""></path></g></svg>`;
+        whatDoIdo += `</div>`;
+        $(".popup-what-do-i-do").html(whatDoIdo);
+        $(".popup-what-do-i-do").toggleClass("active");
+        $(".bg-preview-edit ").toggleClass("active");
+
+    });
+
+    $(document).on('click', '.edit-your-design', function () {
+        if (!checkCreatedAt(createdAt)) {
+          const content = "We’re sorry! You can’t edit your order after 2 hours of placing it as your order has already been in production.";
+          const bgColor = "wraning";
+          notificationErrorChangeOrder(content,bgColor);
+          return;
+        }
+        const urlImagePreview =$(this).parent().parent().children(".product-image").children(".tracking-img").attr("src");
+        lineItemIDProduct = $(this).parent().parent().attr('data-id');
+        urlOrderDetail = window.location.href;
+        var wrapperEdit = '';
+        var product_slug = $(this).parent().children(".product-info-title").attr('data-slug');
+        var customization_id = $(this).parent().attr("data-customization");
+        wrapperEdit += '<h2 class="title text-center">Edit Your Design</h2>';
+        const urlProductDetail = `https://macorner.co/products/${product_slug}?view=orders&customizationId=${customization_id}`;
+        history.replaceState(null, null, urlProductDetail);
+        $(".popup-content-design-order").load(urlProductDetail);
+        const checkElementImage = setInterval(changeUrlImagePreview, 200);
+        const checkOptions = setInterval(addImageLoading, 200);
+        function changeUrlImagePreview() {
+          if ($(".popup-content-design-order").height() > 0) {
+            $(".plaholder-product.ld-custom").children("img").attr('src', urlImagePreview);
+            $(".plaholder-product.ld-custom").addClass("active-img-design");
+            clearInterval(checkElementImage);
+          }
+        }
+        function addImageLoading() {
+          if ($("#customily-options").height() > 100) {
+            $(".loading-edit-orders").addClass("hidden");
+            $(".box-design-orders").prepend(`<input hidden id="lineItemID" value=${lineItemIDProduct} />`);
+            clearInterval(checkOptions);
+          }
+        }
+       $(".popup-preview-design").css("diplay","block");
+       $(".popup-preview-design").toggleClass("hidden");
+       $(".bg-edit-design").toggleClass("active");
+      });
+
+      $(document).on("click",".bg-edit-design,.btn-closed-edit-design",function(){
+        history.pushState({}, null, urlOrderDetail);
+        $(".popup-content-design-order").html('');
+        $(".popup-preview-design").css("diplay","none");
+        $(".popup-preview-design").toggleClass("hidden");
+        $(".bg-edit-design").toggleClass("active");
+      })
+
+      $(document).on('click', ".btn-update-order", function () {
+        check_validate();
+        if ($(".customily_option").hasClass("customily-required-error")) {
+          // alert("Please check your design once again. Some required options have been left empty, unselected, or wrongly filled.");
+          $("#preview-container").hide();
+          $(".customily-required-error input").first().focus();
+          $(".customily-required-error select").first().focus();
+          return;
+        }
+        $("#customily-cart-btn").trigger("click");
+        let arrDataForm =  $(".design-orders-options form").serializeArray();
+        const getFormDataInterval = setInterval(checkDataForm, 100);
+    
+        function checkDataForm() {
+          const itemFind = arrDataForm.find(item=>item.name=='properties[_customily-customization-url]')
+          if(itemFind){
+            updateCustomilyOrders()
+          }else{
+            $("#customily-cart-btn").trigger("click");
+            arrDataForm =  $(".design-orders-options form").serializeArray();
+          }
+        }
+    
+        function updateCustomilyOrders() {
+          clearInterval(getFormDataInterval);
+          var formdata = new FormData();
+            const newOptionsCustomize = (arrDataForm.filter(item => item.name != 'form_type')).filter(item => item.name != 'utf8');
+            for (const element of newOptionsCustomize) {
+              var key = element.name.split('properties[')[1];
+
+              if(key){
+                key = key.split(']')[0];
+                element.name = key;
+              }
+            }
+            // var designUrl = res[0].Url;
+            const fileBase64 = postCanvasToURL();
+            formdata.append("file", fileBase64, 'image.jpeg');
+            const lineItemIDProduct = $("#lineItemID").val();
+            formdata.append("line_item_id", lineItemIDProduct);
+            newOptionsCustomize.forEach((element, index) => {
+               if(element.name=="_customily-customization-url"){
+                 formdata.append("customization_id", element.value.split("customizationId=")[1])
+               }else if(element.name == "_customily-production-url"){
+                 formdata.append("design_url", element.value);
+               }else if(element.name!="_customily-thumb-id" && element.name!="_customily-personalization-id" && element.name!="_customily-thumb" && element.name!="_customily-preview"){
+                 formdata.append(`properties[${index}].name`, element.name.replace("_",""));
+                 formdata.append(`properties[${index}].value`, element.value);
+               }
+            });
+            $.ajax({
+              url: `${BASE_URL_SHOPIFY}/edit-design-order?format=jpeg`,
+              type: "POST",
+              data: formdata,
+              processData: false,
+              contentType: false,
+              success: function (res) {
+                if (res && res.status == 'ok') {
+                  const content = "Update successful";
+                  const bgColor = "success";
+                  notificationErrorChangeOrder(content, bgColor);
+                  location.reload();
+                }
+              },
+              error: function (respon, error, errorThrown) {
+                if (respon && respon.status == 400) {
+                  const content = "Please contact us email: cs@macorner.co";
+                  const bgColor = "wraning";
+                  notificationErrorChangeOrder(content, bgColor);
+                }
+              }
+            })
+          history.pushState({}, null, urlOrderDetail);
+          $(".popup-preview-design").css("diplay","none");
+          $(".popup-preview-design").toggleClass("hidden");
+          $(".bg-edit-design").toggleClass("active");
+        }
+      
+      });
+</script>
+{% include 'edit-order-design' %}

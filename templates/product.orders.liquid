@@ -1,0 +1,105 @@
+{% comment %}
+** Product - default view **
+- Product template
+{% endcomment %}
+{%  layout none %}
+{% capture content %}
+<!DOCTYPE html>
+<html lang="{{ shop.locale }}">
+ <head>
+    <link rel="preconnect dns-prefetch" href="https://fonts.shopifycdn.com" />
+    <link rel="preconnect dns-prefetch" href="https://cdn.shopify.com" />
+    <link rel="preconnect dns-prefetch" href="https://v.shopify.com" />
+    <link rel="preconnect dns-prefetch" href="https://cdn.shopifycloud.com" />
+ </head>
+<body>
+<div class="container main content product-name" id="js-get-vendor" vendor={{ product.vendor }}>
+  <div class="product clearfix">
+      <div class=" product__container">
+          <div class="product-{{ product.id }}" data-free-text="{{ settings.free_price_text }}">
+            <svg class="btn-closed-edit-design" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="512" height="512" x="0" y="0" viewBox="0 0 32 32" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M21 12.46 17.41 16 21 19.54A1 1 0 0 1 21 21a1 1 0 0 1-.71.29 1 1 0 0 1-.7-.29L16 17.41 12.46 21a1 1 0 0 1-.7.29 1 1 0 0 1-.71-.29 1 1 0 0 1 0-1.41L14.59 16l-3.54-3.54a1 1 0 0 1 1.41-1.41L16 14.59l3.54-3.54A1 1 0 0 1 21 12.46zm4.9 13.44a14 14 0 1 1 0-19.8 14 14 0 0 1 0 19.8zM24.49 7.51a12 12 0 1 0 0 17 12 12 0 0 0 0-17z" data-name="Layer 22" fill="#9b9999" opacity="1" data-original="#000000" class=""></path></g></svg>
+              <div class="section product_section  clearfix">
+                  <div class="box-design-orders">
+                      <div class="design-orders-img gallery-wrap gallery-arrows--false gallery-thumbnails--left slider-mobile-gutter">
+                        <img
+                        srcset="
+                          {%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                          {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+                          {%- if product.featured_media.width >= 533 -%}{{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+                          {%- if product.featured_media.width >= 720 -%}{{ product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+                          {%- if product.featured_media.width >= 940 -%}{{ product.featured_media | image_url: width: 940 }} 940w,{%- endif -%}
+                          {%- if product.featured_media.width >= 1066 -%}{{ product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+                          {{ product.featured_media | image_url }} {{ product.featured_media.width }}w
+                        "
+                        src="{{ product.featured_media | image_url: width: 533 }}"
+                        sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                        alt="{{ product.featured_media.alt | escape }}"
+                        class="motion-reduce"
+                        {% unless lazy_load == false %}
+                          loading="lazy"
+                        {% endunless %}
+                        width="{{ product.featured_media.width }}"
+                        height="{{ product.featured_media.height }}"
+                      >
+                      </div>
+                      <div class="design-orders-options">
+                        <div class="loading-edit-orders" style="display: block">
+                           <div class="loading-custom">
+                              <img src="{{ 'loader.gif' | asset_url }}"/>
+                              <span style="display: block;"> Loading Personalized form...</span>
+                           </div>
+                        </div>                      
+                          {% assign collection_handles = product.collections | map: 'handle' %}
+                          {% assign variant = product.selected_or_first_available_variant %}
+                          {% assign variant = product.selected_or_first_available_variant %}
+                          {% unless product.tags contains 'Non-Customized' %}
+                          {% if product.tags contains "Personalized" or  product.vendor != 'AMZ' %}
+                          {%  if settings.customily_local == true %}
+                          <script class="reloadMCustomily" type="text/javascript"
+                              src={{ 'customily.js' | asset_url }}></script>
+                          <script class="reloadMCustomily-two" type="text/javascript"
+                              src={{ 'customily.shopify.script.unified.js' |asset_url }}></script>
+                          {% else %}
+                          <script class="reloadMCustomily" type="text/javascript"
+                              src="https://cdn.customily.com/customily.js"></script>
+                          <script class="reloadMCustomily-two" type="text/javascript"
+                              src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js">
+                          </script>
+                          {% endif %}
+                          {%endif%}
+                          {%endunless %}
+                          {% form 'product', product %}
+                            <div class="clearfix product_form init smart-payment-button">
+                                <div id="customily-options"></div>
+                            </div>
+                          <button type="button" name="add" class="customily-add-to-cart-btn ajax-submit action_button add_to_cart hidden" data-label={{ add_to_cart_label | json }}></button>
+                          <button type="button" class="btn-update-order">Save</button>
+                        {% endform %}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+     {% style %}
+    .gallery-wrap model-viewer {
+      min-height: 200px;
+    }
+    .gallery-wrap .product_gallery img,
+    .gallery-wrap .product_gallery .plyr--html5 video,
+    .gallery-wrap .product_gallery .plyr--youtube {
+      max-height: 200px;
+    }
+  {% endstyle %}
+  </div>
+</div>
+{% comment %} Shopify-XR {% endcomment %}
+<script>
+  window.ShopifyXR=window.ShopifyXR||function(){(ShopifyXR.q=ShopifyXR.q||[]).push(arguments)}
+    {% assign models = product.media | where: 'media_type', 'model' | json %}
+    ShopifyXR('addModels', {{ models }});
+</script>
+</body> 
+</html>
+{% endcapture %}
+{% assign content = content | replace_first: '<!DOCTYPE', '!DOCTYPE' | split: ' <' %}
+{% for html in content %}{% assign htmlblock = html | strip | prepend: ' <' %}{{htmlblock | replace: ' </', '</' | replace: 'judge78d7ca7fme', '<' }}{% endfor %}    

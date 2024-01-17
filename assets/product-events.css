@@ -1,0 +1,126 @@
+.product-event img,
+.product-handle img {
+    border-radius: 20px;
+}
+
+.product-event,
+.product-handle {
+    margin-bottom: 30px;
+}
+
+.product-event h3.title,
+.product-trending h3.title,
+.product-handle h3.title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-size: 16px;
+    margin-bottom: 7px;
+    margin-top: 10px;
+    line-height: 24px;
+    font-family: Nunito Sans, sans-serif !important;
+}
+
+.product-event .title-events,
+.product-trending .title-events,
+.product-handle .title-events {
+    font-size: 27px;
+    font-weight: 600;
+    font-family: Nunito Sans, sans-serif !important;
+}
+
+.product-event .product-item:first-child,
+.product-event .product-item:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.product-event h2.title,
+.product-trending h2.title,
+.product-handle h2.title {
+    color: #f7921f;
+    font-size: 30px;
+    font-weight: 700;
+}
+.featured-collection-product .price.money{
+    font-weight: bold;
+    color: #f7921f;
+}
+@media only screen and (max-width: 798px) {
+
+    .product-event,
+    .product-trending,
+    .product-handle {
+        margin-bottom: 0;
+    }
+
+    .product-event .title-events,
+    .product-trending .title-events,
+    .product-handle .title-events {
+        font-size: 18px;
+    }
+
+    .featured-collection-product {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+.btn-slide-product-all {
+    display: inline-block;
+    background-color: #F7921F;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all .35s ease-Out;
+    border: 1px solid transparent;
+}
+
+.btn-slide-affter {
+    width: 100%;
+    height: 100%;
+    left: -100px;
+    background: #fff;
+    position: absolute;
+    transition: all .35s ease-Out;
+    bottom: 0;
+    z-index: -1;
+    border: 1px solid transparent;
+}
+
+@media screen and (min-width:1024px) {
+    .btn-slide-product-all:hover .btn-slide-affter {
+        left: 0;
+        z-index: 1;
+    }
+
+    .btn-slide-product-all .btn-slide-affter~span {
+        position: relative;
+        z-index: 2;
+    }
+
+    .btn-slide-product-all:hover .btn-slide-affter~span {
+        color: #F7921F;
+    }
+}

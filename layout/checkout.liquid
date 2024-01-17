@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0"
+    >
+    <meta name="referrer" content="origin">
+    <title>{{ page_title }}</title>
+    {{ content_for_header }}
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+
+    {{ 'checkout.css' | asset_url | stylesheet_tag }}
+    <style>
+        .active-bg-before::before {
+            background-image:url({{'checked_step.png' | asset_url }}) ;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .active::before{
+          border: 0px solid #f7921f;
+          background-image:url({{'checked_step.png' | asset_url }});
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+        .content.prH7 .wrap .ar64 .s8.s8c::before,.content.prH7 .wrap .ar64 .s8:before{
+          background-image:url({{'in_progress.svg' | asset_url }}) ;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+      .active-bg-after::before{
+         background-image:url({{'step_two.svg' | asset_url }})  !important;
+          background-repeat: no-repeat;
+          background-size: cover;
+      }
+      .content.prH7 .wrap .ar64 .s8.s8c.active::before {
+        background-image: url({{'checked_step.png' | asset_url }}) !important;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
+
+    {% include 'trackify_x' %}
+  
+  
+
+  {% include "trackify_x" %}
+</head>
+  <body>
+    {{ skip_to_content_link }}
+    <header class="banner" data-header role="banner">
+      <div class="wrap text-center">
+        {{ content_for_logo }}
+      </div>
+    </header>
+    {{ order_summary_toggle }}
+    <div class="content" data-content>
+      <div class="wrap">
+        <div class="main">
+          <header class="main__header text-center" role="banner">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+          </header>
+          <main class="main__content" role="main">
+            {{ content_for_layout }}
+          </main>
+          <footer class="main__footer" role="contentinfo">
+            {{ content_for_footer }}
+          </footer>
+        </div>
+        <aside class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+          </div>
+        </aside>
+      </div>
+    </div>
+    {{ tracking_code }}
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', (event) => {
+        var pSettings = {
+          /*ConversionPirate.com*/
+          progressBg: '#fc6514',
+          progressBg2: '#fc651438',
+          highDemandText: "An item you ordered is in high demand. No worries, we have reserved your order.",
+          discountText: "Enter your discount code here",
+          whyUsImg1: 'https:{{'money_back.png' | asset_url}}',
+          whyUsTitle1: "30-Day Money Back Guarantee",
+          whyUsText1: "We'll issue a full refund on any faulty product, no questions asked.",
+          whyUsImg2: 'https:{{'mail_truck.png'| asset_url}}',
+          whyUsTitle2: "Over 1,231,442 successfully shipped orders",
+          whyUsText2: "We made as much happy customers as many orders we shipped. You simply have to join our big family.",
+        }
+
+        function crC(e, t, s) {
+          if (s) {
+            var n = new Date;
+            n.setTime(n.getTime() + 60 * s * 1e3);
+            var i = "; expires=" + n.toUTCString()
+          } else i = "";
+          document.cookie = e + "=" + t + i + "; path=/"
+        }
+
+        function rdC(e) {
+          for (var t = e + "=", s = document.cookie.split(";"), n = 0; n < s.length; n++) {
+            for (var i = s[n];
+              " " == i.charAt(0);) i = i.substring(1, i.length);
+            if (0 == i.indexOf(t)) return i.substring(t.length, i.length)
+          }
+          return null
+        }
+
+        function eSC(e) {
+          crC(e, "", -1)
+        }
+
+        function stTM(e, t, s) {
+          var n, i, d;
+
+          function a() {
+            n = t - ((Date.now() - e) / 1e3 | 0), d = n % 60 | 0, i = (i = n / 60 | 0) < 10 ? "0" + i : i, d = d < 10 ? "0" + d : d, s.textContent = i + ":" + d, n <= 0 && (clearInterval(c), document.getElementById("ct836").innerHTML = "Order reservation ended.", e = Date.now() + 1e3)
+          }
+          a();
+          var c = setInterval(a, 1e3)
+        }
+        var wnd = window.location.href,
+          chsg = '';
+        wnd.indexOf("checkout") > -1 && (window.onload = function () {
+          if (wnd.indexOf("checkout") > -1 && (dsXt = document.getElementById("checkout_reduction_code"), document.body.insertAdjacentHTML("afterbegin", '<div class="content prH7"><div class="wrap"><div class="ar64"><div id="sp1" class="s8 s8c"><span id="spn1">Information</span></div><div id="sp2" class="s8"><span id="spn2">Shipping</span></div><div id="sp3" class="s8"><span id="spn3">Payment</span></div></div></div></div>'), -1 === wnd.indexOf("thank_you"))) {
+            document.getElementsByClassName("main__content")[0].insertAdjacentHTML("afterbegin", '<div><div id="ct836" style="display:block;background:#c5d7de;padding:10px 20px;font-size:14px;color:#2c2c2c;font-weight:500;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; margin:5px 0px 20px 0px">Your order is reserved for <b style="font-weight:bold;"><span id="time"></span> minutes</b>!</div></div>');
+            var e = 600,
+            t = Date.now(),
+             s = rdC("pRtC");
+            s ? t < s ? e = (s - t) / 1e3 : (eSC("pRtC"), crC("pRtC", Date.now() + 1e3 * e, e + 1)) : crC("pRtC", Date.now() + 1e3 * e, e + 1), display = document.querySelector("#time"), stTM(t, e, display),
+            //document.getElementsByClassName("main__content")[0].insertAdjacentHTML("afterbegin", '<div style="width:100%;display:table"><div style="display:table-cell;vertical-align:middle; "><img style="margin-top:-5px;" src="{{'flame_24.png'| asset_url}}"></div><div style="font-weight:bold;padding-left:5px">' + pSettings.highDemandText + "</div></div>"),
+            "" != pSettings.discountText && dsXt && dsXt.setAttribute("placeholder", pSettings.discountText), document.getElementsByClassName("step__footer")[0].insertAdjacentHTML("afterend", '<div style="width:100%;display:block;padding-top:10px"><span style="font-size:12px;line-height:12px;font-style=italic;float:right;width:100%;text-align:right">Guaranteed safe and secure checkout!</span><div class="payment_methods"> <svg class="payment-icon" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 38 24" width="38" height="24" aria-labelledby="pi-american_express"><title id="pi-american_express">American Express</title><g fill="none"><path fill="#000" d="M35,0 L3,0 C1.3,0 0,1.3 0,3 L0,21 C0,22.7 1.4,24 3,24 L35,24 C36.7,24 38,22.7 38,21 L38,3 C38,1.3 36.6,0 35,0 Z" opacity=".07"></path><path fill="#006FCF" d="M35,1 C36.1,1 37,1.9 37,3 L37,21 C37,22.1 36.1,23 35,23 L3,23 C1.9,23 1,22.1 1,21 L1,3 C1,1.9 1.9,1 3,1 L35,1"></path><path fill="#FFF" d="M8.971,10.268 L9.745,12.144 L8.203,12.144 L8.971,10.268 Z M25.046,10.346 L22.069,10.346 L22.069,11.173 L24.998,11.173 L24.998,12.412 L22.075,12.412 L22.075,13.334 L25.052,13.334 L25.052,14.073 L27.129,11.828 L25.052,9.488 L25.046,10.346 L25.046,10.346 Z M10.983,8.006 L14.978,8.006 L15.865,9.941 L16.687,8 L27.057,8 L28.135,9.19 L29.25,8 L34.013,8 L30.494,11.852 L33.977,15.68 L29.143,15.68 L28.065,14.49 L26.94,15.68 L10.03,15.68 L9.536,14.49 L8.406,14.49 L7.911,15.68 L4,15.68 L7.286,8 L10.716,8 L10.983,8.006 Z M19.646,9.084 L17.407,9.084 L15.907,12.62 L14.282,9.084 L12.06,9.084 L12.06,13.894 L10,9.084 L8.007,9.084 L5.625,14.596 L7.18,14.596 L7.674,13.406 L10.27,13.406 L10.764,14.596 L13.484,14.596 L13.484,10.661 L15.235,14.602 L16.425,14.602 L18.165,10.673 L18.165,14.603 L19.623,14.603 L19.647,9.083 L19.646,9.084 Z M28.986,11.852 L31.517,9.084 L29.695,9.084 L28.094,10.81 L26.546,9.084 L20.652,9.084 L20.652,14.602 L26.462,14.602 L28.076,12.864 L29.624,14.602 L31.499,14.602 L28.987,11.852 L28.986,11.852 Z"></path></g></svg> <svg class="payment-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" role="img" x="0" y="0" width="38" height="24" viewBox="0 0 165.521 105.965" xml:space="preserve" aria-labelledby="pi-apple_pay"><title id="pi-apple_pay">Apple Pay</title><path fill="#000" d="M150.698 0H14.823c-.566 0-1.133 0-1.698.003-.477.004-.953.009-1.43.022-1.039.028-2.087.09-3.113.274a10.51 10.51 0 0 0-2.958.975 9.932 9.932 0 0 0-4.35 4.35 10.463 10.463 0 0 0-.975 2.96C.113 9.611.052 10.658.024 11.696a70.22 70.22 0 0 0-.022 1.43C0 13.69 0 14.256 0 14.823v76.318c0 .567 0 1.132.002 1.699.003.476.009.953.022 1.43.028 1.036.09 2.084.275 3.11a10.46 10.46 0 0 0 .974 2.96 9.897 9.897 0 0 0 1.83 2.52 9.874 9.874 0 0 0 2.52 1.83c.947.483 1.917.79 2.96.977 1.025.183 2.073.245 3.112.273.477.011.953.017 1.43.02.565.004 1.132.004 1.698.004h135.875c.565 0 1.132 0 1.697-.004.476-.002.952-.009 1.431-.02 1.037-.028 2.085-.09 3.113-.273a10.478 10.478 0 0 0 2.958-.977 9.955 9.955 0 0 0 4.35-4.35c.483-.947.789-1.917.974-2.96.186-1.026.246-2.074.274-3.11.013-.477.02-.954.022-1.43.004-.567.004-1.132.004-1.699V14.824c0-.567 0-1.133-.004-1.699a63.067 63.067 0 0 0-.022-1.429c-.028-1.038-.088-2.085-.274-3.112a10.4 10.4 0 0 0-.974-2.96 9.94 9.94 0 0 0-4.35-4.35A10.52 10.52 0 0 0 156.939.3c-1.028-.185-2.076-.246-3.113-.274a71.417 71.417 0 0 0-1.431-.022C151.83 0 151.263 0 150.698 0z"></path><path fill="#FFF" d="M150.698 3.532l1.672.003c.452.003.905.008 1.36.02.793.022 1.719.065 2.583.22.75.135 1.38.34 1.984.648a6.392 6.392 0 0 1 2.804 2.807c.306.6.51 1.226.645 1.983.154.854.197 1.783.218 2.58.013.45.019.9.02 1.36.005.557.005 1.113.005 1.671v76.318c0 .558 0 1.114-.004 1.682-.002.45-.008.9-.02 1.35-.022.796-.065 1.725-.221 2.589a6.855 6.855 0 0 1-.645 1.975 6.397 6.397 0 0 1-2.808 2.807c-.6.306-1.228.511-1.971.645-.881.157-1.847.2-2.574.22-.457.01-.912.017-1.379.019-.555.004-1.113.004-1.669.004H14.801c-.55 0-1.1 0-1.66-.004a74.993 74.993 0 0 1-1.35-.018c-.744-.02-1.71-.064-2.584-.22a6.938 6.938 0 0 1-1.986-.65 6.337 6.337 0 0 1-1.622-1.18 6.355 6.355 0 0 1-1.178-1.623 6.935 6.935 0 0 1-.646-1.985c-.156-.863-.2-1.788-.22-2.578a66.088 66.088 0 0 1-.02-1.355l-.003-1.327V14.474l.002-1.325a66.7 66.7 0 0 1 .02-1.357c.022-.792.065-1.717.222-2.587a6.924 6.924 0 0 1 .646-1.981c.304-.598.7-1.144 1.18-1.623a6.386 6.386 0 0 1 1.624-1.18 6.96 6.96 0 0 1 1.98-.646c.865-.155 1.792-.198 2.586-.22.452-.012.905-.017 1.354-.02l1.677-.003h135.875"></path><g><g><path fill="#000" d="M43.508 35.77c1.404-1.755 2.356-4.112 2.105-6.52-2.054.102-4.56 1.355-6.012 3.112-1.303 1.504-2.456 3.959-2.156 6.266 2.306.2 4.61-1.152 6.063-2.858"></path><path fill="#000" d="M45.587 39.079c-3.35-.2-6.196 1.9-7.795 1.9-1.6 0-4.049-1.8-6.698-1.751-3.447.05-6.645 2-8.395 5.1-3.598 6.2-.95 15.4 2.55 20.45 1.699 2.5 3.747 5.25 6.445 5.151 2.55-.1 3.549-1.65 6.647-1.65 3.097 0 3.997 1.65 6.696 1.6 2.798-.05 4.548-2.5 6.247-5 1.95-2.85 2.747-5.6 2.797-5.75-.05-.05-5.396-2.101-5.446-8.251-.05-5.15 4.198-7.6 4.398-7.751-2.399-3.548-6.147-3.948-7.447-4.048"></path></g><g><path fill="#000" d="M78.973 32.11c7.278 0 12.347 5.017 12.347 12.321 0 7.33-5.173 12.373-12.529 12.373h-8.058V69.62h-5.822V32.11h14.062zm-8.24 19.807h6.68c5.07 0 7.954-2.729 7.954-7.46 0-4.73-2.885-7.434-7.928-7.434h-6.706v14.894z"></path><path fill="#000" d="M92.764 61.847c0-4.809 3.665-7.564 10.423-7.98l7.252-.442v-2.08c0-3.04-2.001-4.704-5.562-4.704-2.938 0-5.07 1.507-5.51 3.82h-5.252c.157-4.86 4.731-8.395 10.918-8.395 6.654 0 10.995 3.483 10.995 8.89v18.663h-5.38v-4.497h-.13c-1.534 2.937-4.914 4.782-8.579 4.782-5.406 0-9.175-3.222-9.175-8.057zm17.675-2.417v-2.106l-6.472.416c-3.64.234-5.536 1.585-5.536 3.95 0 2.288 1.975 3.77 5.068 3.77 3.95 0 6.94-2.522 6.94-6.03z"></path><path fill="#000" d="M120.975 79.652v-4.496c.364.051 1.247.103 1.715.103 2.573 0 4.029-1.09 4.913-3.899l.52-1.663-9.852-27.293h6.082l6.863 22.146h.13l6.862-22.146h5.927l-10.216 28.67c-2.34 6.577-5.017 8.735-10.683 8.735-.442 0-1.872-.052-2.261-.157z"></path></g></g></svg> <svg class="payment-icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="38" height="24" aria-labelledby="pi-master"><title id="pi-master">Mastercard</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><circle fill="#EB001B" cx="15" cy="12" r="7"></circle><circle fill="#F79E1B" cx="23" cy="12" r="7"></circle><path fill="#FF5F00" d="M22 12c0-2.4-1.2-4.5-3-5.7-1.8 1.3-3 3.4-3 5.7s1.2 4.5 3 5.7c1.8-1.2 3-3.3 3-5.7z"></path></svg> <svg class="payment-icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" width="38" height="24" role="img" aria-labelledby="pi-paypal"><title id="pi-paypal">PayPal</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><path fill="#003087" d="M23.9 8.3c.2-1 0-1.7-.6-2.3-.6-.7-1.7-1-3.1-1h-4.1c-.3 0-.5.2-.6.5L14 15.6c0 .2.1.4.3.4H17l.4-3.4 1.8-2.2 4.7-2.1z"></path><path fill="#3086C8" d="M23.9 8.3l-.2.2c-.5 2.8-2.2 3.8-4.6 3.8H18c-.3 0-.5.2-.6.5l-.6 3.9-.2 1c0 .2.1.4.3.4H19c.3 0 .5-.2.5-.4v-.1l.4-2.4v-.1c0-.2.3-.4.5-.4h.3c2.1 0 3.7-.8 4.1-3.2.2-1 .1-1.8-.4-2.4-.1-.5-.3-.7-.5-.8z"></path><path fill="#012169" d="M23.3 8.1c-.1-.1-.2-.1-.3-.1-.1 0-.2 0-.3-.1-.3-.1-.7-.1-1.1-.1h-3c-.1 0-.2 0-.2.1-.2.1-.3.2-.3.4l-.7 4.4v.1c0-.3.3-.5.6-.5h1.3c2.5 0 4.1-1 4.6-3.8v-.2c-.1-.1-.3-.2-.5-.2h-.1z"></path></svg> <svg class="payment-icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="38" height="24" aria-labelledby="pi-visa"><title id="pi-visa">Visa</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><path d="M28.3 10.1H28c-.4 1-.7 1.5-1 3h1.9c-.3-1.5-.3-2.2-.6-3zm2.9 5.9h-1.7c-.1 0-.1 0-.2-.1l-.2-.9-.1-.2h-2.4c-.1 0-.2 0-.2.2l-.3.9c0 .1-.1.1-.1.1h-2.1l.2-.5L27 8.7c0-.5.3-.7.8-.7h1.5c.1 0 .2 0 .2.2l1.4 6.5c.1.4.2.7.2 1.1.1.1.1.1.1.2zm-13.4-.3l.4-1.8c.1 0 .2.1.2.1.7.3 1.4.5 2.1.4.2 0 .5-.1.7-.2.5-.2.5-.7.1-1.1-.2-.2-.5-.3-.8-.5-.4-.2-.8-.4-1.1-.7-1.2-1-.8-2.4-.1-3.1.6-.4.9-.8 1.7-.8 1.2 0 2.5 0 3.1.2h.1c-.1.6-.2 1.1-.4 1.7-.5-.2-1-.4-1.5-.4-.3 0-.6 0-.9.1-.2 0-.3.1-.4.2-.2.2-.2.5 0 .7l.5.4c.4.2.8.4 1.1.6.5.3 1 .8 1.1 1.4.2.9-.1 1.7-.9 2.3-.5.4-.7.6-1.4.6-1.4 0-2.5.1-3.4-.2-.1.2-.1.2-.2.1zm-3.5.3c.1-.7.1-.7.2-1 .5-2.2 1-4.5 1.4-6.7.1-.2.1-.3.3-.3H18c-.2 1.2-.4 2.1-.7 3.2-.3 1.5-.6 3-1 4.5 0 .2-.1.2-.3.2M5 8.2c0-.1.2-.2.3-.2h3.4c.5 0 .9.3 1 .8l.9 4.4c0 .1 0 .1.1.2 0-.1.1-.1.1-.1l2.1-5.1c-.1-.1 0-.2.1-.2h2.1c0 .1 0 .1-.1.2l-3.1 7.3c-.1.2-.1.3-.2.4-.1.1-.3 0-.5 0H9.7c-.1 0-.2 0-.2-.2L7.9 9.5c-.2-.2-.5-.5-.9-.6-.6-.3-1.7-.5-1.9-.5L5 8.2z" fill="#142688"></path></svg></div></div>'),
+              document.getElementsByClassName("order-summary__sections")[0].insertAdjacentHTML("beforeend", '<div style="position:relative;padding:10px 0px"><div class="wyustit" style="position:relative;z-index:1;text-align:center"><span style="background:#fafafa;padding:0 15px">Why choose us?</span></div><div style="display:table;vertical-align:middle;width:100%;border-spacing:0px 20px"><div class="wyuscs"><div class="wyuscs1 pr-[10px]"><img src="' + pSettings.whyUsImg1 + '"></div><div class="wyuscs2 pr-[10px]"><span>' + pSettings.whyUsTitle1 + "</span><p>" + pSettings.whyUsText1 + '</p></div></div><div class="wyuscs"><div class="wyuscs1 pr-[10px]"><img src="' + pSettings.whyUsImg2 + '"></div><div class="wyuscs2"><span>' + 'Over 4.000.000 successfully shipped orders' + "</span><p>" + pSettings.whyUsText2 + "</p></div></div></div></div>")
+          }
+          b1j = document.getElementById("sp1"), b2j = document.getElementById("sp2"), b3j = document.getElementById("sp3"), c1j = document.getElementById("spn1"), c2j = document.getElementById("spn2"), c3j = document.getElementById("spn3"), (Shopify && Shopify.Checkout && Shopify.Checkout.step === 'shipping_method') && (b1j.className = "s8 s8c", b2j.className = "s8 s8c", c1j.insertAdjacentHTML("afterbegin", chsg)), (Shopify && Shopify.Checkout && Shopify.Checkout.step === 'payment_method') && (b1j.className = "s8 s8c", b2j.className = "s8 s8c", b3j.className = "s8 s8c", c1j.insertAdjacentHTML("afterbegin", chsg), c2j.insertAdjacentHTML("afterbegin", chsg)), wnd.indexOf("thank_you") > -1 && (b1j.className = "s8 s8c", b2j.className = "s8 s8c", b3j.className = "s8 s8c", c1j.insertAdjacentHTML("afterbegin", chsg), c2j.insertAdjacentHTML("afterbegin", chsg), c3j.insertAdjacentHTML("afterbegin", chsg))
+        });
+        var b7 = document.createElement("style");
+        b7.type = "text/css";
+        //css checkout =>
+        b7.innerHTML = '';
+        document.body.appendChild(b7);
+      })
+    </script>
+    <script src="{{ 'jquery.min.js' | asset_url }}"></script>
+    <script src="{{ 'js.cookie.min.js' | asset_url }}"></script>
+    <script type="text/javascript" src="/services/javascripts/currencies.js" data-no-instant></script>
+    <script type="text/javascript" src="{{ "jquery.currencies.min.js" | asset_url }}" data-no-instant></script>
+    <script>
+      
+      
+     $(document).ready(function(){
+        function getCookie(key) {
+          var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+          return keyValue ? keyValue[2] : null;
+        }
+        const currency = getCookie('currency');
+        if(currency !== 'USD'){
+          const oldCurrency = document.getElementsByClassName("payment-due__price")[0] ;
+          $(".total-line__price.payment-due").append(`<p class="convertCurrency" style="margin-top:5px;">${oldCurrency.innerText}</p>`);
+          Currency.convertAll("USD", currency, ".convertCurrency", 'money_with_currency_format');
+          const newCurrency =  $(".convertCurrency").text();
+          $(".convertCurrency").text(`( ${newCurrency} )`);
+          
+          if(window.innerWidth<992){
+            $(".order-summary-toggle__total-recap.total-recap dd").append(`<span class="convertCurrencyMobile" style="margin-top:5px;">${$(".order-summary__emphasis.total-recap__final-price").text()}</span>`);
+            Currency.convertAll("USD", currency, ".convertCurrencyMobile", 'money_with_currency_format');
+            const newCurrencyMobile =  $(".convertCurrencyMobile").text();
+            $(".convertCurrencyMobile").text(`( ${newCurrencyMobile} )`);
+            $(".convertCurrency").text(`( ${newCurrencyMobile} )`);
+          }
+        }
+     })
+    </script>
+    <script type="text/javascript">
+        function appplyCustomImgProduct(){
+          var imagesSelector = 'table.product-table tr.product div.product-thumbnail__wrapper img.product-thumbnail__image';
+          {%- for item in checkout.line_items -%}
+              var index = {{ forloop.index0 }};
+              var properties = JSON.parse('{{ item.properties | json }}');
+              var thumbImage = properties.find(p => p[0] == '_customily-thumb');
+              if(!thumbImage){
+                thumbImage = properties.find(p => p[0] == '_customily-preview');
+              }
+              if(thumbImage && thumbImage[1]) {
+                  var imgEl = $(imagesSelector)[index];
+                  $(imgEl).attr('src', thumbImage[1]);
+              }
+          {%- endfor -%}
+          }
+       $(document).ready(function(){
+          appplyCustomImgProduct();
+      });
+    </script>
+    <script type="text/javascript">
+       const refreshIntervalId = setInterval(function () {
+        var nodeReConvert = document.getElementsByClassName("rfsn_box_container")[0];
+        if(nodeReConvert && document.getElementsByClassName("custom-content-box").length){
+          document.getElementsByClassName("custom-content-box")[0].appendChild(nodeReConvert)
+          clearInterval(refreshIntervalId);
+        }
+      }, 1000);
+    </script>
+    <script
+      async
+      type="text/javascript"
+      src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=RjKbJv&module=CONSENT_AT_CHECKOUT"
+    ></script>
+    <script type="text/javascript">
+       const checkoutEmail = document.getElementById('checkout_email');
+         if(checkoutEmail){
+           //var btn_submit = document.getElementById("continue_button");
+           checkoutEmail.addEventListener('keydown', integrateKlaviyoTracking);
+           function integrateKlaviyoTracking() {
+                 if(IsEmail(checkoutEmail.value)){
+                   window.localStorage.setItem('spyCheckoutEmail', checkoutEmail.value);
+                 }
+           }
+         }
+         function IsEmail(email) {
+             var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+             if (!regex.test(email)) {
+               return false;
+             } else {
+               return true;
+             }
+         }
+      $(document).ready(function(){
+        if(!location.pathname.includes("/checkouts")) {
+            return;
+        }
+        $('button[name="checkout[amount_tip]"]').on("click", function(){
+           var loadingTip = setInterval(function () {
+            if (!$('button[name="checkout[amount_tip]"]').hasClass("btn--loading")){
+              appplyCustomImgProduct()
+              clearInterval(loadingTip);
+            }
+          }, 500);
+        })
+        if( Shopify.Checkout.step === "payment_method" ){
+            var btnActiveTip = $('button[name="checkout[amount_tip]"]')
+             var amountTip = $('button[name="checkout[amount_tip]"].button-group__button--active').attr("value")
+             if (btnActiveTip.length && amountTip == '0.00' && !window.localStorage.getItem("spyTip")){
+                btnActiveTip.eq(1).click();
+                window.localStorage.setItem('spyTip', true);
+             }
+        }
+        const refreshStepCheckout = setInterval(function () {
+           var step1 = document.getElementById('sp1');
+            if(step1 && step1.innerHTML.length){
+             activeStep();
+             clearInterval(refreshStepCheckout);
+          }
+        }, 500);
+
+         var activeStep = function (){
+          if(!Shopify.Checkout.step){
+               return;
+          }
+           var step2 = document.getElementById('sp2');
+           var step2Child = document.getElementById('spn2');
+           var step1Child = document.getElementById('spn1');
+           var step1 = document.getElementById('sp1');
+            step1.classList.add("active-bg-after");
+           function activeStepOne(){
+                step1Child.classList.add("active-checkout");
+                step1Child.parentElement.classList.add("active");
+                step1.classList.add("active-bg-before");
+                step2.classList.add("active-bg-after");
+           }
+           function activeStepTwo(){
+               var step3 = document.getElementById('sp3');
+                step2Child.classList.add("active-checkout");
+                step2Child.parentElement.classList.add("active");
+                step2.classList.add("active-bg-before");
+                step3.classList.add("active-bg-after");
+           }
+
+           if (Shopify.Checkout.step === 'shipping_method'){
+             activeStepOne();
+           }
+           else if( Shopify.Checkout.step === "payment_method" ){
+              activeStepOne();
+              activeStepTwo();
+           }else if(Shopify.Checkout.page == "thank_you"){
+              activeStepOne();
+              activeStepTwo();
+              step3.classList.add("active-bg-before");
+              step3.classList.add("active");
+              if(!step3.classList.contains("s8c")){
+                step3.classList.add("s8c");
+              }
+           }
+       }
+      })
+    </script>
+    {% include 'dataLayer-allPages' %}
+  </body>
+</html>

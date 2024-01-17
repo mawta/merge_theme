@@ -1,0 +1,171 @@
+<script>
+      {% raw %}
+      var Shopify = Shopify || {};
+    // ---------------------------------------------------------------------------
+    // Money format handler
+    // ---------------------------------------------------------------------------
+    Shopify.money_format = "${{amount}}";
+    Shopify.formatMoney = function(cents, format) {
+    if (typeof cents == 'string') { cents = cents.replace('.',''); }
+    var value = '';
+    var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+    var formatString = (format || this.money_format);
+    
+    function defaultOption(opt, def) {
+     return (typeof opt == 'undefined' ? def : opt);
+    }
+    
+    function formatWithDelimiters(number, precision, thousands, decimal) {
+    precision = defaultOption(precision, 2);
+    thousands = defaultOption(thousands, ',');
+    decimal   = defaultOption(decimal, '.');
+    
+    if (isNaN(number) || number == null) { return 0; }
+    
+    number = (number/100.0).toFixed(precision);
+    
+    var parts   = number.split('.'),
+        dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands),
+        cents   = parts[1] ? (decimal + parts[1]) : '';
+    
+    return dollars + cents;
+    }
+    
+    switch(formatString.match(placeholderRegex)[1]) {
+    case 'amount':
+      value = formatWithDelimiters(cents, 2);
+      break;
+    case 'amount_no_decimals':
+      value = formatWithDelimiters(cents, 0);
+      break;
+    case 'amount_with_comma_separator':
+      value = formatWithDelimiters(cents, 2, '.', ',');
+      break;
+    case 'amount_no_decimals_with_comma_separator':
+      value = formatWithDelimiters(cents, 0, '.', ',');
+      break;
+    }
+    
+    return formatString.replace(placeholderRegex, value);
+    };
+    {% endraw %}
+    var convertCurrencies = function() {
+      if (Shopify.currency_settings.shopifyMultiCurrencyIsEnabled == true) {
+        //Select event for native multi currency checkout
+        $('.shopify-currency-form [data-native-currency-converter]').on('change', function () {
+          $(this)
+            .parents('form')
+            .submit();
+        });
+        applyCurrencyFormatSettings();
+      }
+      else {
+        var shopCurrency = Shopify.currency_settings.shop_currency;
+    
+        /* Sometimes merchants change their shop currency, let's tell our JavaScript file */
+        Currency.money_with_currency_format[shopCurrency] = Shopify.currency_settings.money_with_currency_format;
+        Currency.money_format[shopCurrency] = Shopify.currency_settings.money_format;
+    
+        /* Default currency */
+        // if multicurrency is checked, show default currency from settings.. if not use shop currency (comes from backend)
+        if (Shopify.theme_settings.show_multiple_currencies == true) {
+          var defaultCurrency = Shopify.currency_settings.default_currency;
+        } else {
+          var defaultCurrency = shopCurrency;
+        }
+    
+        {% comment %} if ($(window).width() >= 798) {
+          var $currencySelector = $("#currency_wrapper .currencies");
+        } else {
+          }
+          {% endcomment %}
+        var $currencySelector = $("#currency_wrapper .currencies");
+        /* Cookie currency */
+        var cookieCurrency = Currency.cookie.read();
+    
+        /* Fix for customer account pages */
+        $('span.money span.money').each(function() {
+          $(this).parents('span.money').removeClass('money');
+        });
+    
+        /* Saving the current price */
+        $('span.money').each(function() {
+          $(this).attr('data-currency-' + Shopify.currency_settings.shop_currency, $(this).html());
+        });
+    
+        // If there's no cookie, check if shopCurrency is different from the default currency (set above). If so, convert currencies to the default currency
+        if (cookieCurrency == null) {
+          if (shopCurrency !== defaultCurrency) {
+            Currency.convertAll(shopCurrency, defaultCurrency, 'span.money', Shopify.theme_settings.currency_format);
+            $('.selected-currency').text(Currency.currentCurrency);
+          }
+          // If shopCurreny is the same as defaultCurrency, no need to convert anything.. just set the current currency for later
+          else {
+            Currency.currentCurrency = defaultCurrency;
+          }
+        }
+        // If the cookie value does not correspond to any value in the currency dropdown.
+        else if ($currencySelector.length && $currencySelector.find('option[value=' + cookieCurrency + ']').length === 0) {
+          Currency.currentCurrency = shopCurrency;
+          Currency.cookie.write(shopCurrency);
+        }
+        // If there is a cookie, and it's the same as our shopCurrency, set the current currency for later
+        else if (cookieCurrency === shopCurrency) {
+          Currency.currentCurrency = shopCurrency;
+        }
+        // Then, if we reach the else statement, there is a cookie, but its different from the shopCurrency we have set in our backend, so we convert the currencies to reflect the cookie's currency
+        else {
+          Currency.convertAll(shopCurrency, cookieCurrency, 'span.money', Shopify.theme_settings.currency_format);
+          $('.selected-currency').text(Currency.currentCurrency);
+        }
+        
+        // On currency selector dropdown change, we convert currencies to the new currency along with the format we have set
+        $currencySelector.val(Currency.currentCurrency).change(function() {
+          var newCurrency = $(this).val();
+          
+          $currencySelector.find('option').removeAttr('selected');
+          $currencySelector.find('option[value=' + `${newCurrency}` + ']').attr('selected', 'selected');
+        
+          if (Currency.currentCurrency !== '') {
+            Currency.convertAll(Currency.currentCurrency, newCurrency, 'span.money', Shopify.theme_settings.currency_format);
+          } else {
+            Currency.convertAll(shopCurrency, newCurrency, 'span.money', Shopify.theme_settings.currency_format);
+          }
+    
+          $('.selected-currency').text(Currency.currentCurrency);
+    
+          // check for when newCurrency is the same as shopCurrency. Inside the convertAll function, this would return the function false, and thus the currency format won't be updated. applyCurrencyFormatSettings() won't convert the currency, just format the money.
+          if (newCurrency === shopCurrency) {
+            applyCurrencyFormatSettings();
+          }
+        });
+    
+        if($currencySelector.val() && $currencySelector.val() != $currencySelector.data('default-shop-currency')) {
+          Currency.convertAll($currencySelector.data('default-shop-currency'), $currencySelector.val(), 'span.money', Shopify.theme_settings.currency_format);
+          $('.selected-currency').text(Currency.currentCurrency);
+        } else {
+          applyCurrencyFormatSettings();
+        }
+      }
+    }
+    
+    // when the two arguments into Currency.convertAll are the same, it will return false, thus in order to still change currency format, we run this function. Example: Currency.convertAll('USD', 'USD') .... this will return false
+    var applyCurrencyFormatSettings = function() {
+      $('span.money').each(function(ind, val) {
+        // get price text
+        var money = $(val).html();
+        // convert it to cents and strip it down
+        if (Shopify.currency_settings.money_with_currency_format.includes('amount_with_comma_separator')) {
+          money = Number(money.replace(/[^0-9\.]+/g, "").replace(/\.|,/gi, ''));
+        } else if (Shopify.currency_settings.money_with_currency_format.includes('amount_no_decimals_with_comma_separator')) {
+          money = Number(money.replace(/[^0-9\.]+/g, "").replace(/\.|,/gi, '')) * 100;
+        } else {
+          money = Number(money.replace(/[^0-9\.]+/g, "")) * 100;
+        }
+        // output it back using updated money
+        $(val).text(Shopify.formatMoney(money, $('body').data('money-format')))
+      })
+    }
+    
+    convertCurrencies();
+    </script>

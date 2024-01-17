@@ -1,0 +1,101 @@
+<script>
+  function postCanvasToURL() {
+    // Convert canvas image to Base64
+    var snap = document.getElementById('preview-canvas');
+    engraver.setWidth(800);
+    var img = engraver.canvas.toDataURL()
+    // Convert Base64 image to binary
+    var file = dataURItoBlob(img);
+    return file;
+  };
+  function dataURItoBlob(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+      byteString = atob(dataURI.split(',')[1]);
+    else
+      byteString = unescape(dataURI.split(',')[1]);
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ia], { type: 'image/jpeg' });
+
+  };
+  function checkCreatedAt(createdAt) {
+      try {
+        const now = new Date().getTime();
+        const createdDate = new Date(createdAt).getTime();
+        return now - createdDate < 2 * 60 * 60 * 1000;
+      } catch (err) {
+        return false;
+      }
+    }
+  function bindDateShipping(data,created_at){
+       const trackingAt = created_at;
+       const minDeliveryTime = data.min_delivery_time;
+       const maxDeliveryTime = data.max_delivery_time;
+       var monthNamesDate = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+       const widthWindow = window.innerWidth;
+       if (widthWindow < 600 || 798 < widthWindow && widthWindow < 992) {
+          monthNamesDate = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+       }
+       const minDateShipping = totalDaysShipping(trackingAt,minDeliveryTime);
+       const maxDateShipping = totalDaysShipping(trackingAt,maxDeliveryTime);
+
+       const minDayShipping = new Date(minDateShipping).getDate();
+       const minMonthShipping = monthNamesDate[new Date(minDateShipping).getMonth()];
+       const maxDayShipping = new Date(maxDateShipping).getDate();
+       const maxMonthShipping = monthNamesDate[new Date(maxDateShipping).getMonth()];
+      
+       if(minMonthShipping == maxMonthShipping){
+         return `${minMonthShipping} ${minDayShipping}-${maxDayShipping}`;
+       }
+       return `${minMonthShipping} ${minDayShipping} - ${maxMonthShipping} ${maxDayShipping} `;
+    };
+  function totalDaysShipping (createdTrackingAt,day){
+       const someDate = new Date(createdTrackingAt);
+       const numberOfDaysToAdd = day;
+       const dateResults = someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+       return dateResults;
+    };
+  function notificationErrorChangeOrder(content, bgColor) {
+      $(".notification-error").removeClass("hidden");
+      $(".notification-text").text(content);
+      if (bgColor == 'wraning') {
+        $(".notification-error ").css({ "background-color": "#ffeddc", "color": "#1b2631" });
+      } else {
+        $(".notification-error ").css({ "background-color": "#4faf9c", "color": "#fff" });
+      }
+      const removeNotificationError = setTimeout(() => {
+        $(".notification-error").addClass("hidden");
+      }, 3000);
+    };
+    $(document).on('click', '#btn-cancel-order', function () {
+        if (checkCreatedAt(createdAt)) {
+        var alertConfirm = confirm("Are you sure you want to cancel this order?");
+        if (alertConfirm == true) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                alert("We have successfully cancelled your order");
+                setTimeout(function () { window.location.reload(); }, 2000);
+            } else if (this.readyState == 4 && this.status == 400) {
+                var response = JSON.parse(xhttp.responseText);
+                alert(response.err)
+            }
+            }
+            xhttp.open("POST", `${BASE_URL_SHOPIFY}/cancel-order`);
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.send(JSON.stringify({ "order_id": parseInt(orderShopifyID), "order_page": window.location.href }));
+        }
+        } else {
+        const content = "We’re sorry! You can’t edit your order after 2 hours of placing it as your order has already been in production.";
+        const bgColor = "wraning";
+        notificationErrorChangeOrder(content, bgColor);
+        }
+    });
+</script>

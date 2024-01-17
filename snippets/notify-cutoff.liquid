@@ -1,0 +1,21 @@
+<div class="box-cut-off {% if atc == true %} atc {% endif %}">
+  <div class="shipping-custom shipping-custom-get-type visible-xs" data-type="{{shipping_type}}"></div>
+  <div class="cut_off_notice">
+    <div class="cut_off_notice--text">
+      <span
+        {% unless atc == true %}
+          class="text--red"
+        {% endunless -%}
+        }
+      >
+        {% if atc == true -%}
+          📦 Orders placed after <b><span class="date-cutoff">Dec 8th</span></b>
+        {%- else -%}
+          🔔 Orders placed
+          <span class="date-after-us">Dec 8th</span>
+        {%- endif %}
+        may not be delivered by Christmas day{% unless atc == true %}(Dec 25){% endunless -%}
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,257 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="customer account section-{{ section.id }}-padding">
+  {% paginate customer.orders by 20 %}
+    <a name="pagecontent" id="pagecontent"></a>
+    <header class="account-header clearfix ">
+      <div class=" account-header-logout">
+        <span>
+          
+        </span>
+      </div>
+      <h4 class="name-customer text-center">
+        <a class="" href="{{ routes.account_url }}" title="{{ 'layout.customer.my_account' | t }}">Hi,
+          {{customer.name}}
+        </a>
+        <a href="{{ routes.account_logout_url }}" id="customer_logout_link" cclass="">
+          <svg class="icon-logout" xmlns="http://www.w3.org/2000/svg" version="1.0" width="240.000000pt" height="240.000000pt" viewBox="0 0 240.000000 240.000000" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(0.000000,240.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+              <path d="M1171 1816 c-8 -9 -11 -113 -9 -361 3 -319 4 -349 21 -359 12 -8 22 -8 35 0 16 10 17 40 20 359 2 359 1 375 -38 375 -10 0 -23 -6 -29 -14z"/>
+              <path d="M766 1613 c-92 -101 -142 -203 -164 -340 -14 -88 -14 -105 0 -189 59 -347 383 -571 723 -499 447 95 629 622 343 993 -43 55 -78 73 -103 52 -24 -20 -18 -38 29 -98 246 -314 117 -747 -253 -856 -71 -21 -211 -21 -282 0 -132 39 -247 129 -313 246 -109 196 -84 432 65 617 27 33 49 64 49 69 0 12 -34 42 -48 42 -6 0 -27 -17 -46 -37z"/>
+            </g>
+          </svg>
+        </a>
+      </h4>
+    </header>
+    <div class="section section-customer clearfix ">
+      <aside class="account-sidebar text-center relative">
+        <img src="{{'account-info.svg' | asset_url }}" alt="account info" width="44px" height="44px">
+        <h4 class="title-viewOrder">{{ 'customer.account.account_info' | t }}</h4>
+        <p class="email note ">{{ customer.email }}</p>
+      </aside>
+      <main
+        class="account-address text-center relative">
+        <img src="{{'account-history.svg' | asset_url }}" alt="account info" width="44px" height="44px">
+        <h4 class="title-viewOrder">{{ 'customer.account.primary' | t }}</h4>
+        <div class="address note">
+          {% if customer.default_address != nil %}
+          <!-- <p class="mb-1">{{ customer.default_address.address1 }}</p> -->
+          {% if customer.default_address.address2 != "" %}
+          <!-- <p class="mb-1">{{ customer.default_address.address2 }}</p> -->
+          {% endif %}
+          <!-- <p>{{ customer.default_address.city}}{% if customer.default_address.province_code %},
+            {{customer.default_address.province_code}}{% endif %} {{ customer.default_address.zip}}</p>
+          <p class="mb-1">{{customer.default_address.country}}</p>
+          <p class="mb-1">{{ customer.default_address.phone }}</p> -->
+          {% else %}
+          <p class="mb-1">{{ 'customer.addresses.no_addresses' | t }}</p>
+          {% endif %}
+          <p class="mb-1"><a class="" href="{{ routes.account_addresses_url }}">{{ 'customer.account.sub_address' | t }}</a></p>
+        </div>
+      </main>
+      <main
+        class=" account-order text-center relative">
+        <div id="customer_orders">
+          <img src="{{'account-cart.svg' | asset_url }}" alt="account info" width="44px" height="44px">
+          <h4 class="title-viewOrder">{{ 'customer.orders.title' | t }}</h4>
+          <a class="cursor-pointer customer-viewOrders " href="/account?view=list_orders">{{ 'customer.account.sub_orders' | t }}
+          </a>
+        </div>
+      </main>
+    </div>
+    {% endpaginate %}
+  
+  <script type="text/javascript">
+    const decodeHTMLEntities = text => {
+      // Create a new element or use one from cache, to save some element creation overhead
+      const el = decodeHTMLEntities.__cache_data_element
+        = decodeHTMLEntities.__cache_data_element
+        || document.createElement('div');
+  
+      const enc = text
+        // Prevent any mixup of existing pattern in text
+        .replace(/⪪/g, '⪪#')
+        // Encode entities in special format. This will prevent native element encoder to replace any amp characters
+        .replace(/&([a-z1-8]{2,31}|#x[0-9a-f]+|#\d+);/gi, '⪪$1⪫');
+  
+      // Encode any HTML tags in the text to prevent script injection
+      el.textContent = enc;
+  
+      // Decode entities from special format, back to their original HTML entities format
+      el.innerHTML = el.innerHTML
+        .replace(/⪪([a-z1-8]{2,31}|#x[0-9a-f]+|#\d+)⪫/gi, '&$1;')
+        .replace(/#⪫/g, '⪫');
+  
+      // Get the decoded HTML entities
+      const dec = el.textContent;
+  
+      // Clear the element content, in order to preserve a bit of memory (it is just the text may be pretty big)
+      el.textContent = '';
+  
+      return dec;
+    }
+    let arr_properties;
+    const keySavePropertiesOrder = "add-to-cart";
+    function setLocalStorageItem(key, value, ttl) {
+      if (!key) {
+        return;
+      }
+      const now = new Date();
+      const item = {
+        value,
+        expiry: ttl ? now.getTime() + ttl * 3600000 : null,
+      };
+  
+      localStorage.setItem(key, JSON.stringify(item));
+    }
+    const dataPropertiesCacheOreder = getLocalStorageItem(keySavePropertiesOrder);
+    function getLocalStorageItem(key) {
+      if (!key) {
+        return;
+      }
+      const itemStr = localStorage.getItem(key);
+      if (!itemStr) {
+        return null;
+      }
+      const item = JSON.parse(itemStr);
+      const now = new Date();
+      if (now.getTime() > item.expiry) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return item.value;
+    }
+    const convertProperties = () => {
+      let data = [];
+      let arrProperties = arr_properties;
+      for (let i = 0; i < arrProperties.length; i++) {
+        for (let j = 0; j < arrProperties[i].length; j++) {
+          let dataItem = decodeHTMLEntities(arrProperties[i][j]);
+          data.push(dataItem);
+        }
+      }
+      let dataProperties = {};
+      for (var i = 0; i < data.length; i += 2) {
+        dataProperties[data[i]] = data[i + 1];
+      }
+      return dataProperties;
+    }
+    function addToCartOrder(product_id,variant_id) {
+      var urlPreview;
+      var urlCustomization;
+      for (var i = 0; i < arr_properties.length; i++) {
+        for (var j = 0; j < arr_properties[i].length; j++) {
+          if (arr_properties[i][j] == '_customily-thumb') {
+            urlPreview = decodeHTMLEntities(arr_properties[i][j + 1]);
+          }
+          if (arr_properties[i][j] == '_customily-customization-url') {
+            urlCustomization = decodeHTMLEntities(arr_properties[i][j + 1]);
+          }
+        }
+      }
+      if (!urlPreview || !urlCustomization) {
+        return;
+      }
+      var productId = product_id;
+      var variantID= variant_id;
+      const item = {
+        variantID,
+        productId,
+        urlPreview,
+        urlCustomization
+      }
+      if (dataPropertiesCacheOreder) {
+        const indexProductAdd = dataPropertiesCacheOreder.findIndex(
+          (item) => item.productId === productId
+        );
+        if (indexProductAdd !== -1) {
+          dataPropertiesCacheOreder.splice(indexProductAdd, 1, item);
+        } else {
+          dataPropertiesCacheOreder.push(item);
+        }
+        setLocalStorageItem(keySaveProperties, dataPropertiesCacheOreder, 2)
+      } else {
+        const initListAddToCart = [item];
+        setLocalStorageItem(keySaveProperties, initListAddToCart, 2)
+      }
+    }
+    $(".add_to_cart").click(function () {
+      let dataInput = $(this).parent(".re-order");
+      let formData = {
+        'items': []
+      };
+      var product_id = dataInput.children(".data-order").attr('data-product-id');
+      var variant_id = dataInput.children(".data-order").attr('data-variant-ids');
+      arr_properties = JSON.parse(dataInput.children().children(".text-custom")[0].innerHTML);
+      var price = dataInput.children(".data-order").attr('data-price');
+      var quantity = dataInput.children(".data-order").attr('data-quantities');
+      addToCartOrder(product_id,variant_id);
+      formData.items.push({
+        "id": parseInt(variant_id),
+        "quantity": parseInt(quantity),
+        "properties": convertProperties(),
+        "price": parseInt(price)
+      });
+      fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => {
+          window.location.href = "/cart";
+          return response.json();
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    })
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-account.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

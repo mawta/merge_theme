@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="{{ 'page-search.css' |asset_url }}">
+<div class="page-width page-search-filters">
+<a name="pagecontent" id="pagecontent"></a>
+
+<div class="sixteen columns page clearfix">
+  <h1 class="text-center">
+    Search results for “<span class="search-text"></span><span class="icon-search-results">“</span>
+  </h1>
+  <div class="feature_divider"></div>
+  <div class="content-collections clearfix">
+    {% include 'sidebar-filter' %}
+    <div class="twelve columns medium-down--one-whole">
+      <div class="eight columns top-left section_select medium-down--one-whole">
+        <div class="filter-mobile hidden-xl">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M0.820313 2.25641C0.820313 1.01023 1.83054 0 3.07672 0C4.3229 0 5.33313 1.01023 5.33313 2.25641C5.33313 3.50259 4.3229 4.51282 3.07672 4.51282C1.83054 4.51282 0.820313 3.50259 0.820313 2.25641ZM3.07672 1.23077C2.51028 1.23077 2.05108 1.68996 2.05108 2.25641C2.05108 2.82286 2.51028 3.28205 3.07672 3.28205C3.64317 3.28205 4.10236 2.82286 4.10236 2.25641C4.10236 1.68996 3.64317 1.23077 3.07672 1.23077ZM7.38442 2.25641C7.38442 1.91654 7.65993 1.64103 7.9998 1.64103L14.5639 1.64103C14.9038 1.64103 15.1793 1.91654 15.1793 2.25641C15.1793 2.59628 14.9038 2.8718 14.5639 2.8718L7.9998 2.87179C7.65993 2.87179 7.38442 2.59628 7.38442 2.25641ZM10.6665 8C10.6665 6.75382 11.6767 5.74359 12.9229 5.74359C14.1691 5.74359 15.1793 6.75382 15.1793 8C15.1793 9.24618 14.1691 10.2564 12.9229 10.2564C11.6767 10.2564 10.6665 9.24618 10.6665 8ZM12.9229 6.97436C12.3564 6.97436 11.8972 7.43355 11.8972 8C11.8972 8.56645 12.3564 9.02564 12.9229 9.02564C13.4893 9.02564 13.9485 8.56645 13.9485 8C13.9485 7.43355 13.4893 6.97436 12.9229 6.97436ZM0.820313 8C0.820313 7.66013 1.09583 7.38461 1.4357 7.38461L7.9998 7.38462C8.33967 7.38462 8.61518 7.66013 8.61518 8C8.61518 8.33987 8.33967 8.61539 7.9998 8.61539L1.4357 8.61538C1.09583 8.61538 0.820312 8.33987 0.820313 8ZM0.820313 13.7436C0.820313 12.4974 1.83054 11.4872 3.07672 11.4872C4.3229 11.4872 5.33313 12.4974 5.33313 13.7436C5.33313 14.9898 4.3229 16 3.07672 16C1.83054 16 0.820313 14.9898 0.820313 13.7436ZM3.07672 12.7179C2.51028 12.7179 2.05108 13.1771 2.05108 13.7436C2.05108 14.31 2.51028 14.7692 3.07672 14.7692C3.64317 14.7692 4.10236 14.31 4.10236 13.7436C4.10236 13.1771 3.64317 12.7179 3.07672 12.7179ZM7.38442 13.7436C7.38442 13.4037 7.65993 13.1282 7.9998 13.1282H14.5639C14.9038 13.1282 15.1793 13.4037 15.1793 13.7436C15.1793 14.0835 14.9038 14.359 14.5639 14.359H7.9998C7.65993 14.359 7.38442 14.0835 7.38442 13.7436Z"
+              fill="#0D0C22"></path>
+          </svg>
+          <span>Filters</span>
+        </div>       
+           <div class="sorter-wrapper">
+              <select id="sorter-wrapper">
+                <option value="relevance-desc">Relevance</option>
+                <option value="sales_amount-desc">{{ 'collections.sorting.best_selling' | t }}</option>
+                <option value="title-asc">{{ 'collections.sorting.az' | t }}</option>
+                <option value="title-desc">{{ 'collections.sorting.za' | t }}</option>
+                <option value="price-asc">{{ 'collections.sorting.price_ascending' | t }}</option>
+                <option value="price-desc">{{ 'collections.sorting.price_descending' | t }}</option>          
+                <option value="created-desc">{{ 'collections.sorting.date_descending' | t }}</option>       
+                <option value="created-asc">{{ 'collections.sorting.date_ascending' | t }}</option>
+              </select>
+            </div> 
+      </div>
+      <div class="tag-active-wrapper" id="current-active-filter-parent"></div>
+      <div itemtype="http://schema.org/ItemList"
+        class="product-list grid product-grid grid--2-col-tablet-down grid--4-col-desktop">
+        <div class="grid__item">
+          <div class="card-header animated-bg" id="header">&nbsp;</div>
+          <p class="card-excerpt" id="excerpt">
+            &nbsp;
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+          </p>
+        </div>
+        <div class="grid__item">
+          <div class="card-header animated-bg" id="header">&nbsp;</div>
+          <p class="card-excerpt" id="excerpt">
+            &nbsp;
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+          </p>
+        </div>
+        <div class="grid__item">
+          <div class="card-header animated-bg" id="header">&nbsp;</div>
+          <p class="card-excerpt" id="excerpt">
+            &nbsp;
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+          </p>
+        </div>
+        <div class="grid__item">
+          <div class="card-header animated-bg" id="header">&nbsp;</div>
+          <p class="card-excerpt" id="excerpt">
+            &nbsp;
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+            <span class="animated-bg animated-bg-text">&nbsp;</span>
+          </p>
+        </div>
+      </div>
+        <ul id="pagination-product" class="pagination-lg"></ul>
+    </div>
+  </div>
+</div>
+</div>
+{% include 'sidebar-filter-script' %}
+
+

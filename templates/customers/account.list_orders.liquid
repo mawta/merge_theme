@@ -1,0 +1,252 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+{% paginate customer.orders by 20 %}
+    <a name="pagecontent" id="pagecontent"></a>
+    <header class="account-header clearfix ">
+      <div class=" account-header-logout">
+        <span>
+          
+        </span>
+      </div>
+      <h4 class="name-customer text-center">
+        <a class="" href="{{ routes.account_url }}" title="My Account">Hi,
+          {{customer.name}}
+        </a>
+        <a href="{{ routes.account_logout_url }}" id="customer_logout_link" cclass="">
+          <svg class="icon-logout" xmlns="http://www.w3.org/2000/svg" version="1.0" width="240.000000pt" height="240.000000pt" viewBox="0 0 240.000000 240.000000" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(0.000000,240.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+              <path d="M1171 1816 c-8 -9 -11 -113 -9 -361 3 -319 4 -349 21 -359 12 -8 22 -8 35 0 16 10 17 40 20 359 2 359 1 375 -38 375 -10 0 -23 -6 -29 -14z"/>
+              <path d="M766 1613 c-92 -101 -142 -203 -164 -340 -14 -88 -14 -105 0 -189 59 -347 383 -571 723 -499 447 95 629 622 343 993 -43 55 -78 73 -103 52 -24 -20 -18 -38 29 -98 246 -314 117 -747 -253 -856 -71 -21 -211 -21 -282 0 -132 39 -247 129 -313 246 -109 196 -84 432 65 617 27 33 49 64 49 69 0 12 -34 42 -48 42 -6 0 -27 -17 -46 -37z"/>
+            </g>
+          </svg>
+        </a>
+      </h4>
+    </header>
+    <div class="section section-customer clearfix w100 page-width">
+      <main
+        class="account-order text-center relative col-span-3 tab-list-orders">
+        <div id="customer_orders">
+          <img class="img-header-top" src="{{'account-cart.svg' | asset_url }}" alt="account info" width="44px" height="44px">
+          <h4 class="title-viewOrder">{{ 'customer.orders.title' | t }}</h4>
+          <div class="table-orders ">
+            {% if customer.orders.size != 0 %}
+            <table width="100%">
+              <thead>
+                <tr>
+                  <th>{{ 'customer.orders.order_number' | t }}</th>
+                  <th>Line item</th>
+                  <th>{{ 'customer.orders.date' | t }}</th>
+                  <th>{{ 'customer.orders.payment_status' | t }}</th>
+                  <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                  <th>{{ 'customer.orders.total' | t }}</th>
+                  <th>Action</th>
+                  <th>Re-Order</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in customer.orders %}
+                <tr class="{% cycle 'odd', 'even' %} {% if order.cancelled %}cancelled_order{% endif %}">
+                  <td>{{ order.name | link_to: order.customer_url }} 
+                  </td>
+                  <td>
+                    {% for line_item in order.line_items %}
+                      <div class="line-item-order">
+                        {{ line_item.image | img_url: '70x70' | img_tag }}
+                        <p class="line-item-title"> {{ line_item.title | link_to: line_item.product.url }}</p>
+                        <span class="quanlity">x {{ line_item.quantity }}</span>
+                      </div>
+                    {% endfor %}
+                  </td>
+                  <td>{{ order.created_at | date: "%B %d, %Y" }}</td>
+                  <td>{{ order.financial_status_label }}</td>
+                  <td>{{ order.fulfillment_status_label }}</td>
+                  <td>
+                    <span class="money">{{ order.total_price | money }}</span>
+                  </td>
+                  <td>{{ 'customer.account.action_orders' | t | link_to: order.customer_url}}</td>
+                   <td>
+                    {% for line_item in order.line_items %}
+                    <div class="re-order">
+                      <div class="data-order" 
+                        data-variant-ids="{{ line_item.variant_id }}"
+                        data-quantities={{ line_item.quantity }} 
+                        data-product-id={{ line_item.product_id }}
+                        data-price={{ line_item.original_price }}>
+                        <div class="text-custom hidden">
+                          {{ line_item.properties | json }}
+                        </div>
+                      </div>
+                      {% endfor %}
+                      <button type="button"
+                        class="add_to_cart">
+                        Buy this again
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <p>{{ 'customer.orders.none' | t }}</p>
+            {% endif %}
+          </div>
+          {% include 'pagination' with true %}
+        </div>
+      </main>
+      <a class="back-to" href="/account">
+        <svg class="back-account" title ="Return to account" xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+          <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+          <path d="M1825 4250 c-58 -29 -1579 -1552 -1600 -1602 -19 -48 -19 -128 0 -176 11 -26 247 -268 783 -806 807 -808 815 -816 902 -816 67 0 113 20 161 70 71 72 84 161 38 250 -10 19 -272 289 -583 600 l-566 565 1897 5 1898 5 45 25 c24 14 58 45 75 68 27 40 30 51 30 122 0 71 -3 82 -30 122 -17 23 -51 54 -75 68 l-45 25 -1898 5 -1897 5 571 570 c385 385 577 583 590 610 49 104 3 231 -103 286 -50 26 -140 25 -193 -1z"/>
+          </g>
+        </svg>
+      </a>
+    </div>
+    {% endpaginate %}
+    <script type="text/javascript">
+    const keySaveProperties = "add-to-cart";
+    const decodeHTMLEntities = text => {
+      // Create a new element or use one from cache, to save some element creation overhead
+      const el = decodeHTMLEntities.__cache_data_element
+        = decodeHTMLEntities.__cache_data_element
+        || document.createElement('div');
+  
+      const enc = text
+        // Prevent any mixup of existing pattern in text
+        .replace(/⪪/g, '⪪#')
+        // Encode entities in special format. This will prevent native element encoder to replace any amp characters
+        .replace(/&([a-z1-8]{2,31}|#x[0-9a-f]+|#\d+);/gi, '⪪$1⪫');
+  
+      // Encode any HTML tags in the text to prevent script injection
+      el.textContent = enc;
+  
+      // Decode entities from special format, back to their original HTML entities format
+      el.innerHTML = el.innerHTML
+        .replace(/⪪([a-z1-8]{2,31}|#x[0-9a-f]+|#\d+)⪫/gi, '&$1;')
+        .replace(/#⪫/g, '⪫');
+  
+      // Get the decoded HTML entities
+      const dec = el.textContent;
+  
+      // Clear the element content, in order to preserve a bit of memory (it is just the text may be pretty big)
+      el.textContent = '';
+  
+      return dec;
+    }
+    let arr_properties;
+    const keySavePropertiesOrder = "add-to-cart";
+    function setLocalStorageItem(key, value, ttl) {
+      if (!key) {
+        return;
+      }
+      const now = new Date();
+      const item = {
+        value,
+        expiry: ttl ? now.getTime() + ttl * 3600000 : null,
+      };
+  
+      localStorage.setItem(key, JSON.stringify(item));
+    }
+    const dataPropertiesCacheOreder = getLocalStorageItem(keySavePropertiesOrder);
+    function getLocalStorageItem(key) {
+      if (!key) {
+        return;
+      }
+      const itemStr = localStorage.getItem(key);
+      if (!itemStr) {
+        return null;
+      }
+      const item = JSON.parse(itemStr);
+      const now = new Date();
+      if (now.getTime() > item.expiry) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return item.value;
+    }
+    const convertProperties = () => {
+      let data = [];
+      let arrProperties = arr_properties;
+      for (let i = 0; i < arrProperties.length; i++) {
+        for (let j = 0; j < arrProperties[i].length; j++) {
+          let dataItem = decodeHTMLEntities(arrProperties[i][j]);
+          data.push(dataItem);
+        }
+      }
+      let dataProperties = {};
+      for (var i = 0; i < data.length; i += 2) {
+        dataProperties[data[i]] = data[i + 1];
+      }
+      return dataProperties;
+    }
+    function addToCartOrder(product_id,variant_id) {
+      var urlPreview;
+      var urlCustomization;
+      for (var i = 0; i < arr_properties.length; i++) {
+        for (var j = 0; j < arr_properties[i].length; j++) {
+          if (arr_properties[i][j] == '_customily-thumb') {
+            urlPreview = decodeHTMLEntities(arr_properties[i][j + 1]);
+          }
+          if (arr_properties[i][j] == '_customily-customization-url') {
+            urlCustomization = decodeHTMLEntities(arr_properties[i][j + 1]);
+          }
+        }
+      }
+      if (!urlPreview || !urlCustomization) {
+        return;
+      }
+      var productId = product_id;
+      var variantID= variant_id;
+      const item = {
+        variantID,
+        productId,
+        urlPreview,
+        urlCustomization
+      }
+      if (dataPropertiesCacheOreder) {
+        const indexProductAdd = dataPropertiesCacheOreder.findIndex(
+          (item) => item.productId === productId
+        );
+        if (indexProductAdd !== -1) {
+          dataPropertiesCacheOreder.splice(indexProductAdd, 1, item);
+        } else {
+          dataPropertiesCacheOreder.push(item);
+        }
+        setLocalStorageItem(keySaveProperties, dataPropertiesCacheOreder, 2)
+      } else {
+        const initListAddToCart = [item];
+        setLocalStorageItem(keySaveProperties, initListAddToCart, 2)
+      }
+    }
+    $(".add_to_cart").click(function () {
+      let dataInput = $(this).parent(".re-order");
+      let formData = {
+        'items': []
+      };
+      var product_id = dataInput.children(".data-order").attr('data-product-id');
+      var variant_id = dataInput.children(".data-order").attr('data-variant-ids');
+      arr_properties = JSON.parse(dataInput.children().children(".text-custom")[0].innerHTML);
+      var price = dataInput.children(".data-order").attr('data-price');
+      var quantity = dataInput.children(".data-order").attr('data-quantities');
+      addToCartOrder(product_id,variant_id);
+      formData.items.push({
+        "id": parseInt(variant_id),
+        "quantity": parseInt(quantity),
+        "properties": convertProperties(),
+        "price": parseInt(price)
+      });
+      fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => {
+          window.location.href = "/cart";
+          return response.json();
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    })
+  </script>

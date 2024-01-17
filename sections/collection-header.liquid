@@ -1,0 +1,169 @@
+{{ 'component-collection-hero.css' |asset_url |stylesheet_tag }}
+<div class="page-width">
+    <div class="title-top">
+        {% if section.settings.title != blank %}
+        <h2 class="title center">{{ section.settings.title }}</h2>
+        {% endif %}
+        {% if section.settings.subtitle != blank %}
+        <p class="text-center subtext">{{ section.settings.subtitle }}</p>
+        {% endif %}
+    </div>
+    <div class="grid   {% if section.blocks.size > 6 %} max-collection {% endif %}
+    grid product-grid grid--2-col-tablet-down
+    grid--{{ section.settings.columns_desktop }}-col-desktop  
+  ">
+        {% for block in section.blocks %}
+        {% assign feature_collection = block.settings.feature_collection %}
+        {% assign collection = collections[feature_collection] %}
+        {% assign urlCollection = collection.url %}
+
+        {% if block.settings.link_collection != blank %}
+        {% assign urlCollection = block.settings.link_collection %}
+        {% endif %}
+        {% if block.settings.image %}
+        {% assign collection_image = block.settings.image %}
+        {% assign collection_image_alt = block.settings.image.alt | escape %}
+        {% elsif collection.image != blank %}
+        {% assign collection_image = collection.image %}
+        {% assign collection_image_alt = collection.title | escape %}
+        {% else collection.empty? == false %}
+        {% assign collection_image = collection.products.first.featured_image %}
+        {% assign collection_image_alt = collection.products.first.featured_image.alt | escape %}
+        {% endif %}
+        <div class="item-collection text-center grid__item">
+            {% if collection_image != nil %}
+            <div class="image__container">
+                <a href="{{ urlCollection }}">
+                    <img srcset="
+                {%- if collection_image.src.width >= 165 -%}{{ collection_image.src | image_url: width: 165 }} 165w,{%- endif -%}
+                {%- if collection_image.src.width >= 360 -%}{{ collection_image.src | image_url: width: 360 }} 360w,{%- endif -%}
+                {%- if collection_image.src.width >= 533 -%}{{ collection_image.src | image_url: width: 533 }} 533w,{%- endif -%}
+                {%- if collection_image.src.width >= 720 -%}{{ collection_image.src | image_url: width: 720 }} 720w,{%- endif -%}
+                {%- if collection_image.src.width >= 940 -%}{{ collection_image.src | image_url: width: 940 }} 940w,{%- endif -%}
+                {%- if collection_image.src.width >= 1066 -%}{{ collection_image.src | image_url: width: 1066 }} 1066w,{%- endif -%}
+                {{ collection_image.src | image_url }} {{ collection_image.src.width }}w
+              " src="{{ collection_image.src | image_url: width: 533 }}"
+                        sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                        alt="{{ collection_image.src.alt | escape }}" class="motion-reduce" {% unless lazy_load==false
+                        %} loading="lazy" {% endunless %} width="{{ collection_image.src.width }}"
+                        height="{{ collection_image.src.height }}">
+                </a>
+            </div>
+            {% endif %}
+
+            <div class="item-collection-content">
+                <a href="{{ urlCollection }}" class="collection-name">
+                    {% if block.settings.name_collection != blank %}
+                    {{ block.settings.name_collection }}
+                    {% else %}
+                    {{ collection.title }}
+                    {% endif %}
+                </a>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+    {% if section.blocks.size > 6 %}
+    {% assign size_item_collection = section.blocks.size | minus: 6 %}
+    <div class="categories--trigger--more text-center" data-count="{{ size_item_collection }}">
+        <button class="btn-trigger-collection">Show more <span class="count-collection">({{ size_item_collection
+                }})</span></button>
+    </div>
+    {% endif %}
+
+</div>
+{% if section.settings.align_height == true %}
+<style>
+    .item-collection .thumbnail img {
+        max-height: {
+                {
+                section.settings.collection_height
+            }
+        }
+
+        px;
+    }
+</style>
+{% endif %}
+{% schema %}
+{
+"name": "Collection header",
+"class": "collection-hedaer-top",
+"settings": [
+{
+"type": "text",
+"id": "title",
+"label": "title",
+"default": "Shop by Category"
+},
+{
+"type": "text",
+"id": "subtitle",
+"label": "Subheading",
+"default": "Subheading"
+},
+{
+"type": "range",
+"id": "columns_desktop",
+"min": 1,
+"max": 6,
+"step": 1,
+"default": 4,
+"label": "Column"
+},
+{
+"type": "checkbox",
+"id": "align_height",
+"label": "Align height of collection images"
+},
+{
+"type": "range",
+"id": "collection_height",
+"label": "Collection image height",
+"min": 150,
+"max": 400,
+"step": 10,
+"default": 200,
+"unit": "px"
+}
+],
+"blocks": [
+{
+"type": "text_block",
+"name": "Column",
+"settings":[
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image Collection"
+},
+{
+"type": "text",
+"id": "name_collection",
+"label": "Name collection"
+},
+{
+"type": "url",
+"id": "link_collection",
+"label": "Url collection"
+},
+{
+"type": "collection",
+"id": "feature_collection",
+"label": "Collection"
+}
+]
+}
+],
+"presets": [{
+"name": "Collection header"
+}]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

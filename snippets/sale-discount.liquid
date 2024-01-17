@@ -1,0 +1,26 @@
+{% for collection in product.collections %}
+    {% if collection.title contains 'Discount 10 - 30' %}
+      {% assign isShowDiscount = true %}
+    {% endif %}
+  {% endfor %}
+  {% if isShowDiscount %}
+    <div class="sale-announcement">
+      <p class="sale-announcement-title">Buy More, Sace More</p>
+      <ul class="choose-sale">
+        <li>
+          <img src="{{ 'gift-box-sale.png' | asset_img_url }}" alt="gift box" loading="lazy" width="16" height="16">
+          BUY 2 <span>GET 10% OFF</span>
+        </li>
+        <li>
+          <img src="{{ 'gift-box-sale.png' | asset_img_url }}" alt="gift box" loading="lazy" width="16" height="16">
+          BUY 3 <span>GET 15% OFF</span>
+        </li>
+        <li>
+          <img src="{{ 'gift-box-sale.png' | asset_img_url }}" alt="gift box" loading="lazy" width="16" height="16">
+          BUY 4+ <span>GET 20% OFF</span>
+        </li>
+      </ul>
+      <small>Auto apply discounts on Cart Page</small>
+    </div>
+  {% endif %}
+  
