@@ -162,7 +162,7 @@
       "settings": {
         "product_breadcrumb": true,
         "enable_sticky_info": true,
-        "display_collections": true,
+        "display_collections": false,
         "display_tags": false,
         "display_type": false,
         "media_size": "medium",
@@ -261,7 +261,6 @@
     },
     "related-products": {
       "type": "related-products",
-      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
