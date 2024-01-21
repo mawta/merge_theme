@@ -533,3 +533,7 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+
+.hidden-xs {
+  display: none !important
+}
