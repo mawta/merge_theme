@@ -6,12 +6,9 @@
       "type": "footer",
       "blocks": {
         "4b818873-da3d-4a05-8193-b322dfee3018": {
-          "type": "logo",
+          "type": "brand_information",
           "settings": {
-            "image": "shopify:\/\/shop_images\/LogoDekor365chuan.png",
-            "content": "<p><strong>US Business Office:<br\/><\/strong>14801 Able Ln Ste 102, Huntington Beach, CA 92647, United States<\/p><p><strong>GET IN TOUCH!<\/strong><br\/>Email: <a href=\"mailto:support@dekor365.co \" title=\"mailto:support@dekor365.co \">support@dekor365.co<\/a> <br\/>Support time: Mon–Sat: 9AM-5PM<\/p>",
-            "text_align": "left",
-            "social_icons_footer": false
+            "show_social": true
           }
         },
         "brand_information_miTrG3": {
