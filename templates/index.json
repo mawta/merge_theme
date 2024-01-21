@@ -200,83 +200,34 @@
         "sort_by": "best-selling"
       }
     },
-    "34e34ed2-8380-401b-9925-02f63bbeb39e": {
-      "type": "banner-collection",
-      "blocks": {
-        "8e2f3ea8-0530-4d38-b857-3b5ebd53b7aa": {
-          "type": "text_block",
-          "settings": {
-            "title_col": "For Family",
-            "url_collection": "https:\/\/macorner.co\/collections\/ornament\/family"
-          }
-        },
-        "e62df978-1c3f-4920-be02-0351f96cbd57": {
-          "type": "text_block",
-          "settings": {
-            "title_col": "For Friend",
-            "url_collection": "https:\/\/macorner.co\/collections\/ornament\/friend"
-          }
-        },
-        "0497ed8d-d955-4423-86dc-c66c7d2ee6f7": {
-          "type": "text_block",
-          "settings": {
-            "title_col": "For Coworker",
-            "url_collection": "https:\/\/macorner.co\/collections\/ornament\/colleague"
-          }
-        },
-        "eaae2ab2-a0e5-48a5-912f-bafc0af7ac3d": {
-          "type": "text_block",
-          "settings": {
-            "title_col": "For Sibling",
-            "url_collection": "https:\/\/macorner.co\/collections\/ornament\/sibling"
-          }
-        }
-      },
-      "block_order": [
-        "8e2f3ea8-0530-4d38-b857-3b5ebd53b7aa",
-        "e62df978-1c3f-4920-be02-0351f96cbd57",
-        "0497ed8d-d955-4423-86dc-c66c7d2ee6f7",
-        "eaae2ab2-a0e5-48a5-912f-bafc0af7ac3d"
-      ],
-      "disabled": true,
-      "settings": {
-        "image_collection": "shopify:\/\/shop_images\/BannercollectionTB.jpg",
-        "image_collection_mb": "shopify:\/\/shop_images\/BannercollectionTB.jpg",
-        "title": "Tumbler",
-        "url_collection": "shopify:\/\/collections\/tumbler",
-        "btn_link": "Shop All",
-        "padding_top": 32,
-        "padding_bottom": 32
-      }
-    },
     "2e1d651a-b912-471f-8618-91926231504c": {
       "type": "collection-tabs",
       "blocks": {
         "8eeb2678-2446-4be7-9332-bb63d9dab72e": {
           "type": "text_block",
           "settings": {
-            "collection": "valentines-day",
+            "collection": "apparel",
             "name_collection": "Best seller"
           }
         },
         "c6ca5137-8cbe-4f9f-b75c-21d4c1015c77": {
           "type": "text_block",
           "settings": {
-            "collection": "gifts-for-husband",
+            "collection": "canvas-poster",
             "name_collection": "Gifts For Him"
           }
         },
         "44584a05-1af1-487d-9e9a-9b60cb7e3591": {
           "type": "text_block",
           "settings": {
-            "collection": "gifts-for-wife",
+            "collection": "flight-attendant-tumbler",
             "name_collection": "Gifts For Her"
           }
         },
         "325b6d5e-b95e-4caf-a609-fc725f9db17d": {
           "type": "text_block",
           "settings": {
-            "collection": "boxer-briefs",
+            "collection": "tumbler",
             "name_collection": "Boxer Briefs"
           }
         }
@@ -288,7 +239,8 @@
         "325b6d5e-b95e-4caf-a609-fc725f9db17d"
       ],
       "settings": {
-        "title": "Valentine's",
+        "title": "Collection 1",
+        "image_preview": "shopify:\/\/shop_images\/Tieu-BannerShopBunny1.png",
         "url_collection": "shopify:\/\/collections\/valentines-day",
         "sort_by": "manual",
         "padding_top": 0,
@@ -1475,7 +1427,6 @@
     "8b6091a7-bd0e-4e4c-ae46-4f67da1f210a",
     "96c06772-d51b-400b-a6cb-2f37dbdb7acf",
     "product_trending_7ahr9k",
-    "34e34ed2-8380-401b-9925-02f63bbeb39e",
     "2e1d651a-b912-471f-8618-91926231504c",
     "fb63a748-3233-4f43-b8f0-7ea965b8ed0d",
     "db3becae-371f-466e-afe1-3ce2ea073c0e",
