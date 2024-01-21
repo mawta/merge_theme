@@ -200,112 +200,6 @@
         "sort_by": "best-selling"
       }
     },
-    "6ea7857f-2b45-44de-8b11-fd6885b9a8c0": {
-      "type": "product-event",
-      "blocks": {
-        "b94a2c90-a04d-4568-bcdb-38f0db70de86": {
-          "type": "text_block",
-          "settings": {
-            "product": "clvg-clvbr-hs",
-            "text_align": "left",
-            "title_col": "",
-            "description": ""
-          }
-        },
-        "f595de14-2de8-4ab6-ba05-e3435c012ba9": {
-          "type": "text_block",
-          "settings": {
-            "product": "lvgdn-ver2",
-            "text_align": "left",
-            "title_col": "",
-            "description": ""
-          }
-        },
-        "33bc5e8c-8eba-4f57-a77b-b6e8c2b12454": {
-          "type": "text_block",
-          "settings": {
-            "product": "hsh-ctm1",
-            "text_align": "left",
-            "title_col": "",
-            "description": ""
-          }
-        },
-        "1079489d-9efc-458d-b9ee-b6b63b824241": {
-          "type": "text_block",
-          "settings": {
-            "product": "hsh-ctm3",
-            "text_align": "left",
-            "title_col": "",
-            "description": ""
-          }
-        },
-        "6727bc34-0374-426f-ae64-77c37138640b": {
-          "type": "text_block",
-          "settings": {
-            "product": "flamingo-pink-christmas-lqt-lbs",
-            "text_align": "left",
-            "title_col": "",
-            "description": ""
-          }
-        },
-        "b2909911-88a8-4927-bb5f-031341181f90": {
-          "type": "text_block",
-          "settings": {
-            "product": "sweatshirt-die-hard-xmas-1988-lqt-lbs",
-            "text_align": "left",
-            "title_col": "",
-            "description": ""
-          }
-        },
-        "04837409-cd87-47df-9fee-0ef9b9cd29ff": {
-          "type": "text_block",
-          "settings": {
-            "product": "ch-ha-pt-0807-dp-tt-tv",
-            "text_align": "left",
-            "title_col": "",
-            "description": ""
-          }
-        },
-        "1ee6d5df-af3b-4d3b-8b8e-dcdf90c9194e": {
-          "type": "text_block",
-          "settings": {
-            "product": "ch-ha-pt-0807-dp-tt-tv",
-            "text_align": "left",
-            "title_col": "",
-            "description": ""
-          }
-        },
-        "text_block_XWHw7h": {
-          "type": "text_block",
-          "settings": {
-            "product": "tpt-girlklm-tra-pt-3107-05-v",
-            "text_align": "left",
-            "title_col": "Add a title or tagline",
-            "description": "<p>Answer goes here...<\/p>"
-          }
-        }
-      },
-      "block_order": [
-        "b94a2c90-a04d-4568-bcdb-38f0db70de86",
-        "f595de14-2de8-4ab6-ba05-e3435c012ba9",
-        "33bc5e8c-8eba-4f57-a77b-b6e8c2b12454",
-        "1079489d-9efc-458d-b9ee-b6b63b824241",
-        "6727bc34-0374-426f-ae64-77c37138640b",
-        "b2909911-88a8-4927-bb5f-031341181f90",
-        "04837409-cd87-47df-9fee-0ef9b9cd29ff",
-        "1ee6d5df-af3b-4d3b-8b8e-dcdf90c9194e",
-        "text_block_XWHw7h"
-      ],
-      "custom_css": [
-
-      ],
-      "settings": {
-        "title": "Trending Now",
-        "frontpage_collections_per_row": 4,
-        "frontpage_product_col": 4,
-        "frontpage_link": ""
-      }
-    },
     "34e34ed2-8380-401b-9925-02f63bbeb39e": {
       "type": "banner-collection",
       "blocks": {
@@ -346,8 +240,10 @@
       ],
       "disabled": true,
       "settings": {
-        "title": "Ornament",
-        "url_collection": "shopify:\/\/collections\/ornament",
+        "image_collection": "shopify:\/\/shop_images\/BannercollectionTB.jpg",
+        "image_collection_mb": "shopify:\/\/shop_images\/BannercollectionTB.jpg",
+        "title": "Tumbler",
+        "url_collection": "shopify:\/\/collections\/tumbler",
         "btn_link": "Shop All",
         "padding_top": 32,
         "padding_bottom": 32
@@ -1579,7 +1475,6 @@
     "8b6091a7-bd0e-4e4c-ae46-4f67da1f210a",
     "96c06772-d51b-400b-a6cb-2f37dbdb7acf",
     "product_trending_7ahr9k",
-    "6ea7857f-2b45-44de-8b11-fd6885b9a8c0",
     "34e34ed2-8380-401b-9925-02f63bbeb39e",
     "2e1d651a-b912-471f-8618-91926231504c",
     "fb63a748-3233-4f43-b8f0-7ea965b8ed0d",
