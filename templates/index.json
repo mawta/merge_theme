@@ -247,6 +247,100 @@
         "padding_bottom": 12
       }
     },
+    "collection_tabs_ypPJRd": {
+      "type": "collection-tabs",
+      "blocks": {
+        "text_block_RA3iP9": {
+          "type": "text_block",
+          "settings": {
+            "collection": "apparel",
+            "name_collection": "Best seller"
+          }
+        },
+        "text_block_HA98TK": {
+          "type": "text_block",
+          "settings": {
+            "collection": "canvas-poster",
+            "name_collection": "Gifts For Him"
+          }
+        },
+        "text_block_ABmA9M": {
+          "type": "text_block",
+          "settings": {
+            "collection": "flight-attendant-tumbler",
+            "name_collection": "Gifts For Her"
+          }
+        },
+        "text_block_MtMLMf": {
+          "type": "text_block",
+          "settings": {
+            "collection": "tumbler",
+            "name_collection": "Boxer Briefs"
+          }
+        }
+      },
+      "block_order": [
+        "text_block_RA3iP9",
+        "text_block_HA98TK",
+        "text_block_ABmA9M",
+        "text_block_MtMLMf"
+      ],
+      "settings": {
+        "title": "Collection 1",
+        "image_preview": "shopify:\/\/shop_images\/Tieu-BannerShopBunny1.png",
+        "url_collection": "shopify:\/\/collections\/valentines-day",
+        "sort_by": "manual",
+        "padding_top": 0,
+        "padding_bottom": 12
+      }
+    },
+    "collection_tabs_FbnmJh": {
+      "type": "collection-tabs",
+      "blocks": {
+        "text_block_BNfqPb": {
+          "type": "text_block",
+          "settings": {
+            "collection": "apparel",
+            "name_collection": "Best seller"
+          }
+        },
+        "text_block_Ecy3qG": {
+          "type": "text_block",
+          "settings": {
+            "collection": "canvas-poster",
+            "name_collection": "Gifts For Him"
+          }
+        },
+        "text_block_NqYhwM": {
+          "type": "text_block",
+          "settings": {
+            "collection": "flight-attendant-tumbler",
+            "name_collection": "Gifts For Her"
+          }
+        },
+        "text_block_Vx44dJ": {
+          "type": "text_block",
+          "settings": {
+            "collection": "tumbler",
+            "name_collection": "Boxer Briefs"
+          }
+        }
+      },
+      "block_order": [
+        "text_block_BNfqPb",
+        "text_block_Ecy3qG",
+        "text_block_NqYhwM",
+        "text_block_Vx44dJ"
+      ],
+      "settings": {
+        "title": "Collection 1",
+        "image_preview": "shopify:\/\/shop_images\/Tieu-BannerShopBunny1.png",
+        "url_collection": "shopify:\/\/collections\/valentines-day",
+        "sort_by": "manual",
+        "padding_top": 0,
+        "padding_bottom": 12
+      }
+    },
     "fb63a748-3233-4f43-b8f0-7ea965b8ed0d": {
       "type": "product-event",
       "blocks": {
@@ -1428,6 +1522,8 @@
     "96c06772-d51b-400b-a6cb-2f37dbdb7acf",
     "product_trending_7ahr9k",
     "2e1d651a-b912-471f-8618-91926231504c",
+    "collection_tabs_ypPJRd",
+    "collection_tabs_FbnmJh",
     "fb63a748-3233-4f43-b8f0-7ea965b8ed0d",
     "db3becae-371f-466e-afe1-3ce2ea073c0e",
     "7bd1d929-b647-4a90-9cb9-e3eee5c149a3",
