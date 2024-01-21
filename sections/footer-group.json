@@ -18,21 +18,21 @@
           "type": "link_list",
           "settings": {
             "heading": "Shop",
-            "menu": ""
+            "menu": "main-menu"
           }
         },
         "footer-1": {
           "type": "link_list",
           "settings": {
             "heading": "Support",
-            "menu": ""
+            "menu": "help-center"
           }
         },
-        "9a80d75a-9d31-4c7f-9655-44869650ffca": {
+        "link_list_pj4cA6": {
           "type": "link_list",
           "settings": {
             "heading": "About us",
-            "menu": ""
+            "menu": "footer"
           }
         }
       },
@@ -40,7 +40,7 @@
         "4b818873-da3d-4a05-8193-b322dfee3018",
         "footer-0",
         "footer-1",
-        "9a80d75a-9d31-4c7f-9655-44869650ffca"
+        "link_list_pj4cA6"
       ],
       "settings": {
         "color_scheme": "background-1",
@@ -48,7 +48,7 @@
         "newsletter_enable": true,
         "newsletter_heading": "Subscribe to our emails",
         "enable_follow_on_shop": true,
-        "show_social": true,
+        "show_social": false,
         "enable_country_selector": false,
         "enable_language_selector": false,
         "payment_enable": true,
