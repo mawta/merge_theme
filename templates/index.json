@@ -341,6 +341,150 @@
         "padding_bottom": 12
       }
     },
+    "product_handle_6KNUn9": {
+      "type": "product-handle",
+      "blocks": {
+        "text_block_K9dbbr": {
+          "type": "text_block",
+          "settings": {
+            "image_preview": "shopify:\/\/shop_images\/BannercollectionTB.jpg",
+            "text_align": "left",
+            "title_col": "",
+            "price_product": "",
+            "url_product": "shopify:\/\/collections\/tumbler"
+          }
+        },
+        "text_block_zLg4cg": {
+          "type": "text_block",
+          "settings": {
+            "image_preview": "shopify:\/\/shop_images\/Bannercollection.jpg",
+            "text_align": "left",
+            "title_col": "",
+            "price_product": "",
+            "url_product": "shopify:\/\/collections\/canvas-poster"
+          }
+        },
+        "text_block_3ccaWf": {
+          "type": "text_block",
+          "settings": {
+            "image_preview": "shopify:\/\/shop_images\/BannercollectionShirt.jpg",
+            "text_align": "left",
+            "title_col": "",
+            "price_product": "",
+            "url_product": "shopify:\/\/collections\/apparel"
+          }
+        },
+        "text_block_nU4Ffa": {
+          "type": "text_block",
+          "settings": {
+            "image_preview": "shopify:\/\/shop_images\/3WoodCircleSign.jpg",
+            "text_align": "left",
+            "title_col": "",
+            "price_product": "",
+            "url_product": "shopify:\/\/collections\/wood-sign"
+          }
+        },
+        "text_block_MhDfBP": {
+          "type": "text_block",
+          "settings": {
+            "image_preview": "shopify:\/\/shop_images\/4WoodRectangleSign.jpg",
+            "text_align": "left",
+            "title_col": "",
+            "price_product": "",
+            "url_product": "shopify:\/\/collections\/pallet-sign"
+          }
+        },
+        "text_block_adery4": {
+          "type": "text_block",
+          "settings": {
+            "image_preview": "shopify:\/\/shop_images\/1MetalSign.jpg",
+            "text_align": "left",
+            "title_col": "",
+            "price_product": "",
+            "url_product": "shopify:\/\/collections\/metal-sign"
+          }
+        },
+        "text_block_Mhy3eq": {
+          "type": "text_block",
+          "settings": {
+            "image_preview": "shopify:\/\/shop_images\/bowling-lane-condition-custom-canvas-nna1-ads.jpg",
+            "text_align": "left",
+            "title_col": "",
+            "price_product": "",
+            "url_product": "shopify:\/\/collections\/hobbies"
+          }
+        },
+        "text_block_4i8iJ6": {
+          "type": "text_block",
+          "settings": {
+            "image_preview": "shopify:\/\/shop_images\/ANH-DDL-SHOP-PC-1308-3-aifrance-light-MU.jpg",
+            "text_align": "left",
+            "title_col": "",
+            "price_product": "",
+            "url_product": "shopify:\/\/collections\/phone-case"
+          }
+        }
+      },
+      "block_order": [
+        "text_block_K9dbbr",
+        "text_block_zLg4cg",
+        "text_block_3ccaWf",
+        "text_block_nU4Ffa",
+        "text_block_MhDfBP",
+        "text_block_adery4",
+        "text_block_Mhy3eq",
+        "text_block_4i8iJ6"
+      ],
+      "custom_css": [
+        ".btn-slide-product-all {display: none;}"
+      ],
+      "settings": {
+        "title": "SHOP BY RECIPIENT",
+        "frontpage_collections_per_row": 4,
+        "frontpage_product_col": 4,
+        "frontpage_link": "shopify:\/\/products\/clvg-clvbr-hs"
+      }
+    },
+    "collection_list_4cFktW": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_PRJYmQ": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "featured_collection_BFxedj": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "featured_collection_6jpPEi": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_PRJYmQ",
+        "featured_collection_BFxedj",
+        "featured_collection_6jpPEi"
+      ],
+      "settings": {
+        "title": "Collections",
+        "heading_size": "h1",
+        "image_ratio": "square",
+        "columns_desktop": 4,
+        "color_scheme": "scheme-8a179a35-f2d7-4bc3-89e4-3104034c7e22",
+        "show_view_all": true,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "fb63a748-3233-4f43-b8f0-7ea965b8ed0d": {
       "type": "product-event",
       "blocks": {
@@ -574,106 +718,6 @@
         "frontpage_collections_per_row": 4,
         "frontpage_product_col": 4,
         "frontpage_link": ""
-      }
-    },
-    "26dfbc6b-4d96-4719-b84d-4e993383f4a5": {
-      "type": "collection-tabs",
-      "blocks": {
-        "04109ee2-9fa4-4e36-86ce-9d11fa0b9957": {
-          "type": "text_block",
-          "settings": {
-            "collection": "friends",
-            "name_collection": "Best seller"
-          }
-        },
-        "e4813464-dff5-4eab-8d07-db97297c2d00": {
-          "type": "text_block",
-          "settings": {
-            "collection": "glass-can-friends",
-            "name_collection": "Glass Can"
-          }
-        },
-        "0b27d0bd-e4fb-4fc5-b5d3-8c4fa6cd99ab": {
-          "type": "text_block",
-          "settings": {
-            "collection": "tumbler-friend",
-            "name_collection": "Tumbler Cup"
-          }
-        },
-        "a78afad7-a24f-482f-89b8-7de671e370f7": {
-          "type": "text_block",
-          "settings": {
-            "collection": "blanket-friend",
-            "name_collection": "Blanket"
-          }
-        },
-        "ed01c55a-14b8-4691-bc2e-c2843907f5d6": {
-          "type": "text_block",
-          "settings": {
-            "collection": "acrylic-friend",
-            "name_collection": "Acrylic Plaque"
-          }
-        }
-      },
-      "block_order": [
-        "04109ee2-9fa4-4e36-86ce-9d11fa0b9957",
-        "e4813464-dff5-4eab-8d07-db97297c2d00",
-        "0b27d0bd-e4fb-4fc5-b5d3-8c4fa6cd99ab",
-        "a78afad7-a24f-482f-89b8-7de671e370f7",
-        "ed01c55a-14b8-4691-bc2e-c2843907f5d6"
-      ],
-      "settings": {
-        "title": "Friends",
-        "url_collection": "shopify:\/\/collections\/friends",
-        "sort_by": "manual",
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
-    },
-    "c072fb2e-b684-47cb-b769-f2152797779b": {
-      "type": "collection-tabs",
-      "blocks": {
-        "7b4110ac-0e8e-4fb0-827b-c4d25474ac5c": {
-          "type": "text_block",
-          "settings": {
-            "collection": "african-americans",
-            "name_collection": "BEST SELLER"
-          }
-        },
-        "a140219c-1724-4d26-b8a3-b9a5e38c1816": {
-          "type": "text_block",
-          "settings": {
-            "collection": "black-doormat",
-            "name_collection": "Doormat"
-          }
-        },
-        "9d8d0e35-7f3a-464b-b731-aa4aa8183d7d": {
-          "type": "text_block",
-          "settings": {
-            "collection": "black-shirt",
-            "name_collection": "Shirt"
-          }
-        },
-        "85536196-ec4f-4f5e-914d-f4bb96a399f9": {
-          "type": "text_block",
-          "settings": {
-            "collection": "black-blanket",
-            "name_collection": "Blanket"
-          }
-        }
-      },
-      "block_order": [
-        "7b4110ac-0e8e-4fb0-827b-c4d25474ac5c",
-        "a140219c-1724-4d26-b8a3-b9a5e38c1816",
-        "9d8d0e35-7f3a-464b-b731-aa4aa8183d7d",
-        "85536196-ec4f-4f5e-914d-f4bb96a399f9"
-      ],
-      "settings": {
-        "title": "African American",
-        "url_collection": "shopify:\/\/collections\/african-americans",
-        "sort_by": "manual",
-        "padding_top": 0,
-        "padding_bottom": 0
       }
     },
     "30d22f11-eed8-4496-b57a-60d9b7e634fa": {
@@ -1524,11 +1568,11 @@
     "2e1d651a-b912-471f-8618-91926231504c",
     "collection_tabs_ypPJRd",
     "collection_tabs_FbnmJh",
+    "product_handle_6KNUn9",
+    "collection_list_4cFktW",
     "fb63a748-3233-4f43-b8f0-7ea965b8ed0d",
     "db3becae-371f-466e-afe1-3ce2ea073c0e",
     "7bd1d929-b647-4a90-9cb9-e3eee5c149a3",
-    "26dfbc6b-4d96-4719-b84d-4e993383f4a5",
-    "c072fb2e-b684-47cb-b769-f2152797779b",
     "30d22f11-eed8-4496-b57a-60d9b7e634fa",
     "2ab67941-25f5-4a96-b200-ab204155d717",
     "multicolumn",
