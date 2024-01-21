@@ -329,6 +329,7 @@
         {%endif%}
       </a>
     {%- endif -%}
+    {% comment %}
     <div class="wishlist">
         <div class="box-show">
             <a href="/pages/wishlist" title="Wishlist">
@@ -337,6 +338,8 @@
             </a>
         </div>
     </div>
+    {% endcomment %}
+    
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when '@app' -%}
