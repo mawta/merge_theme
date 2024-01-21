@@ -534,3 +534,6 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.footer-social-icons.hidden-xs {
+  display: none !important
+}
