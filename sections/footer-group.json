@@ -14,40 +14,33 @@
             "social_icons_footer": false
           }
         },
-        "brand_information_miTrG3": {
-          "type": "brand_information",
-          "settings": {
-            "show_social": true
-          }
-        },
         "footer-0": {
           "type": "link_list",
           "settings": {
             "heading": "Shop",
-            "menu": "main-menu"
+            "menu": ""
           }
         },
         "footer-1": {
           "type": "link_list",
           "settings": {
             "heading": "Support",
-            "menu": "help-center"
+            "menu": ""
           }
         },
-        "link_list_pj4cA6": {
+        "9a80d75a-9d31-4c7f-9655-44869650ffca": {
           "type": "link_list",
           "settings": {
             "heading": "About us",
-            "menu": "footer"
+            "menu": ""
           }
         }
       },
       "block_order": [
         "4b818873-da3d-4a05-8193-b322dfee3018",
-        "brand_information_miTrG3",
         "footer-0",
         "footer-1",
-        "link_list_pj4cA6"
+        "9a80d75a-9d31-4c7f-9655-44869650ffca"
       ],
       "settings": {
         "color_scheme": "background-1",
