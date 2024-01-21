@@ -97,22 +97,22 @@
             "page": "faq"
           }
         },
-        "collapsible-row-1": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Shipping & Returns",
-            "icon": "truck",
-            "content": "",
-            "page": ""
-          }
-        },
         "collapsible-row-2": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Personalization",
+            "heading": "Return & Refund",
             "icon": "pepper",
-            "content": "<ul><li>Please complete fields required to customize options (Name\/Characteristics) and <strong>recheck carefully<\/strong> all the customized options.<\/li><li>Text: Standard English excluding special characters, emojis to ensure the best looking.<\/li><li>Characteristics: Pick one-by-one options that match your description.<\/li><li>The last step, click \"Preview\" to get a glimpse of the wonderful creation you’ve made ❤️.<\/li><\/ul><p><strong>Please be aware that the Preview may be slightly different from the physical item in terms of color due to our lighting at our product photoshoot or your device’s display.<\/strong><\/p>",
-            "page": ""
+            "content": "",
+            "page": "refund-policy"
+          }
+        },
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping Information",
+            "icon": "truck",
+            "content": "",
+            "page": "shipping-policy"
           }
         },
         "collapsible-row-3": {
@@ -153,8 +153,8 @@
         "collapsible-row-0",
         "description",
         "collapsible_tab_3cXQWn",
-        "collapsible-row-1",
         "collapsible-row-2",
+        "collapsible-row-1",
         "collapsible-row-3",
         "share",
         "custom_liquid_Ma7Tez"
