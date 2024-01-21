@@ -61,6 +61,12 @@
             "show_gift_card_recipient": true
           }
         },
+        "custom_liquid_4qijBi": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% render \"trust-img\" %}"
+          }
+        },
         "d9d1dfee-4168-4dfa-a8cd-49e35fae6ee6": {
           "type": "collapsible_des",
           "settings": {
@@ -125,12 +131,6 @@
           "settings": {
             "share_label": "Share"
           }
-        },
-        "custom_liquid_4qijBi": {
-          "type": "custom_liquid",
-          "settings": {
-            "custom_liquid": "{% render \"trust-img\" %}"
-          }
         }
       },
       "block_order": [
@@ -142,6 +142,7 @@
         "quantity_selector",
         "d7d3caeb-daa4-4ced-9d9c-d3044e5400ea",
         "buy_buttons",
+        "custom_liquid_4qijBi",
         "d9d1dfee-4168-4dfa-a8cd-49e35fae6ee6",
         "collapsible-row-0",
         "description",
@@ -149,8 +150,7 @@
         "collapsible-row-1",
         "collapsible-row-2",
         "collapsible-row-3",
-        "share",
-        "custom_liquid_4qijBi"
+        "share"
       ],
       "settings": {
         "product_breadcrumb": true,
