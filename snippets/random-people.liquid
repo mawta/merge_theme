@@ -1,0 +1,51 @@
+<style>
+    .fake_counter_p, .showdeltime {
+      color: #a61a2e;
+      font-size: 11px;
+      background-color: #f2f2f6;
+      border-radius: 90px;
+      font-weight: 590;
+  }
+</style>
+
+{% assign min = 3 %}
+{% assign max = 20 %}
+{% assign diff = max | minus: min %}
+{% assign randomNumber = 'now' | date: '%N' | modulo: diff | plus: min %}
+<script>
+
+    function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min) ) + min;
+  }
+
+
+    function addRandom() {
+
+      var a = $(".rad-number").first();
+
+      if (!a) {
+  //         setTimeout(addRandom, 2000);
+      }
+      try {
+          $(".rad-number").first().text(getRndInteger(3,20))
+      }catch (e) {
+              console.log(e);
+          }
+
+      }
+     setInterval(addRandom, getRndInteger(5000,10000));
+</script>
+
+<div style="margin-top:20px">
+  <p class="fake_counter_p ">
+    <svg style="margin-bottom: -8px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/>
+    </svg>
+    &nbsp;&nbsp;<span class="fake_counter_b ">
+      <span id="dynamic_counter1"
+        ><span class="rad-number">{{ randomNumber }}</span></span
+      >
+    </span>
+    <span class="fake_counter fake-cntr"> people have this item in their carts right now.</span>
+  </p>
+</div>
