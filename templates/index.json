@@ -192,6 +192,14 @@
         "products_to_show": 10
       }
     },
+    "product_trending_7ahr9k": {
+      "type": "product-trending",
+      "settings": {
+        "title": "Trending Now",
+        "collection": "all-products",
+        "sort_by": "best-selling"
+      }
+    },
     "6ea7857f-2b45-44de-8b11-fd6885b9a8c0": {
       "type": "product-event",
       "blocks": {
@@ -288,11 +296,14 @@
         "1ee6d5df-af3b-4d3b-8b8e-dcdf90c9194e",
         "text_block_XWHw7h"
       ],
+      "custom_css": [
+
+      ],
       "settings": {
         "title": "Trending Now",
         "frontpage_collections_per_row": 4,
         "frontpage_product_col": 4,
-        "frontpage_link": "shopify:\/\/collections\/best-sellers"
+        "frontpage_link": ""
       }
     },
     "34e34ed2-8380-401b-9925-02f63bbeb39e": {
@@ -1567,6 +1578,7 @@
     "bec901c8-7007-4481-bdb1-1a8240f469b0",
     "8b6091a7-bd0e-4e4c-ae46-4f67da1f210a",
     "96c06772-d51b-400b-a6cb-2f37dbdb7acf",
+    "product_trending_7ahr9k",
     "6ea7857f-2b45-44de-8b11-fd6885b9a8c0",
     "34e34ed2-8380-401b-9925-02f63bbeb39e",
     "2e1d651a-b912-471f-8618-91926231504c",
