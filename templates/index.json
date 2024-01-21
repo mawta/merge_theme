@@ -451,43 +451,6 @@
         "padding_bottom": 32
       }
     },
-    "product_handle_6KNUn9": {
-      "type": "product-handle",
-      "blocks": {
-        "text_block_4i8iJ6": {
-          "type": "text_block",
-          "settings": {
-            "image_preview": "shopify:\/\/shop_images\/ANH-DDL-SHOP-PC-1308-3-aifrance-light-MU.jpg",
-            "text_align": "left",
-            "title_col": "",
-            "price_product": "",
-            "url_product": "shopify:\/\/collections\/phone-case"
-          }
-        },
-        "text_block_7tfAA8": {
-          "type": "text_block",
-          "settings": {
-            "text_align": "left",
-            "title_col": "",
-            "price_product": "",
-            "url_product": ""
-          }
-        }
-      },
-      "block_order": [
-        "text_block_4i8iJ6",
-        "text_block_7tfAA8"
-      ],
-      "custom_css": [
-        ".btn-slide-product-all {display: none;}"
-      ],
-      "settings": {
-        "title": "SHOP BY RECIPIENT",
-        "frontpage_collections_per_row": 4,
-        "frontpage_product_col": 4,
-        "frontpage_link": "shopify:\/\/products\/clvg-clvbr-hs"
-      }
-    },
     "collection_list_4cFktW": {
       "type": "collection-list",
       "blocks": {
@@ -1190,7 +1153,6 @@
     "collection_tabs_ypPJRd",
     "collection_tabs_FbnmJh",
     "multicolumn",
-    "product_handle_6KNUn9",
     "collection_list_4cFktW",
     "2ab67941-25f5-4a96-b200-ab204155d717",
     "49f82c05-f996-402f-a3d3-72ca14b7c0d2",
