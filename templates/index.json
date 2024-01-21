@@ -458,6 +458,7 @@
         "template--16103512440992__615e689d-7f23-46e9-99bf-2d1fe1eae062-column-1": {
           "type": "column",
           "settings": {
+            "image": "shopify:\/\/shop_images\/woman-with-white-crisp-shopping-carrier-bags.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -467,6 +468,7 @@
         "template--16103512440992__615e689d-7f23-46e9-99bf-2d1fe1eae062-column-2": {
           "type": "column",
           "settings": {
+            "image": "shopify:\/\/shop_images\/customer-in-face-mask-smiles-and-holds-white-shopping-bags.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -476,6 +478,7 @@
         "template--16103512440992__615e689d-7f23-46e9-99bf-2d1fe1eae062-column-3": {
           "type": "column",
           "settings": {
+            "image": "shopify:\/\/shop_images\/happy-customer-smiles-and-holds-white-shopping-bags.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -485,6 +488,7 @@
         "bfa930ba-9c50-40ae-9ce2-59f798b14a92": {
           "type": "column",
           "settings": {
+            "image": "shopify:\/\/shop_images\/customer-support-staff-ready-for-work.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -494,6 +498,7 @@
         "fba5205a-d6c6-4f7f-83ac-4cd5200f40a5": {
           "type": "column",
           "settings": {
+            "image": "shopify:\/\/shop_images\/customer-samples-a-tester-product.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -503,6 +508,7 @@
         "15651204-757c-4294-a8ef-759949f05282": {
           "type": "column",
           "settings": {
+            "image": "shopify:\/\/shop_images\/happy-customer-after-successful-retail-shop.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -512,6 +518,7 @@
         "b5e8164c-ba5a-43f0-8fe2-b4c9c71ee481": {
           "type": "column",
           "settings": {
+            "image": "shopify:\/\/shop_images\/handful-of-cash.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -521,6 +528,7 @@
         "5fb271e8-3a04-4390-b2ed-faae417917de": {
           "type": "column",
           "settings": {
+            "image": "shopify:\/\/shop_images\/contact-customer-service.jpg",
             "title": "",
             "text": "",
             "link_label": "",
