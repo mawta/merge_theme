@@ -54,6 +54,12 @@ slideshow-component .slideshow.banner {
   max-width: 100%;
 }
 
+@media screen and (max-width: 534px) {
+  .banner__text.rte p{
+    display: none;
+  }
+}
+
 @media screen and (max-width: 749px) {
   slideshow-component.page-width .slideshow__text {
     border-right: var(--text-boxes-border-width) solid rgba(var(--color-foreground), var(--text-boxes-border-opacity));
