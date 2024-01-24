@@ -42,9 +42,8 @@
       ],
       "custom_css": [
         "div#Slide-template--17567536218276__8b6091a7-bd0e-4e4c-ae46-4f67da1f210a-1 {position: relative;}",
-        ".slideshow__text-wrapper.banner__content {position: absolute; top: -10%; left: 10%; background: transparent; justify-content: flex-start;}",
-        ".slideshow__text.banner__box.content-container {background: transparent;}",
-        "a.button.button--primary {background: #f7921f; border: none; overflow: hidden;}"
+        "div#Slide-template--17567536218276__8b6091a7-bd0e-4e4c-ae46-4f67da1f210a-1 .slideshow__text-wrapper.banner__content {position: absolute; top: -10%; left: 10%; background: transparent; justify-content: flex-start;}",
+        "div#Slide-template--17567536218276__8b6091a7-bd0e-4e4c-ae46-4f67da1f210a-1 .slideshow__text.banner__box.content-container {background: transparent;}"
       ],
       "settings": {
         "layout": "grid",
