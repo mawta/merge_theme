@@ -727,31 +727,12 @@
 
   <script>
     const locationPathName = location.pathname;
-    const pageNotHaveCustomilyAndReviews = locationPathName.includes("/macorner-gift-card");
-    const christmasGiftCard = locationPathName.includes("/christmas-gift-card");
 
     function hidePersonalizedCustomily(){
       $("#shopify-section-product-template").addClass("active-customzize");
       $("#js-btn-customzize, #customily-options,  #customily-options,.preview-design,.btn-preview-desktop,.btn-preview").hide();
     }
-
-    if(pageNotHaveCustomilyAndReviews){
-      $("#shopify-section-product-template").addClass("active-customzize");
-      $("#js-btn-customzize").hide();
-      $(".list-tab li:nth-child(2), #judgeme_product_reviews, #customily-options,.preview-design, .shipping-custom, .tabbed-content>.tabs>ul>li:not(:first-child)").hide();
-      $(".jdgm-preview-badge").addClass("hide")
-    }
-
-    if(christmasGiftCard){
-      hidePersonalizedCustomily();
-      $(".deliver-to-country,.new-shipping,.box-cut-off,.wrapper-ship ~ .wt-grid.fulfillment").addClass("hidden");
-    }
-
-    {% unless  product.tags contains "Personalized" %}
-        {% if product.vendor == 'AMZ' or product.tags contains 'Non-Customized' %}
-          hidePersonalizedCustomily();
-      {%endif%}
-    {%endunless%}
+    hidePersonalizedCustomily()
   </script>
   {% comment %} <script>
       paypal1.Messages({
