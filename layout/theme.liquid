@@ -34,14 +34,9 @@
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
-
-    {% capture cfh %}
-    {{ content_for_header }}
-    {% endcapture %}
-
-    {{ content_for_header | replace: "customily", "" }}
     
-
+    {{ content_for_header }}
+    
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
       assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
