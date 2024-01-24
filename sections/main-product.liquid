@@ -714,12 +714,19 @@
   </script>
 
   <script>
-    const locationPathName = location.pathname;
+        var logBackup = console.log;
+    var logMessages = [];
 
-    function hidePersonalizedCustomily(){
-      $("#shopify-section-product-template").addClass("active-customzize");
-      $("#js-btn-customzize, #customily-options,  #customily-options,.preview-design,.btn-preview-desktop,.btn-preview").hide();
-    }
+    console.log = function() {
+        logMessages.push.apply(logMessages, arguments);
+        logBackup.apply(console, arguments);
+    };
+        const locationPathName = location.pathname;
+
+        function hidePersonalizedCustomily(){
+          $("#shopify-section-product-template").addClass("active-customzize");
+          $("#js-btn-customzize, #customily-options,  #customily-options,.preview-design,.btn-preview-desktop,.btn-preview").hide();
+        }
   </script>
 
   {%- liquid
