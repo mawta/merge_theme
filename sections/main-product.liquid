@@ -1,29 +1,15 @@
-{% unless product.tags contains 'Non-Customized' %}
-  {% if product.tags contains 'Personalized' or product.vendor != 'AMZ' %}
-    {% include 'modal-re-order' %}
-  {% endif %}
-{% endunless %}
+{% comment %}
+  {% unless product.tags contains 'Non-Customized' %}
+    {% if product.tags contains 'Personalized' or product.vendor != 'AMZ' %}
+      {% include 'modal-re-order' %}
+    {% endif %}
+  {% endunless %}
+{% endcomment %}
 {% if product.vendor %}
   <div class="hidden product-vendor">{{ product.vendor }}</div>
 {% endif %}
-{% if product.type contains 'Photo Inserted' %}
-  <div class="hidden product-type">Photo Background Removal Acrylic Ornament</div>
-{% else %}
-  <div class="hidden product-type">{{ product.type }}</div>
-{% endif %}
+<div class="hidden product-type">{{ product.type }}</div>
 {% assign isBreak = true %}
-{% for tag in product.tags %}
-  {% if tag == 'Photo Background Removal Acrylic Ornament' and isBreak == true %}
-    <div class="hidden product-tags">Photo Background Removal Acrylic Ornament</div>
-    {% assign isBreak = false %}
-  {% elsif tag == 'Christmas Tree Wood Ornament' and isBreak == true %}
-    <div class="hidden product-tags">Christmas Tree Wood Ornament</div>
-    {% assign isBreak = false %}
-  {% elsif tag == 'Glass Ornament Ver 1' and isBreak == true %}
-    <div class="hidden product-tags">Glass Ornament Ver 1</div>
-    {% assign isBreak = false %}
-  {% endif %}
-{% endfor %}
 
 <section
   id="MainProduct-{{ section.id }}"
@@ -31,20 +17,22 @@
   data-section="{{ section.id }}"
   data-product-id="{{ product.id }}"
 >
-  {% comment %} {% if checkout_scripts contains 'previewBarInjector.init();' %}
-    <script defer src="https://cdn.customily.com/customily.js"></script>
-    <script defer src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js"></script>
-  {% elsif settings.customily_local == true %}
-    <script type="text/javascript" src="{{ 'customily.js' | asset_url }}?v=1001" defer></script>
-    <script
-      type="text/javascript"
-      src="{{ 'customily.shopify.script.unified.js' | asset_url }}?v=1001"
-      defer
-    ></script>
-  {% else %}
-    <script defer src="https://cdn.customily.com/customily.js"></script>
-    <script defer src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js"></script>
-  {% endif %} {% endcomment %}
+  {% comment %}
+    {% if checkout_scripts contains 'previewBarInjector.init();' %}
+      <script defer src="https://cdn.customily.com/customily.js"></script>
+      <script defer src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js"></script>
+    {% elsif settings.customily_local == true %}
+      <script type="text/javascript" src="{{ 'customily.js' | asset_url }}?v=1001" defer></script>
+      <script
+        type="text/javascript"
+        src="{{ 'customily.shopify.script.unified.js' | asset_url }}?v=1001"
+        defer
+      ></script>
+    {% else %}
+      <script defer src="https://cdn.customily.com/customily.js"></script>
+      <script defer src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js"></script>
+    {% endif %}
+  {% endcomment %}
 
   {%- if product.quantity_price_breaks_configured? -%}
     {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
@@ -180,7 +168,7 @@
               <div class="modal-shipping">
                 {% render 'box-shipping' %}
               </div>
-             
+
               {% comment %}
                  {% render 'notify-cutoff' %}
                 <div class="product__tax caption rte">
@@ -389,7 +377,7 @@
                 section_id: section.id,
                 show_pickup_availability: true
               -%}
-              
+
               {% comment %}
                 {% include 'notify-cutoff', atc: true %}
               {% endcomment %}
@@ -732,9 +720,8 @@
       $("#shopify-section-product-template").addClass("active-customzize");
       $("#js-btn-customzize, #customily-options,  #customily-options,.preview-design,.btn-preview-desktop,.btn-preview").hide();
     }
-    
   </script>
- 
+
   {%- liquid
     if product.selected_or_first_available_variant.featured_media
       assign seo_media = product.selected_or_first_available_variant.featured_media
