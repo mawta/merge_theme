@@ -2,94 +2,6 @@
   "sections": {
     "bec901c8-7007-4481-bdb1-1a8240f469b0": {
       "type": "slideshow-with-text",
-      "blocks": {
-        "7c1c6ee4-edda-43e8-8abe-94c5f4fcf1cb": {
-          "type": "text_block",
-          "settings": {
-            "title_col": "For Him",
-            "url_collection": "",
-            "feature_collection": "gift-for-him"
-          }
-        },
-        "f9ad0521-b863-4ce5-b36c-7bac994a8a16": {
-          "type": "text_block",
-          "settings": {
-            "title_col": "For Couple",
-            "url_collection": "",
-            "feature_collection": "couple"
-          }
-        },
-        "6381e421-9509-4e1b-99b3-f295392cdd36": {
-          "type": "text_block",
-          "settings": {
-            "title_col": "For Kid",
-            "url_collection": "",
-            "feature_collection": "kids"
-          }
-        },
-        "615022c1-fe6d-4764-8dc5-2c3f9857916a": {
-          "type": "text_block",
-          "settings": {
-            "title_col": "For Friend",
-            "url_collection": "",
-            "feature_collection": "friends"
-          }
-        },
-        "43a5109a-7398-4e88-8ab9-b695827503a1": {
-          "type": "text_block",
-          "settings": {
-            "title_col": "For Memorial",
-            "url_collection": "",
-            "feature_collection": "memorial"
-          }
-        },
-        "0b178add-e498-47b4-867b-e252157ecb52": {
-          "type": "text_block",
-          "settings": {
-            "title_col": "For Pet Lover",
-            "url_collection": "",
-            "feature_collection": "pet-lovers"
-          }
-        },
-        "384f8cf8-3fd2-410d-8c21-2e4c34534759": {
-          "type": "text_block",
-          "disabled": true,
-          "settings": {
-            "title_col": "Gifts For Sister",
-            "url_collection": "",
-            "feature_collection": "sister"
-          }
-        },
-        "6080fce1-0248-4d32-b23d-20c81a9cd9c2": {
-          "type": "text_block",
-          "disabled": true,
-          "settings": {
-            "title_col": "Gifts For Kid",
-            "url_collection": "",
-            "feature_collection": "kids"
-          }
-        },
-        "7cece7fb-f4a9-490a-b77a-4b65d7911712": {
-          "type": "text_block",
-          "disabled": true,
-          "settings": {
-            "title_col": "Memorial Gifts",
-            "url_collection": "",
-            "feature_collection": "memorial"
-          }
-        }
-      },
-      "block_order": [
-        "7c1c6ee4-edda-43e8-8abe-94c5f4fcf1cb",
-        "f9ad0521-b863-4ce5-b36c-7bac994a8a16",
-        "6381e421-9509-4e1b-99b3-f295392cdd36",
-        "615022c1-fe6d-4764-8dc5-2c3f9857916a",
-        "43a5109a-7398-4e88-8ab9-b695827503a1",
-        "0b178add-e498-47b4-867b-e252157ecb52",
-        "384f8cf8-3fd2-410d-8c21-2e4c34534759",
-        "6080fce1-0248-4d32-b23d-20c81a9cd9c2",
-        "7cece7fb-f4a9-490a-b77a-4b65d7911712"
-      ],
       "disabled": true,
       "settings": {
         "title": "Valentine's Day Gifts",
@@ -109,12 +21,12 @@
           "type": "slide",
           "settings": {
             "image": "shopify:\/\/shop_images\/BannerNewShop1k6x1k-1606-0334.png",
-            "heading": "ádasdasdas",
+            "heading": "PERSONALISED PRODUCTS AND UNIQUE GIFT IDEAS",
             "heading_size": "h1",
-            "subheading": "sadasdasd",
-            "button_label": "",
-            "link": "",
-            "link_collection": "shopify:\/\/collections\/valentines-day",
+            "subheading": "In just a few clicks, you can add your personal touch to the product you want. Dekor365 lets you design it your way.Don’t miss out on our newest collection.",
+            "button_label": "SHOP NOW",
+            "link": "shopify:\/\/collections\/all-products",
+            "link_collection": "shopify:\/\/collections\/all-products",
             "button_style_secondary": false,
             "box_align": "middle-center",
             "show_text_box": true,
