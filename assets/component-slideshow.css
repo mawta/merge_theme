@@ -60,6 +60,16 @@ slideshow-component .slideshow.banner {
   }
 }
 
+@media screen and (max-width: 420px) {
+  h2.slideshow-content-title.h1{
+    font-size: 2rem;
+  }
+
+  .banner__box>*+.banner__buttons{
+    margin-top: 0px;
+  }
+}
+
 @media screen and (max-width: 749px) {
   slideshow-component.page-width .slideshow__text {
     border-right: var(--text-boxes-border-width) solid rgba(var(--color-foreground), var(--text-boxes-border-opacity));
