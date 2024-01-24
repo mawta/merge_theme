@@ -41,6 +41,11 @@
       "block_order": [
         "c96ede44-9992-46b2-a043-f51dd6318422"
       ],
+      "custom_css": [
+        "div#Slide-template--17567536218276__8b6091a7-bd0e-4e4c-ae46-4f67da1f210a-1 {position: relative;}",
+        ".slideshow__text-wrapper.banner__content {position: absolute; background: transparent;}",
+        ".slideshow__text.banner__box.content-container {background: transparent;}"
+      ],
       "settings": {
         "layout": "grid",
         "slide_height": "adapt_image",
