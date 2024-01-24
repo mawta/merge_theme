@@ -2,6 +2,7 @@
   "sections": {
     "bec901c8-7007-4481-bdb1-1a8240f469b0": {
       "type": "slideshow-with-text",
+      "disabled": true,
       "settings": {
         "title": "Valentine's Day Gifts",
         "url_sub_collection_1": "shopify:\/\/collections\/best-sellers",
@@ -20,7 +21,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify:\/\/shop_images\/BannerNewShop1k6x1k-1606-0334.png",
-            "image_mobile": "shopify:\/\/shop_images\/BannerNewShop1k6x1k2107.png",
+            "image_mobile": "shopify:\/\/shop_images\/BannerNewShop1k6x1k-1606-0334.png",
             "heading": "PERSONALISED PRODUCTS AND UNIQUE GIFT IDEAS",
             "heading_size": "h1",
             "subheading": "In just a few clicks, you can add your personal touch to the product you want. Dekor365 lets you design it your way.Don’t miss out on our newest collection.",
