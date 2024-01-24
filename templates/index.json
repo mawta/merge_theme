@@ -21,6 +21,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify:\/\/shop_images\/BannerNewShop1k6x1k-1606-0334.png",
+            "image_mobile": "shopify:\/\/shop_images\/BannerNewShop1k6x1k2107.png",
             "heading": "PERSONALISED PRODUCTS AND UNIQUE GIFT IDEAS",
             "heading_size": "h1",
             "subheading": "In just a few clicks, you can add your personal touch to the product you want. Dekor365 lets you design it your way.Don’t miss out on our newest collection.",
@@ -35,50 +36,10 @@
             "color_scheme": "background-1",
             "text_alignment_mobile": "left"
           }
-        },
-        "template--16102666993824__8b6091a7-bd0e-4e4c-ae46-4f67da1f210a-slide-2": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "link_collection": "https:\/\/macorner.co\/collections\/fall-season",
-            "button_style_secondary": false,
-            "box_align": "middle-center",
-            "show_text_box": false,
-            "text_alignment": "center",
-            "image_overlay_opacity": 0,
-            "color_scheme": "",
-            "text_alignment_mobile": "center"
-          }
-        },
-        "dd3ebea2-a703-4cf5-b959-dc1998453b8b": {
-          "type": "slide",
-          "disabled": true,
-          "settings": {
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "link_collection": "https:\/\/macorner.co\/collections",
-            "button_style_secondary": false,
-            "box_align": "middle-center",
-            "show_text_box": false,
-            "text_alignment": "center",
-            "image_overlay_opacity": 0,
-            "color_scheme": "background-1",
-            "text_alignment_mobile": "center"
-          }
         }
       },
       "block_order": [
-        "c96ede44-9992-46b2-a043-f51dd6318422",
-        "template--16102666993824__8b6091a7-bd0e-4e4c-ae46-4f67da1f210a-slide-2",
-        "dd3ebea2-a703-4cf5-b959-dc1998453b8b"
+        "c96ede44-9992-46b2-a043-f51dd6318422"
       ],
       "settings": {
         "layout": "grid",
