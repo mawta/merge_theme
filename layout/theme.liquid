@@ -35,7 +35,12 @@
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
+    {% capture cfh %}
     {{ content_for_header }}
+    {% endcapture %}
+
+    {{ content_for_header | replace: "customily", "" }}
+    
 
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
