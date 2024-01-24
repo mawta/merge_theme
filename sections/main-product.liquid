@@ -723,7 +723,7 @@
 
         console.info = function() {
           logMessages.push.apply(logMessages, arguments);
-          if(arguments === "Customily Shopify: not loading product") hidePersonalizedCustomily();
+          if(arguments == "Customily Shopify: not loading product") hidePersonalizedCustomily();
           logBackup.apply(console, arguments);
         };
   </script>
