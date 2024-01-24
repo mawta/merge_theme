@@ -70,6 +70,12 @@ slideshow-component .slideshow.banner {
   }
 }
 
+@media screen and (max-width: 370px) {
+  .banner__box {
+    padding: 2rem;
+  }
+}
+
 @media screen and (max-width: 749px) {
   slideshow-component.page-width .slideshow__text {
     border-right: var(--text-boxes-border-width) solid rgba(var(--color-foreground), var(--text-boxes-border-opacity));
