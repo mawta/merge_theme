@@ -724,7 +724,8 @@
 
         console.info = function() {
           logMessages.push.apply(logMessages, arguments);
-          if(arguments == "Customily Shopify: not loading product") console.log("hahaha");
+           console.log(arguments,"arguments");
+          if(arguments == "Customily Shopify: not loading product")
           logBackup.apply(console, arguments);
         };
   </script>
