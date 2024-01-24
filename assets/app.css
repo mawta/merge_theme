@@ -537,3 +537,20 @@ video {
 .footer-social-icons.hidden-xs {
   display: none !important
 }
+
+.btn-slide-product-all {
+    display: inline-block;
+    background-color: #F7921F;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all .35s ease-Out;
+    border: 1px solid transparent;
+}
