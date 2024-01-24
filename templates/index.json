@@ -43,8 +43,9 @@
       ],
       "custom_css": [
         "div#Slide-template--17567536218276__8b6091a7-bd0e-4e4c-ae46-4f67da1f210a-1 {position: relative;}",
-        ".slideshow__text-wrapper.banner__content {position: absolute; background: transparent;}",
-        ".slideshow__text.banner__box.content-container {background: transparent;}"
+        ".slideshow__text-wrapper.banner__content {position: absolute; background: transparent;justify-content: flex-start;}",
+        ".slideshow__text.banner__box.content-container {background: transparent;}",
+        "a.button.button--primary {background: #f7921f; border: none;overflow: hidden;}"
       ],
       "settings": {
         "layout": "grid",
