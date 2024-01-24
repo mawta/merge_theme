@@ -194,6 +194,7 @@
     },
     "product_trending_7ahr9k": {
       "type": "product-trending",
+      "disabled": true,
       "settings": {
         "title": "Trending Now",
         "collection": "all-products",
@@ -238,6 +239,7 @@
         "44584a05-1af1-487d-9e9a-9b60cb7e3591",
         "325b6d5e-b95e-4caf-a609-fc725f9db17d"
       ],
+      "disabled": true,
       "settings": {
         "title": "Collection 1",
         "image_preview": "shopify:\/\/shop_images\/Tieu-BannerShopBunny1.png",
@@ -285,6 +287,7 @@
         "text_block_ABmA9M",
         "text_block_MtMLMf"
       ],
+      "disabled": true,
       "settings": {
         "title": "Collection 1",
         "image_preview": "shopify:\/\/shop_images\/Tieu-BannerShopBunny1.png",
@@ -332,6 +335,7 @@
         "text_block_NqYhwM",
         "text_block_Vx44dJ"
       ],
+      "disabled": true,
       "settings": {
         "title": "Collection 1",
         "image_preview": "shopify:\/\/shop_images\/Tieu-BannerShopBunny1.png",
@@ -403,26 +407,6 @@
             "link_label": "",
             "link": "shopify:\/\/collections\/metal-sign"
           }
-        },
-        "a7cf20d3-3721-4ee4-92b7-89e9bf2bda9b": {
-          "type": "column",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/CHA-HA-SHOP-TB2-0408-9-Delta-MU.jpg",
-            "title": "Personalized flight attendant tumbler",
-            "text": "",
-            "link_label": "",
-            "link": "shopify:\/\/collections\/flight-attendant-tumbler"
-          }
-        },
-        "28e0f95e-ff7b-4e4d-b7df-50f4360b8563": {
-          "type": "column",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/ANH-DDL-SHOP-PC-1308-3-aifrance-light-MU.jpg",
-            "title": "Phone case",
-            "text": "",
-            "link_label": "",
-            "link": "shopify:\/\/collections\/phone-case"
-          }
         }
       },
       "block_order": [
@@ -431,16 +415,14 @@
         "e7d51283-09a4-4da6-86d0-d56b8030fc64",
         "column1",
         "c52e4991-ea71-4f60-84fb-72a83bd40f6a",
-        "column3",
-        "a7cf20d3-3721-4ee4-92b7-89e9bf2bda9b",
-        "28e0f95e-ff7b-4e4d-b7df-50f4360b8563"
+        "column3"
       ],
       "settings": {
-        "title": "SHOP BY RECIPIENT",
+        "title": "Shop by Product",
         "heading_size": "h2",
         "image_width": "full",
         "image_ratio": "adapt",
-        "columns_desktop": 4,
+        "columns_desktop": 3,
         "column_alignment": "center",
         "background_style": "none",
         "button_label": "",
@@ -634,6 +616,7 @@
         "column_aDJdVF",
         "column_94dwgw"
       ],
+      "disabled": true,
       "settings": {
         "title": "SHOP BY PRODUCT",
         "heading_size": "h2",
@@ -745,6 +728,7 @@
         "b5e8164c-ba5a-43f0-8fe2-b4c9c71ee481",
         "5fb271e8-3a04-4390-b2ed-faae417917de"
       ],
+      "disabled": true,
       "custom_css": [
         "img {border-radius: 20px;}"
       ],
