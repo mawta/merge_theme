@@ -714,13 +714,14 @@
   </script>
 
   <script>
-        var logBackup = console.log;
-    var logMessages = [];
+        var logBackup = console.info;
+        var logMessages = [];
 
-    console.log = function() {
-        logMessages.push.apply(logMessages, arguments);
-        logBackup.apply(console, arguments);
-    };
+        console.info = function() {
+          logMessages.push.apply(logMessages, arguments);
+          logBackup.apply(console, arguments);
+        };
+    
         const locationPathName = location.pathname;
 
         function hidePersonalizedCustomily(){
