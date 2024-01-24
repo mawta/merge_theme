@@ -193,8 +193,8 @@
                 </div>
               {%- endif -%}
               {%- if block.settings.button_label != blank -%}
-                <div class="btn-slide-product-all">
-                  <a {% if block.settings.link %}href="{{ block.settings.link }}"{% else %}role="link"aria-disabled="true"{% endif %}class="button {% if block.settings.button_style_secondary %}button--secondary{% else %}button--primary{% endif %}">
+                <div class="banner__buttons">
+                  <a {% if block.settings.link %}href="{{ block.settings.link }}"{% else %}role="link"aria-disabled="true"{% endif %}class="btn-slide-product-all">
                     {{- block.settings.button_label | escape -}}
                   </a>
                 </div>
