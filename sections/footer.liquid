@@ -31,8 +31,6 @@
 <div class="footer-block--newsletter{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %}data-cascade{% endif %}>
   {%- if section.settings.newsletter_enable -%}
     <div class="footer-block__newsletter page-width">
-      <div class="klaviyo-form-Rg7TFb"></div>
-      {%  comment  %} 
       {%- if section.settings.newsletter_heading != blank -%}
         <h2 class="footer-block__heading inline-richtext">{{ section.settings.newsletter_heading }}
           
@@ -88,7 +86,6 @@
           </h3>
         {%- endif -%}
       {%- endform -%}
-       {% endcomment %}   
     </div>
   {%- endif -%}
 
