@@ -66,11 +66,14 @@
       </a>
     {%- endunless -%}
     <div class="banner_holder">
+      {% comment %}
       <button type="button" aria-label="Add to wishlist" button-wishlist="" 
       class="button-wishlist" data-product-handle="{{ product.handle   }}"> <style scoped="">
            </style>
        {%- render 'icon-heart' -%}
     </button>
+      {% endcomment %}
+    
       </div>
     <ul
       id="Slider-Gallery-{{ section.id }}{{ id_append }}"
