@@ -567,3 +567,6 @@ video {
   height: 666.5px;
   width: 500px;
 }
+body.cl-canvas-container{
+  display: none
+}
