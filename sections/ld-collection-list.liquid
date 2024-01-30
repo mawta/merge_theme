@@ -73,7 +73,7 @@
 	function callApiProduct(slug, page=1){
 		$.ajax({
 			type: "GET",
-			url: `https://macorner.co/collections/${slug}?view=product&page=${page}`,
+			url: `https://365dekor.com/collections/${slug}?view=product&page=${page}`,
 			contentType: "application/json; charset=utf-8",
 			success: function (response) {
 				var json = JSON.parse(response)
@@ -93,7 +93,7 @@
 	}
 	function renderProductItemHtml(product){
 		return `<div class="tabs--listgrid-item">
-					<a class="listgrid--link" href="https://macorner.co${product['url']}">
+					<a class="listgrid--link" href="https://365dekor.com${product['url']}">
 							<div class="listgrid--linkbody">
 								<img class="img-fluid" src="${product['preview_image']}" alt="">
 									<div class="listgrid--linkfooter">
