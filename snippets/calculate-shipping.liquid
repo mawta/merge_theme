@@ -89,7 +89,7 @@
           if (respon && respon.data) {
 
           var dataShipping = respon.data.es_delivery_times;
-            console.log('dataShipping', dataShipping)
+          console.log('dataShipping', dataShipping)
           dataShipping = dataShipping.sort((a, b) => a.min_shipping_time - b.min_shipping_time);
           var delivery_times = "";
   
@@ -131,12 +131,7 @@
             bindDateShipping(dataShipping.find(item => item.shipping_label == 'Standard Shipping'))
           }`);
          
-          const locationPathName = location.pathname;
-          const christmasGiftCard = locationPathName.includes("/christmas-gift-card");
-
-          if(!christmasGiftCard){
-            $(".new-shipping").removeClass("hidden");
-          }
+          $(".new-shipping").removeClass("hidden");
          
           for (var i =0; i <dataShipping.length; i++) {
             var itemShipping = dataShipping[i];
