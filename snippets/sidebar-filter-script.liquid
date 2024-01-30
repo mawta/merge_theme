@@ -98,60 +98,6 @@
     if (filter["restrictBy[snize_facet2]"] =="" || !filter["restrictBy[snize_facet2]"]) delete filter["restrictBy[snize_facet2]"];
 
     const queryString = new URLSearchParams(currentParams).toString();
-    $.ajax({
-      method: "GET",
-      url: `${baseUrl}?${queryString}`,
-      dataType: "json",
-      success: function (res) {
-
-        $(".tag-active-wrapper").show();
-    
-        if (res.facets && res.facets.length && !compareArrays(listFacets,res.facets)) {
-          bindDataFacets(res.facets);
-          listFacets = res.facets
-        }
-        
-        if(res.facets && res.facets.length){
-          bindDataFacetsPrice(res.facets);
-        }
-        
-        if (res.items && res.items.length) {
-          bindProduct(res.items);
-          totalProduct = res.totalItems || 0;
-          totalPages = Math.ceil(totalProduct / limit) || 1;
-          
-          if (totalProduct == 0) {
-            $(".product-list").hide();
-            $("#pagination-product").css("display", "none");
-          } else {
-            $("#product-not-found").hide();
-            $(".product-list").show();
-            $("#pagination-product").css("display", "block");
-          }
-        
-          renderPagination(currentPage);
-          updateTagActiveWrapper();
-          renderSlideRange();
-        }else{
-          $(".product-list").empty();
-          $(".product-list").append("<h2 class='text-center' style='padding-bottom:10px'>No results found.</h2>");
-          $("#pagination-product").css("display", "none");
-          
-           heightOccasion = $("#occasion-filter").height();
-           heightRecipient = $("#recipient-filter").height();
-           heightProductType = $("#product-type-filter").height();
-
-           if(heightOccasion <=0 && heightRecipient <=0 && heightProductType <=0){
-             isReloadSideBar = true;
-           }
-          
-        }   
-        parseQueryToUrl();
-      },
-      error: function (err) {
-         console.log(err)
-      },
-    });
   }
   
   function renderPagination(page) {
