@@ -61,13 +61,13 @@
       var t2 = dShip.addDays(maxProductTime).getTime() / 1000
       var t3 = dShip.addDays(minShippingTime).getTime() / 1000
       var t4 = dShip.addDays(maxShippingTime).getTime() / 1000
-          var dataShipping = {
+          var dataShipping = [{
                   "min_product_time": t1,
                   "max_product_time": t2,
                   "min_shipping_time": t3,
                   "max_shipping_time": t4,
                   "shipping_label": nameShip
-          };
+          }];
           console.log('dataShipping', dataShipping)
           dataShipping = dataShipping.sort((a, b) => a.min_shipping_time - b.min_shipping_time);
           var delivery_times = "";
