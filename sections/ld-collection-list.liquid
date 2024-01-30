@@ -54,7 +54,7 @@
 				const collectionSlug = $("#product-collection li.active a").attr('data');
 				$.ajax({
 					type: "GET",
-					url: `https://macorner.co/collections/${collectionSlug}?view=product&page=${currPage}`,
+					url: `https://365dekor.com/collections/${collectionSlug}?view=product&page=${currPage}`,
 					contentType: "application/json; charset=utf-8",
 					success: function (response) {
 						var json = JSON.parse(response)
