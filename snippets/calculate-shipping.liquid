@@ -44,10 +44,6 @@
     if (!variantID) {
       variantID = {{ product.selected_or_first_available_variant.id }};
     }
-    if (variantIdProduct) {
-      variantID = variantIdProduct;
-    }
-     
     if (variantID) {
       var dShip = new Date();
       var nameShip = "Standard Shipping";
@@ -65,12 +61,6 @@
       var t2 = dShip.addDays(maxProductTime).getTime() / 1000
       var t3 = dShip.addDays(minShippingTime).getTime() / 1000
       var t4 = dShip.addDays(maxShippingTime).getTime() / 1000
-      
-      
-      
-      
-      
-      
           var dataShipping = {
   "min_product_time": t1,
   "max_product_time": t2,
