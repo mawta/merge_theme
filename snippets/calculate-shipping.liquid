@@ -30,8 +30,121 @@
       "Dec"
     ];
   }
+
+  Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+  }
+   getDayShippingDefault();
+
+   async function getDayShippingDefault() {
+    const url = new URL(window.location.href);
+    let variantID = url.searchParams.get("variant");
+    if (!variantID) {
+      variantID = {{ product.selected_or_first_available_variant.id }};
+    }
+    if (variantIdProduct) {
+      variantID = variantIdProduct;
+    }
+     
+    if (variantID) {
+      var dShip = new Date();
+      var nameShip = "Standard Shipping";
+      let minProductTime = "{{ product.metafields.shipping_estimate.min_product_time }}"
+      let maxProductTime = "{{ product.metafields.shipping_estimate.max_product_time }}"
+      let minShippingTime = "{{ product.metafields.shipping_estimate.min_shipping_time }}"
+      let maxShippingTime = "{{ product.metafields.shipping_estimate.max_shipping_time }}"
+
+      if(!minProductTime) minProductTime = 2;
+      if(!maxProductTime) maxProductTime = 3;
+      if(!minShippingTime) minShippingTime = 7;
+      if(!maxShippingTime) maxShippingTime = 10;
+
+      var t1 = dShip.addDays(minProductTime).getTime() / 1000
+      var t2 = dShip.addDays(maxProductTime).getTime() / 1000
+      var t3 = dShip.addDays(minShippingTime).getTime() / 1000
+      var t4 = dShip.addDays(maxShippingTime).getTime() / 1000
+      
+      
+      
+      
+      
+      
+          var dataShipping = {
+  "min_product_time": t1,
+  "max_product_time": t2,
+  "min_shipping_time": t3,
+  "max_shipping_time": t4,
+  "shipping_label": nameShip
+};
+          console.log('dataShipping', dataShipping)
+          dataShipping = dataShipping.sort((a, b) => a.min_shipping_time - b.min_shipping_time);
+          var delivery_times = "";
   
-  const waitCookieCodeCountry = setInterval(checkCookieCodeCountry, 200);
+          window.localStorage.setItem('es_delivery_times', JSON.stringify(dataShipping));
+          var shippingExpress = dataShipping.find(item => item.shipping_label != 'Standard Shipping');
+          var shippingStandard = dataShipping.find(item => item.shipping_label == 'Standard Shipping');
+  
+          if (! shippingExpress) {
+            $(".wrapper-ship #option-ship option[value='express']").remove();
+            $(".wrapper-ship .ship-label-op").text("Standard Shipping");
+            $(".wrapper-ship").addClass("hidden");
+            $(".express-shipping").remove();
+          } else if (! shippingStandard) {
+            $(".wrapper-ship #option-ship option[value='standard']").remove();
+            $(".wrapper-ship .ship-label-op").text("Express Shipping");
+            $(".wrapper-ship").addClass("hidden");
+            $(".express-shipping").remove();
+          } else {
+            $(".wrapper-ship").removeClass("hidden");
+            $(".wrapper-ship .ship-label-op").text(shippingStandard.shipping_label);
+            var allOptionShipping = `<option value="standard">Standard Shipping</option>`;
+            if (shippingExpress.shipping_label != 'Express Shipping') {
+              allOptionShipping += `<option value="2 Day">${
+                shippingExpress.shipping_label
+              }</option>`;
+            } else {
+              allOptionShipping += `<option value="express">${
+                shippingExpress.shipping_label
+              }</option>`;
+            } 
+            $(".wrapper-ship .input_common").html(allOptionShipping);
+
+            if($(".express-shipping").length == 0){
+              $(".box-shipping-content").append("<span class='express-shipping'>Or faster delivery with  <b>Express Shipping</b></span>")
+            }
+            
+          }
+          $(".date-time-new").text(`${
+            bindDateShipping(dataShipping.find(item => item.shipping_label == 'Standard Shipping'))
+          }`);
+         
+          const locationPathName = location.pathname;
+          $(".new-shipping").removeClass("hidden");
+         
+          for (var i =0; i <dataShipping.length; i++) {
+            var itemShipping = dataShipping[i];
+            delivery_times += `<div class="one-half option-ship columns">`;
+            delivery_times += `<div class="text">`;
+            delivery_times += `<p>${
+              itemShipping.shipping_label
+            }</p>`;
+            delivery_times += `<p> Arrives by <b>${
+              bindDateShipping(itemShipping)
+            }</b> </p>`;
+            delivery_times += `</div>`;
+            delivery_times += `</div>`;
+          }
+          if (dataShipping.length) {
+            bindDateShippingTab(dataShipping.find(item => item.shipping_label == 'Standard Shipping'));
+          }
+        
+    }
+
+  }
+  
+  // const waitCookieCodeCountry = setInterval(checkCookieCodeCountry, 200);
 
   function checkCookieCodeCountry() {
     if (getCookie('code_country')) {
