@@ -30,13 +30,7 @@
       "Dec"
     ];
   }
-  if ((window.location.href).indexOf("blanket") > 0) {
-    const labelSelected = $(".swatch_options").children("[data-option-index=0]").children().children("label");
-    labelSelected.on("click", function() {
-      const vairantIdProduct = $(this).parent(".swatch-element").attr("data-id");
-      getDayShipping(vairantIdProduct);
-    })
-  }
+  
   const waitCookieCodeCountry = setInterval(checkCookieCodeCountry, 200);
 
   function checkCookieCodeCountry() {
@@ -131,6 +125,7 @@
             bindDateShipping(dataShipping.find(item => item.shipping_label == 'Standard Shipping'))
           }`);
          
+          const locationPathName = location.pathname;
           $(".new-shipping").removeClass("hidden");
          
           for (var i =0; i <dataShipping.length; i++) {
