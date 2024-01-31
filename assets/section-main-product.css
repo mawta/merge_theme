@@ -3851,3 +3851,7 @@ button[button-wishlist].active .icon {
 input[name="Size"] ~ label{
   min-width: 50px !important;
 }
+
+.product-media-container.constrain-height .media {
+    min-height: 352px;
+}
