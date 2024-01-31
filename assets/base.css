@@ -4875,3 +4875,6 @@ body:has(.customily-download-button.disabled) #btn-preview:after {
 .announcement-bar__message.h5 {
   font-size: 15px;
 }
+#tippy-popper {
+  font-size: 20px !important
+}
