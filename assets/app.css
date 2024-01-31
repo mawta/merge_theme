@@ -569,5 +569,5 @@ video {
 }
 
 body.cl-canvas-container{
-  display: none
+  display: none !important
 }
