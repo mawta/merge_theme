@@ -4868,7 +4868,8 @@ body:has(.customily-download-button.disabled) #btn-preview:after {
     background: #0b2a4a !important;
   }
   .announcement-bar__message {
-    color: white
+    color: white;
+    font-size: 13px;
   }
 }
 .announcement-bar__message.h5 {
