@@ -568,7 +568,7 @@ video {
   width: 500px;
 }
 
-body.cl-canvas-container{
+body > div.cl-canvas-container {
   display: none !important;
   opacity: 0
 }
