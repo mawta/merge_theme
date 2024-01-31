@@ -568,6 +568,7 @@ video {
   width: 500px;
 }
 
-body.cl-canvas-containe r{
-  display: none !important
+body.cl-canvas-container{
+  display: none !important;
+  opacity: 0
 }
