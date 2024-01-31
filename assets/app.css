@@ -574,5 +574,5 @@ body > div.cl-canvas-container {
 }
 
 #cl_optionsapp .swatch-container .swatch {
-  margin: auto
+  margin: auto !important
 }
