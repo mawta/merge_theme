@@ -52,10 +52,10 @@
       let minShippingTime = "{{ product.metafields.shipping_estimate.min_shipping_time }}"
       let maxShippingTime = "{{ product.metafields.shipping_estimate.max_shipping_time }}"
 
-      if(!minProductTime) minProductTime = 3;
-      if(!maxProductTime) maxProductTime = 4;
+      if(!minProductTime) minProductTime = 2;
+      if(!maxProductTime) maxProductTime = 3;
       if(!minShippingTime) minShippingTime = 8;
-      if(!maxShippingTime) maxShippingTime = 11;
+      if(!maxShippingTime) maxShippingTime = 13;
 
       var t1 = dShip.addDays(minProductTime).getTime() / 1000
       var t2 = dShip.addDays(maxProductTime).getTime() / 1000
