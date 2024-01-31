@@ -2,49 +2,17 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
       }
     },
-    "rich_text_Tp6ANj": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_kD96pQ": {
-          "type": "heading",
-          "settings": {
-            "heading": "Track your order",
-            "heading_size": "h1"
-          }
-        },
-        "text_MTF7eK": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Please enter you tracking number below. if your tracking number doesn't work feel free to contact us at <a href=\"mailto:support@dekor365.co\" target=\"_blank\" title=\"mailto:support@dekor365.co\">support@dekor365.co<\/a><\/p>"
-          }
-        },
-        "button_bnW4dx": {
-          "type": "button",
-          "settings": {
-            "button_label": "Track",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_kD96pQ",
-        "text_MTF7eK",
-        "button_bnW4dx"
-      ],
+    "custom_liquid_4kyRVX": {
+      "type": "custom-liquid",
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
+        "custom_liquid": "<p>Please enter you tracking number below. if your tracking number doesn't work feel free to contact us at support@dekor365.co.<\/p>\n<p>&nbsp;<\/p>\n<div style=\"text-align: center;\"><!--Tracking number input box.--> <input style=\"border: 1px solid;padding: 10px 20px; border-radius: 8px; width: 200px\" maxlength=\"50\" id=\"YQNum\" type=\"text\"> <!--The button is used to call script method.--> <input style=\"border: 1px solid; padding: 10px 20px; border-radius: 8px\"  value=\"TRACK\" type=\"button\" onclick=\"doTrack()\"> <!--Container to display the tracking result.--><\/div>\n<div id=\"YQContainer\"><\/div>\n<!--Script code can be put in the bottom of the page, wait until the page is loaded then execute.--> <script type=\"text\/javascript\" src=\"\/\/www.17track.net\/externalcall.js\"><\/script> <script type=\"text\/javascript\">\/\/ <![CDATA[\n\nfunction doTrack() {\n\nvar num = document.getElementById(\"YQNum\").value;\n\nif(num===\"\"){\n\nalert(\"Enter your number.\"); \n\nreturn;\n\n}\n\nYQV5.trackSingle({\n\n\/\/Required, Specify the container ID of the carrier content.\n\nYQ_ContainerId:\"YQContainer\",\n\n\/\/Optional, specify tracking result height, max height 800px, default is 560px.\n\nYQ_Height:560,\n\n\/\/Optional, select carrier, default to auto identify.\n\nYQ_Fc:\"0\",\n\n\/\/Optional, specify UI language, default language is automatically detected based on the browser settings.\n\nYQ_Lang:\"en\",\n\n\/\/Required, specify the number needed to be tracked.\n\nYQ_Num:num\n\n});\n\n}\n\n\/\/ ]]><\/script>",
         "color_scheme": "",
-        "full_width": true,
         "padding_top": 40,
         "padding_bottom": 52
       }
@@ -52,6 +20,6 @@
   },
   "order": [
     "main",
-    "rich_text_Tp6ANj"
+    "custom_liquid_4kyRVX"
   ]
 }
