@@ -577,5 +577,5 @@ body > div.cl-canvas-container {
   margin: auto !important
 }
 .new-shipping {
-  display: none
+  display: none !important
 }
