@@ -576,3 +576,6 @@ body > div.cl-canvas-container {
 #cl_optionsapp .swatch-container .swatch {
   margin: auto !important
 }
+.new-shipping {
+  display: none
+}
