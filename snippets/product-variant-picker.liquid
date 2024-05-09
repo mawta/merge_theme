@@ -68,7 +68,7 @@ Usage:
             {{ option.name }}
             {% if option.name contains 'Size' or product.type contains 'Couple Beach Shorts' and option.name contains 'Beach Short' %}
             {% render 'set-size-chart-product', productType: product.type ,optionIndex:option_index %}
-            {% elsif product.tags contains 'shirt' and option.name contains 'Size' %}
+            {% elsif product.tags contains 'shirt' %}
               <div class="js-btn-show-size-chart">
                 <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
                   <span>Size Chart</span>
