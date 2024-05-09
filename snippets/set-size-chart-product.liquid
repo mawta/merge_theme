@@ -1,60 +1,8 @@
-<script>
-  console.log("productType",{{product | json}})
-</script>
-{% if productType contains 'Shirt'
-  or productType contains 'Boxer'
-  or productType contains '3/4 Sleeve Dress'
-  or productType contains 'Slippers'
-  or productType contains 'Sleeveless Romper'
-  or productType contains 'Pajamas Set'
-  or productType contains 'Couple Beach Shorts'
-  and optionIndex == 0
-%}
+
+{% if tags contains "shirt"%}
   <div class="js-btn-show-size-chart">
     <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
       <span>Size Chart</span>
     </label>
   </div>
-{% elsif productType contains "Women's Kimono Chiffon Cover Up" %}
-  <div class="js-btn-show-size-chart">
-    <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
-      <span>Size Chart</span>
-    </label>
-  </div>
-{% elsif productType contains 'Ugly Sweater' %}
-  <div class="js-btn-show-size-chart">
-    <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
-      <span>Size Chart</span>
-    </label>
-  </div>
-{% elsif productType contains "Women's Pajamas Set" %}
-  <div class="js-btn-show-size-chart">
-    <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
-      <span>Size Chart</span>
-    </label>
-  </div>
-{% elsif productType contains "Men's Boxer Briefs" %}
-    <div class="js-btn-show-size-chart">
-      <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
-        <span>Size Chart</span>
-      </label>
-    </div>
-{% elsif productType contains "Women's Low-waisted Brief" %}
-    <div class="js-btn-show-size-chart">
-      <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
-        <span>Size Chart</span>
-      </label>
-    </div>
-{% elsif productType contains "Leggings" %}
-    <div class="js-btn-show-size-chart">
-      <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
-        <span>Size Chart</span>
-      </label>
-    </div>
-{% elsif productType contains "Comfort Tee" %}
-    <div class="js-btn-show-size-chart">
-      <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
-        <span>Size Chart</span>
-      </label>
-    </div>
 {% endif %}
