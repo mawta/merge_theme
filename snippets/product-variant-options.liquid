@@ -65,7 +65,7 @@ block: block
     <label
       for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
       class="swatch-elment {% if option.name == "Color" %}color {% endif %} {{ value | handle }}-swatch"
-      {% if option.name == "Color" %}style=" background-color: {{ value | replace: ' ', ''| downcase | handle }} " {% endif %}>
+      {% if option.name == "Color" %}style=" background-color: {% render 'product-color' , color: value %} " {% endif %}>
       {% if option.name != "Color" %}
         {{ value }}
         {% render 'product-best-selling', product: product, value: value %}
