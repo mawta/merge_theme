@@ -67,7 +67,7 @@ Usage:
           <legend class="form__label">
             {{ option.name }}
             {% if option.name contains 'Size' %}
-            {% render 'set-size-chart-product', productType: product.type ,optionIndex:option_index %}
+            {% render 'set-size-chart-product', productType: product.type , optionIndex:option_index, tags: product.tags %}
             {% elsif product.type contains 'Shirt' and product.options.size == 1 and option.name contains 'Style' %}
               <div class="js-btn-show-size-chart">
                 <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
