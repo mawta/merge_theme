@@ -66,7 +66,7 @@ Usage:
         <fieldset class="js product-form__input" data-option-index="{{ forloop.index }}">
           <legend class="form__label">
             {{ option.name }}
-            {% if option.name contains 'Size' or product.type contains 'Couple Beach Shorts' and option.name contains 'Beach Short' %}
+            {% if option.name contains 'Size' %}
             {% render 'set-size-chart-product', productType: product.type ,optionIndex:option_index %}
             {% elsif product.type contains 'Shirt' and product.options.size == 1 and option.name contains 'Style' %}
               <div class="js-btn-show-size-chart">
