@@ -641,6 +641,11 @@
   {% render 'modal-preview-product' %}
   {% render 'product-media-modal', variant_images: variant_images %}
   {% render 'set-type-size-chart', product: product %}
+  <div class="js-btn-show-size-chart">
+    <label class="toggle-modal-size-chart" for="toggle-modal-size-chart">
+      <span>Size Chart</span>
+    </label>
+  </div>
   {% render 'modal-notification-shipping' %}
   {% assign popups = section.blocks | where: 'type', 'popup' %}
   {%- for block in popups -%}
