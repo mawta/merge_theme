@@ -139,6 +139,14 @@
     "content_for_index": [
 
     ],
+    "blocks": {
+      "4372474792694305445": {
+        "type": "shopify:\/\/apps\/also-bought\/blocks\/app-embed-block\/b94b27b4-738d-4d92-9e60-43c22d1da3f2",
+        "disabled": false,
+        "settings": {
+        }
+      }
+    },
     "color_schemes": {
       "background-1": {
         "settings": {
