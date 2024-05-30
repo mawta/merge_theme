@@ -45,7 +45,6 @@ block: block
       endcase
     endfor
 
-     assign option_disabled = false
   -%}
   {% if typeCasePhone == true %}
     <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
