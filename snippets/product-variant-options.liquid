@@ -55,7 +55,6 @@ block: block
     </option>
   {%- elsif block.settings.picker_type == 'button' -%}
     <input
-      mawta="1"
       type="radio"
       id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
       name="{{ option.name }}"
