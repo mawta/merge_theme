@@ -46,6 +46,7 @@ block: block
     endfor
 
   -%}
+  <script>console.log({{product | json}})</script>
   {% if typeCasePhone == true %}
     <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
       {% if option_disabled -%}
