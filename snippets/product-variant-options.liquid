@@ -24,7 +24,7 @@ block: block
   assign product_form_id = 'product-form-' | append: section.id
 -%}
 
-  <script>console.log("value", {{value | json}})</script>
+  <script>console.log("value", {{option | json}})</script>
   <script>console.log({{product | json}})</script>
   <script>console.log("variants_available_arr",{{variants_available_arr | json}})</script>
 
