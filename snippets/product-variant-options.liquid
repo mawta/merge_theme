@@ -27,6 +27,11 @@ block: block
   <script>console.log("value", {{option | json}})</script>
   <script>console.log({{product | json}})</script>
   <script>console.log("variants_available_arr",{{variants_available_arr | json}})</script>
+  <script>console.log("variants_option1_arr",{{variants_option1_arr | json}})</script>
+  <script>console.log("variants_option2_arr",{{variants_option2_arr | json}})</script>
+  <script>console.log("variants_option3_arr",{{variants_option3_arr | json}})</script>
+  
+  
 
 {%- for value in option.values -%}
   {%- liquid
