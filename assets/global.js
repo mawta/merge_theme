@@ -1202,7 +1202,7 @@ class VariantSelects extends HTMLElement {
       variantSelects.querySelector('[type="application/json"]').textContent
     );
 
-    const styles = ["Classic Tee", "Sweater", "Pullover Hoodie"];
+    const styles = [];
     const country = getCookieByProduct("code_country");
     const colorSand = "Sand";
     const colorFilter = ["Sport Grey", "White", "Black"];
