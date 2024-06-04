@@ -13,7 +13,7 @@ Usage:
   {%- if block.settings.picker_type == 'button' and product.type == "Clear Phone Case" -%}
     <variant-selects
       id="variant-selects-{{ section.id }}"
-      class="no-js-hidden hidden-xl"
+      class="no-js-hidden"
       data-section="{{ section.id }}"
       data-url="{{ product.url }}"
       {% if update_url == false %}data-update-url="false"{% endif %}{{ block.shopify_attributes }}>
@@ -41,7 +41,7 @@ Usage:
     </variant-selects>
     <variant-radios
       id="variant-radios-{{ section.id }}"
-      class="no-js-hidden hidden-xs"
+      class="no-js-hidden"
       data-section="{{ section.id }}"
       data-url="{{ product.url }}"
       {% if update_url == false %}data-update-url="false"{% endif %}{{ block.shopify_attributes }}>

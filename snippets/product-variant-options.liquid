@@ -15,7 +15,6 @@ block: block
 %}
 {% endcomment %}
 
-
 {%- liquid
   assign variants_available_arr = product.variants | map: 'available'
   assign variants_option1_arr = product.variants | map: 'option1'
@@ -24,9 +23,21 @@ block: block
 
   assign product_form_id = 'product-form-' | append: section.id
 -%}
+
+  <script>console.log("value", {{option | json}})</script>
+  <script>console.log({{product | json}})</script>
+  <script>console.log("variants_available_arr",{{variants_available_arr | json}})</script>
+  <script>console.log("variants_option1_arr",{{variants_option1_arr | json}})</script>
+  <script>console.log("variants_option2_arr",{{variants_option2_arr | json}})</script>
+  <script>console.log("variants_option3_arr",{{variants_option3_arr | json}})</script>
+  <script>console.log("product.variants",{{product.variants | json}})</script>
+  
+  
+  
+
 {%- for value in option.values -%}
   {%- liquid
-    assign option_disabled = false
+    assign option_disabled = true
 
     for option1_name in variants_option1_arr
       case option.position
@@ -46,8 +57,6 @@ block: block
     endfor
 
   -%}
-  <script>console.log({{product | json}})</script>
-  <script>console.log("variants_available_arr",{{variants_available_arr | json}})</script>
   
   {% if typeCasePhone == true %}
     <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
