@@ -26,7 +26,7 @@ block: block
 -%}
 {%- for value in option.values -%}
   {%- liquid
-    assign option_disabled = true
+    assign option_disabled = false
 
     for option1_name in variants_option1_arr
       case option.position
