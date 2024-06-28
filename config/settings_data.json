@@ -1,3 +1,12 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
 {
   "current": {
     "logo": "shopify:\/\/shop_images\/LogoDekor365chuan.png",
@@ -144,6 +153,13 @@
         "type": "shopify:\/\/apps\/also-bought\/blocks\/app-embed-block\/b94b27b4-738d-4d92-9e60-43c22d1da3f2",
         "disabled": false,
         "settings": {
+        }
+      },
+      "1793219247286972479": {
+        "type": "shopify:\/\/apps\/searchpie-seo-speed\/blocks\/sb-snippets\/29f6c508-9bb9-4e93-9f98-b637b62f3552",
+        "disabled": false,
+        "settings": {
+          "review_app": "spr"
         }
       }
     },
