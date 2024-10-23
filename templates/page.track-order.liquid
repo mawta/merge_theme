@@ -642,7 +642,7 @@
         var product_slug = $(this).parent().children(".product-info-title").attr('data-slug');
         var customization_id = $(this).parent().attr("data-customization");
         wrapperEdit += '<h2 class="title text-center">Edit Your Design</h2>';
-        const urlProductDetail = `https://365dekor.com/products/${product_slug}?view=orders&customizationId=${customization_id}`;
+        const urlProductDetail = `https://365dekorr.com/products/${product_slug}?view=orders&customizationId=${customization_id}`;
         history.replaceState(null, null, urlProductDetail);
         $(".popup-content-design-order").load(urlProductDetail);
         const checkElementImage = setInterval(changeUrlImagePreview, 200);

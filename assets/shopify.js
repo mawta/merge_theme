@@ -26,7 +26,7 @@
             !n && t && setTimeout(t, 0));
         }),
       (o.src =
-        "https://365dekor.com/cdn/shop/t/328/assets/sdk.js?v=10916697728991260271700278076"),
+        "https://365dekorr.com/cdn/shop/t/328/assets/sdk.js?v=10916697728991260271700278076"),
       n.parentNode.insertBefore(o, n);
   }),
     fetch(`${window.location.origin}${window.location.pathname}.js`, {

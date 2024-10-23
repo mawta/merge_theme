@@ -74590,7 +74590,7 @@ PERFORMANCE OF THIS SOFTWARE.
                           properties: {
                             _personalbridgecustomid: t.id,
                             "_customily-preview": t.previewUrl,
-                            "_customily-customization-url": `https://365dekor.com/products/${r.handle}`,
+                            "_customily-customization-url": `https://365dekorr.com/products/${r.handle}`,
                             _print_files: JSON.stringify(t.print_files),
                           },
                         },
@@ -74616,7 +74616,7 @@ PERFORMANCE OF THIS SOFTWARE.
                         { name: "_customily-preview", value: n.previewUrl },
                         {
                           name: "_customily-customization-url",
-                          value: `https://365dekor.com/products/${this.product.handle}`,
+                          value: `https://365dekorr.com/products/${this.product.handle}`,
                         },
                         {
                           name: "_print_files",
@@ -74647,7 +74647,7 @@ PERFORMANCE OF THIS SOFTWARE.
                               },
                               {
                                 name: "_customily-customization-url",
-                                value: `https://365dekor.com/products/${this.product.handle}`,
+                                value: `https://365dekorr.com/products/${this.product.handle}`,
                               },
                               {
                                 name: "_print_files",
