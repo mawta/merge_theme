@@ -1,17 +1,17 @@
 /*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
-    "logo": "shopify:\/\/shop_images\/LogoDekor365chuan.png",
+    "logo": "shopify://shop_images/LogoDekor365chuan.png",
     "logo_width": 90,
-    "favicon": "shopify:\/\/shop_images\/ava32x32px2.png",
+    "favicon": "shopify://shop_images/ava32x32px2.png",
     "type_header_font": "nunito_sans_n4",
     "heading_scale": 100,
     "type_body_font": "assistant_n4",
@@ -108,17 +108,17 @@
     "badge_corner_radius": 6,
     "sale_badge_color_scheme": "accent-2",
     "sold_out_badge_color_scheme": "inverse",
-    "social_facebook_link": "https:\/\/www.facebook.com\/groups\/macornerfriends",
-    "social_instagram_link": "https:\/\/www.instagram.com\/macorner_decor",
+    "social_facebook_link": "https://www.facebook.com/groups/macornerfriends",
+    "social_instagram_link": "https://www.instagram.com/macorner_decor",
     "social_youtube_link": "",
-    "social_tiktok_link": "https:\/\/www.tiktok.com\/@macorner_official",
-    "social_twitter_link": "https:\/\/twitter.com\/Macorner_Decor",
+    "social_tiktok_link": "https://www.tiktok.com/@macorner_official",
+    "social_twitter_link": "https://twitter.com/Macorner_Decor",
     "social_snapchat_link": "",
     "social_pinterest_link": "",
     "social_tumblr_link": "",
     "social_vimeo_link": "",
-    "social_amazon_link": "https:\/\/www.amazon.com\/stores\/page\/3F9A8588-C207-4C07-9774-E3D24490E8A3",
-    "og_image_fallback": "shopify:\/\/shop_images\/macorner_v2-02.png",
+    "social_amazon_link": "https://www.amazon.com/stores/page/3F9A8588-C207-4C07-9774-E3D24490E8A3",
+    "og_image_fallback": "shopify://shop_images/macorner_v2-02.png",
     "predictive_search_enabled": true,
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
@@ -145,28 +145,29 @@
         }
       }
     },
-    "content_for_index": [
-
-    ],
+    "content_for_index": [],
     "blocks": {
       "4372474792694305445": {
-        "type": "shopify:\/\/apps\/also-bought\/blocks\/app-embed-block\/b94b27b4-738d-4d92-9e60-43c22d1da3f2",
+        "type": "shopify://apps/also-bought/blocks/app-embed-block/b94b27b4-738d-4d92-9e60-43c22d1da3f2",
         "disabled": false,
-        "settings": {
-        }
+        "settings": {}
       },
       "1793219247286972479": {
-        "type": "shopify:\/\/apps\/searchpie-seo-speed\/blocks\/sb-snippets\/29f6c508-9bb9-4e93-9f98-b637b62f3552",
+        "type": "shopify://apps/searchpie-seo-speed/blocks/sb-snippets/29f6c508-9bb9-4e93-9f98-b637b62f3552",
         "disabled": false,
         "settings": {
           "review_app": "spr"
         }
       },
       "5295561098762411692": {
-        "type": "shopify:\/\/apps\/avada-seo-suite\/blocks\/avada-seo\/15507c6e-1aa3-45d3-b698-7e175e033440",
+        "type": "shopify://apps/avada-seo-suite/blocks/avada-seo/15507c6e-1aa3-45d3-b698-7e175e033440",
         "disabled": false,
-        "settings": {
-        }
+        "settings": {}
+      },
+      "855628211100114053": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
