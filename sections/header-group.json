@@ -27,19 +27,11 @@
             "text": "Orders placed today will arrive after Christmas!",
             "link": ""
           }
-        },
-        "announcement_WAVzPr": {
-          "type": "announcement",
-          "settings": {
-            "text": "Orders placed today will arrive after Christmas!",
-            "link": ""
-          }
         }
       },
       "block_order": [
         "announcement-bar-0",
-        "announcement_rqPxBD",
-        "announcement_WAVzPr"
+        "announcement_rqPxBD"
       ],
       "settings": {
         "color_scheme": "scheme-8a179a35-f2d7-4bc3-89e4-3104034c7e22",
