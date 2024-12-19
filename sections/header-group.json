@@ -20,18 +20,10 @@
             "text": "⭐Free Shipping for all orders over $100⭐",
             "link": ""
           }
-        },
-        "announcement_rqPxBD": {
-          "type": "announcement",
-          "settings": {
-            "text": "Orders placed today will arrive after Christmas!",
-            "link": ""
-          }
         }
       },
       "block_order": [
-        "announcement-bar-0",
-        "announcement_rqPxBD"
+        "announcement-bar-0"
       ],
       "settings": {
         "color_scheme": "scheme-8a179a35-f2d7-4bc3-89e4-3104034c7e22",
