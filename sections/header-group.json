@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.header.name",
   "type": "header",
@@ -43,10 +52,35 @@
         "padding_top": 20,
         "padding_bottom": 0
       }
+    },
+    "announcement_bar_n7kAPp": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_pL9hfT": {
+          "type": "announcement",
+          "settings": {
+            "text": "Orders placed today will arrive after Christmas!",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_pL9hfT"
+      ],
+      "settings": {
+        "color_scheme": "scheme-8a179a35-f2d7-4bc3-89e4-3104034c7e22",
+        "show_line_separator": true,
+        "show_social": false,
+        "auto_rotate": false,
+        "change_slides_speed": 10,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
     }
   },
   "order": [
     "announcement-bar",
-    "header"
+    "header",
+    "announcement_bar_n7kAPp"
   ]
 }
