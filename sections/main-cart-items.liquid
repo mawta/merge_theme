@@ -321,7 +321,6 @@
                                 </button>
                               </quantity-input>
                             </div>
-                            {% comment %}
                                  <cart-remove-button
                                 id="Remove-{{ item.index | plus: 1 }}"
                                 data-index="{{ item.index | plus: 1 }}"
@@ -334,7 +333,6 @@
                                   {% render 'icon-remove' %}
                                 </a>
                               </cart-remove-button>
-                            {% endcomment %}
                           </div>
                           {%- if has_qty_rules or has_vol_pricing -%}
                             <button
