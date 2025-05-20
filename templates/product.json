@@ -279,6 +279,25 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "1747752223d5c77aea": {
+      "type": "apps",
+      "blocks": {
+        "lai_product_reviews_lai_product_section_XFkqdB": {
+          "type": "shopify://apps/lai-product-reviews/blocks/lai-product-section/cad3c6c6-329e-4416-ba74-b79359b5b6e1",
+          "settings": {
+            "lai_product": "",
+            "title": "",
+            "use_other_product": false
+          }
+        }
+      },
+      "block_order": [
+        "lai_product_reviews_lai_product_section_XFkqdB"
+      ],
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
@@ -287,6 +306,7 @@
     "main",
     "image-with-text",
     "multicolumn",
-    "related-products"
+    "related-products",
+    "1747752223d5c77aea"
   ]
 }
