@@ -321,18 +321,20 @@
                                 </button>
                               </quantity-input>
                             </div>
-                                 <cart-remove-button
-                                id="Remove-{{ item.index | plus: 1 }}"
-                                data-index="{{ item.index | plus: 1 }}"
+                          </div>
+                          <div>
+                            <cart-remove-button
+                              id="Remove-{{ item.index | plus: 1 }}"
+                              data-index="{{ item.index | plus: 1 }}"
+                            >
+                              <a
+                                href="{{ item.url_to_remove }}"
+                                class="button button--tertiary"
+                                aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
                               >
-                                <a
-                                  href="{{ item.url_to_remove }}"
-                                  class="button button--tertiary"
-                                  aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-                                >
-                                  {% render 'icon-remove' %}
-                                </a>
-                              </cart-remove-button>
+                                {% render 'icon-remove' %}
+                              </a>
+                            </cart-remove-button>
                           </div>
                           {%- if has_qty_rules or has_vol_pricing -%}
                             <button
@@ -435,27 +437,27 @@
                       </div>
 
                       <div class="cart-item__totals right ">
-                       {% comment %}
-                        <div class="loading-overlay hidden">
-                          <div class="loading-overlay__spinner">
-                            <svg
-                              aria-hidden="true"
-                              focusable="false"
-                              class="spinner"
-                              viewBox="0 0 66 66"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-                            </svg>
+                        {% comment %}
+                          <div class="loading-overlay hidden">
+                            <div class="loading-overlay__spinner">
+                              <svg
+                                aria-hidden="true"
+                                focusable="false"
+                                class="spinner"
+                                viewBox="0 0 66 66"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                       {% endcomment %}
-                       {%- assign itemCompareAtPrice = item.variant.compare_at_price -%}
-                        {%- if itemCompareAtPrice == nil -%}
+                        {% endcomment %}
+                        {%- assign itemCompareAtPrice = item.variant.compare_at_price -%}
+                        {%- if itemCompareAtPrice == null -%}
                           {%- assign itemCompareAtPrice = item.original_price -%}
                         {%- endif -%}
-                       {%- assign totalLineCompareAtPrice = itemCompareAtPrice | times: item.quantity -%}
-                       {%- assign totalCompareAtPrice = totalCompareAtPrice |  plus: totalLineCompareAtPrice -%}
+                        {%- assign totalLineCompareAtPrice = itemCompareAtPrice | times: item.quantity -%}
+                        {%- assign totalCompareAtPrice = totalCompareAtPrice | plus: totalLineCompareAtPrice -%}
                         <div class="cart-item__price-wrapper">
                           {%- if item.original_line_price != item.final_line_price -%}
                             <dl class="cart-item__discounted-prices">
@@ -475,20 +477,20 @@
                               </dd>
                             </dl>
                           {%- else -%}
-                          {%- if item.variant.compare_at_price > item.original_price  -%}
-                            <span class="price money price-sale">{{ item.variant.compare_at_price | money }}</span>
+                            {%- if item.variant.compare_at_price > item.original_price -%}
+                              <span class="price money price-sale">{{ item.variant.compare_at_price | money }}</span>
 
-                            {%- assign totalLineOriginalPrice = item.original_price | times: item.quantity -%}
-                            {%- assign totalLineSavings = totalLineCompareAtPrice | minus: totalLineOriginalPrice -%}
-                            {%- assign totalSavings = totalSavings | plus: totalLineSavings -%}
-                          {% endif %}
+                              {%- assign totalLineOriginalPrice = item.original_price | times: item.quantity -%}
+                              {%- assign totalLineSavings = totalLineCompareAtPrice | minus: totalLineOriginalPrice -%}
+                              {%- assign totalSavings = totalSavings | plus: totalLineSavings -%}
+                            {% endif %}
                             {% comment %}
                               <span class="price price--end money">
                                 {{ item.original_line_price | money }}
                               </span>
-                            {% endcomment %}                          
+                            {% endcomment %}
                             <span class="price price--end money">
-                              {{ item.original_price  | money }}
+                              {{ item.original_price | money }}
                             </span>
                           {%- endif -%}
 
@@ -579,7 +581,6 @@
               <span class="totals__total-value money">{{ cart.total_price | money_with_currency }}</span>
             </div>
 
-            
             {% if cart.total_discount > 0 or totalSavings > 0 %}
               <p class="cart_savings js-cart_savings sale">
                 <span>Total Savings</span>
@@ -589,7 +590,7 @@
                       {{ totalSavings | money }}
                     {% else %}
                       {{ total_saving | plus: cart.total_discount | money }}
-                    {% endif %}              
+                    {% endif %}
                   </span>
                 </span>
               </p>
