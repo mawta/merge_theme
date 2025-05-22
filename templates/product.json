@@ -283,17 +283,26 @@
     "1747752223d5c77aea": {
       "type": "apps",
       "blocks": {
+        "lai_product_reviews_lai_product_section_NBkAVE": {
+          "type": "shopify://apps/lai-product-reviews/blocks/lai-product-section/cad3c6c6-329e-4416-ba74-b79359b5b6e1",
+          "settings": {
+            "lai_product": "",
+            "title": "",
+            "use_other_product": false
+          }
+        },
         "lai_product_reviews_card_carousel_XgPcbA": {
           "type": "shopify://apps/lai-product-reviews/blocks/cardCarousel/cad3c6c6-329e-4416-ba74-b79359b5b6e1",
           "settings": {
             "source": "homePage",
-            "title": "Customer Feedback",
+            "title": "",
             "background": "#fff",
             "width_container": ""
           }
         }
       },
       "block_order": [
+        "lai_product_reviews_lai_product_section_NBkAVE",
         "lai_product_reviews_card_carousel_XgPcbA"
       ],
       "settings": {
