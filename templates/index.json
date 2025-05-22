@@ -675,20 +675,6 @@
     },
     "1747929502913310f9": {
       "type": "apps",
-      "blocks": {
-        "lai_product_reviews_card_carousel_wgFACG": {
-          "type": "shopify://apps/lai-product-reviews/blocks/cardCarousel/cad3c6c6-329e-4416-ba74-b79359b5b6e1",
-          "settings": {
-            "source": "homePage",
-            "title": "",
-            "background": "#fff",
-            "width_container": ""
-          }
-        }
-      },
-      "block_order": [
-        "lai_product_reviews_card_carousel_wgFACG"
-      ],
       "settings": {
         "include_margins": true
       }
