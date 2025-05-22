@@ -33,6 +33,9 @@
         "announcement-bar-0",
         "announcement_URmeqg"
       ],
+      "custom_css": [
+        "slideshow-component {padding-top: 0px !important;}"
+      ],
       "settings": {
         "color_scheme": "scheme-8a179a35-f2d7-4bc3-89e4-3104034c7e22",
         "show_line_separator": true,
