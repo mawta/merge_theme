@@ -35,6 +35,30 @@
         "enable_language_selector": false
       }
     },
+    "announcement_bar_n7kAPp": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_CXaKdQ": {
+          "type": "announcement",
+          "settings": {
+            "text": "Place your order by May 28 to ensure delivery before Father’s Day!",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_CXaKdQ"
+      ],
+      "settings": {
+        "color_scheme": "scheme-8a179a35-f2d7-4bc3-89e4-3104034c7e22",
+        "show_line_separator": true,
+        "show_social": false,
+        "auto_rotate": false,
+        "change_slides_speed": 10,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
     "header": {
       "type": "header",
       "settings": {
@@ -52,23 +76,11 @@
         "padding_top": 20,
         "padding_bottom": 0
       }
-    },
-    "announcement_bar_n7kAPp": {
-      "type": "announcement-bar",
-      "settings": {
-        "color_scheme": "scheme-8a179a35-f2d7-4bc3-89e4-3104034c7e22",
-        "show_line_separator": true,
-        "show_social": false,
-        "auto_rotate": false,
-        "change_slides_speed": 10,
-        "enable_country_selector": false,
-        "enable_language_selector": false
-      }
     }
   },
   "order": [
     "announcement-bar",
-    "header",
-    "announcement_bar_n7kAPp"
+    "announcement_bar_n7kAPp",
+    "header"
   ]
 }
