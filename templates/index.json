@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "bec901c8-7007-4481-bdb1-1a8240f469b0": {
@@ -5,9 +14,9 @@
       "disabled": true,
       "settings": {
         "title": "Valentine's Day Gifts",
-        "url_sub_collection_1": "shopify:\/\/collections\/best-sellers",
+        "url_sub_collection_1": "shopify://collections/best-sellers",
         "title_sub_collection_1": "Best Seller",
-        "url_sub_collection": "shopify:\/\/collections\/new-arrivals",
+        "url_sub_collection": "shopify://collections/new-arrivals",
         "title_sub_collection": "What’s New",
         "sub_review": "Based on 11368 reviews",
         "padding_top": 16,
@@ -20,14 +29,14 @@
         "c96ede44-9992-46b2-a043-f51dd6318422": {
           "type": "slide",
           "settings": {
-            "image": "shopify:\/\/shop_images\/BannerNewShop1k6x1k-1606-0334.png",
-            "image_mobile": "shopify:\/\/shop_images\/BannerNewShop1k6x1k-1606-0334.png",
+            "image": "shopify://shop_images/BannerNewShop1k6x1k-1606-0334.png",
+            "image_mobile": "shopify://shop_images/BannerNewShop1k6x1k-1606-0334.png",
             "heading": "PERSONALISED PRODUCTS AND UNIQUE GIFT IDEAS",
             "heading_size": "h1",
             "subheading": "In just a few clicks, you can add your personal touch to the product you want. Dekor365 lets you design it your way.Don’t miss out on our newest collection.",
             "button_label": "SHOP NOW",
-            "link": "shopify:\/\/collections\/all-products",
-            "link_collection": "shopify:\/\/collections\/all-products",
+            "link": "shopify://collections/top-selling-products-1",
+            "link_collection": "shopify://collections/all-products",
             "button_style_secondary": false,
             "box_align": "middle-center",
             "show_text_box": true,
@@ -62,7 +71,7 @@
       "disabled": true,
       "settings": {
         "title": "Trending Products",
-        "url_collection": "shopify:\/\/collections\/best-sellers",
+        "url_collection": "shopify://collections/best-sellers",
         "lable_button": "Shop All",
         "padding_top": 40,
         "padding_bottom": 32,
@@ -120,8 +129,8 @@
       "disabled": true,
       "settings": {
         "title": "Collection 1",
-        "image_preview": "shopify:\/\/shop_images\/Tieu-BannerShopBunny1.png",
-        "url_collection": "shopify:\/\/collections\/valentines-day",
+        "image_preview": "shopify://shop_images/Tieu-BannerShopBunny1.png",
+        "url_collection": "shopify://collections/valentines-day",
         "sort_by": "manual",
         "padding_top": 0,
         "padding_bottom": 12
@@ -168,8 +177,8 @@
       "disabled": true,
       "settings": {
         "title": "Collection 1",
-        "image_preview": "shopify:\/\/shop_images\/Tieu-BannerShopBunny1.png",
-        "url_collection": "shopify:\/\/collections\/valentines-day",
+        "image_preview": "shopify://shop_images/Tieu-BannerShopBunny1.png",
+        "url_collection": "shopify://collections/valentines-day",
         "sort_by": "manual",
         "padding_top": 0,
         "padding_bottom": 12
@@ -216,8 +225,8 @@
       "disabled": true,
       "settings": {
         "title": "Collection 1",
-        "image_preview": "shopify:\/\/shop_images\/Tieu-BannerShopBunny1.png",
-        "url_collection": "shopify:\/\/collections\/valentines-day",
+        "image_preview": "shopify://shop_images/Tieu-BannerShopBunny1.png",
+        "url_collection": "shopify://collections/valentines-day",
         "sort_by": "manual",
         "padding_top": 0,
         "padding_bottom": 12
@@ -229,61 +238,61 @@
         "column2": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/BannercollectionTB.jpg",
+            "image": "shopify://shop_images/BannercollectionTB.jpg",
             "title": "Tumbler",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/tumbler"
+            "link": "shopify://collections/tumbler"
           }
         },
         "ebea764d-55f0-4305-86f0-710d59ddae99": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/Bannercollection.jpg",
+            "image": "shopify://shop_images/Bannercollection.jpg",
             "title": "Canvas & Poster",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/canvas-poster"
+            "link": "shopify://collections/canvas-poster"
           }
         },
         "e7d51283-09a4-4da6-86d0-d56b8030fc64": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/BannercollectionShirt.jpg",
+            "image": "shopify://shop_images/BannercollectionShirt.jpg",
             "title": "Apparel",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/apparel"
+            "link": "shopify://collections/apparel"
           }
         },
         "column1": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/3WoodCircleSign.jpg",
+            "image": "shopify://shop_images/3WoodCircleSign.jpg",
             "title": "Wood  Sign",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/wood-sign"
+            "link": "shopify://collections/wood-sign"
           }
         },
         "c52e4991-ea71-4f60-84fb-72a83bd40f6a": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/4WoodRectangleSign.jpg",
+            "image": "shopify://shop_images/4WoodRectangleSign.jpg",
             "title": "Pallet Sign",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/pallet-sign"
+            "link": "shopify://collections/pallet-sign"
           }
         },
         "column3": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/1MetalSign.jpg",
+            "image": "shopify://shop_images/1MetalSign.jpg",
             "title": "Metal Sign",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/metal-sign"
+            "link": "shopify://collections/metal-sign"
           }
         }
       },
@@ -318,161 +327,161 @@
         "column_qnTk7g": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/1207-dm-btm-custommu_e6f4ac72-8c90-43f9-9a16-dd59699811d0.png",
+            "image": "shopify://shop_images/1207-dm-btm-custommu_e6f4ac72-8c90-43f9-9a16-dd59699811d0.png",
             "title": "All Products",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/all-products"
+            "link": "shopify://collections/all-products"
           }
         },
         "column_r4ntc3": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/BannercollectionShirt.jpg",
+            "image": "shopify://shop_images/BannercollectionShirt.jpg",
             "title": "Apparel",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/apparel"
+            "link": "shopify://collections/apparel"
           }
         },
         "column_43t4Ai": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/Capture_545d7f61-c633-4f5d-be85-33423115e763.png",
+            "image": "shopify://shop_images/Capture_545d7f61-c633-4f5d-be85-33423115e763.png",
             "title": "Back To School",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/back-to-school"
+            "link": "shopify://collections/back-to-school"
           }
         },
         "column_M9mKAB": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/ANH-DDL-SHOP-CW11-1708-3-lufthansa-tocvang-MU.jpg",
+            "image": "shopify://shop_images/ANH-DDL-SHOP-CW11-1708-3-lufthansa-tocvang-MU.jpg",
             "title": "Canvas & Poster",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/canvas-poster"
+            "link": "shopify://collections/canvas-poster"
           }
         },
         "column_fkjLRr": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/hairhustlercustom-ads.jpg",
+            "image": "shopify://shop_images/hairhustlercustom-ads.jpg",
             "title": "Hair Stylist",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/hair-stylist"
+            "link": "shopify://collections/hair-stylist"
           }
         },
         "column_KMEafR": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/Capture_545d7f61-c633-4f5d-be85-33423115e763.png",
+            "image": "shopify://shop_images/Capture_545d7f61-c633-4f5d-be85-33423115e763.png",
             "title": "Hobbies",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/hobbies"
+            "link": "shopify://collections/hobbies"
           }
         },
         "column_NCNQzU": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/CTH-DDL-SHOP-TS-1509-3-cat-MU-tonghop.jpg",
+            "image": "shopify://shop_images/CTH-DDL-SHOP-TS-1509-3-cat-MU-tonghop.jpg",
             "title": "Hoodie",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/hoodie"
+            "link": "shopify://collections/hoodie"
           }
         },
         "column_nU79ri": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/CTH-KLI-SHOP-MS-2501-4-motorcycleMU.jpg",
+            "image": "shopify://shop_images/CTH-KLI-SHOP-MS-2501-4-motorcycleMU.jpg",
             "title": "Metal Sign",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/metal-sign"
+            "link": "shopify://collections/metal-sign"
           }
         },
         "column_N6EepB": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/1_de480780-85be-4a08-9f70-37f4452c9006.png",
+            "image": "shopify://shop_images/1_de480780-85be-4a08-9f70-37f4452c9006.png",
             "title": "Military Gear",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/military-gear"
+            "link": "shopify://collections/military-gear"
           }
         },
         "column_7E6Meg": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/DTG-THA-SHOP-TB2-1808-3-mu_1.jpg",
+            "image": "shopify://shop_images/DTG-THA-SHOP-TB2-1808-3-mu_1.jpg",
             "title": "Nurse Tumbler",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/nurse-tumbler"
+            "link": "shopify://collections/nurse-tumbler"
           }
         },
         "column_pAQyPi": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/DTG-KLI-SHOP-PR1-0208-4-fontVinque-mu3.jpg",
+            "image": "shopify://shop_images/DTG-KLI-SHOP-PR1-0208-4-fontVinque-mu3.jpg",
             "title": "Pallet Sign",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/pallet-sign"
+            "link": "shopify://collections/pallet-sign"
           }
         },
         "column_Vb7Mzm": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/CHA-HA-SHOP-TB2-0408-9-Delta-MU.jpg",
+            "image": "shopify://shop_images/CHA-HA-SHOP-TB2-0408-9-Delta-MU.jpg",
             "title": "Personalized flight attendant tumbler",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/flight-attendant-tumbler"
+            "link": "shopify://collections/flight-attendant-tumbler"
           }
         },
         "column_Tbb8hF": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/ANH-DDL-SHOP-PC-1308-3-aifrance-light-MU.jpg",
+            "image": "shopify://shop_images/ANH-DDL-SHOP-PC-1308-3-aifrance-light-MU.jpg",
             "title": "Phone case",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/phone-case"
+            "link": "shopify://collections/phone-case"
           }
         },
         "column_Hg6KRC": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/1_de480780-85be-4a08-9f70-37f4452c9006.png",
+            "image": "shopify://shop_images/1_de480780-85be-4a08-9f70-37f4452c9006.png",
             "title": "Professions",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/professions"
+            "link": "shopify://collections/professions"
           }
         },
         "column_aDJdVF": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/ANH-DDL-SHOP-TB2-1208-Air-Transat-light-MU.jpg",
+            "image": "shopify://shop_images/ANH-DDL-SHOP-TB2-1208-Air-Transat-light-MU.jpg",
             "title": "Tumbler",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/tumbler"
+            "link": "shopify://collections/tumbler"
           }
         },
         "column_94dwgw": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/CHA-KLI-SHOP-RWS-0708-1-skull-MU3.jpg",
+            "image": "shopify://shop_images/CHA-KLI-SHOP-RWS-0708-1-skull-MU3.jpg",
             "title": "Wood  Sign",
             "text": "",
             "link_label": "",
-            "link": "shopify:\/\/collections\/wood-sign"
+            "link": "shopify://collections/wood-sign"
           }
         }
       },
@@ -518,7 +527,7 @@
         "template--16103512440992__615e689d-7f23-46e9-99bf-2d1fe1eae062-column-1": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/woman-with-white-crisp-shopping-carrier-bags.jpg",
+            "image": "shopify://shop_images/woman-with-white-crisp-shopping-carrier-bags.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -528,7 +537,7 @@
         "template--16103512440992__615e689d-7f23-46e9-99bf-2d1fe1eae062-column-2": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/customer-in-face-mask-smiles-and-holds-white-shopping-bags.jpg",
+            "image": "shopify://shop_images/customer-in-face-mask-smiles-and-holds-white-shopping-bags.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -538,7 +547,7 @@
         "template--16103512440992__615e689d-7f23-46e9-99bf-2d1fe1eae062-column-3": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/happy-customer-smiles-and-holds-white-shopping-bags.jpg",
+            "image": "shopify://shop_images/happy-customer-smiles-and-holds-white-shopping-bags.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -548,7 +557,7 @@
         "bfa930ba-9c50-40ae-9ce2-59f798b14a92": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/customer-support-staff-ready-for-work.jpg",
+            "image": "shopify://shop_images/customer-support-staff-ready-for-work.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -558,7 +567,7 @@
         "fba5205a-d6c6-4f7f-83ac-4cd5200f40a5": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/customer-samples-a-tester-product.jpg",
+            "image": "shopify://shop_images/customer-samples-a-tester-product.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -568,7 +577,7 @@
         "15651204-757c-4294-a8ef-759949f05282": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/happy-customer-after-successful-retail-shop.jpg",
+            "image": "shopify://shop_images/happy-customer-after-successful-retail-shop.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -578,7 +587,7 @@
         "b5e8164c-ba5a-43f0-8fe2-b4c9c71ee481": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/handful-of-cash.jpg",
+            "image": "shopify://shop_images/handful-of-cash.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -588,7 +597,7 @@
         "5fb271e8-3a04-4390-b2ed-faae417917de": {
           "type": "column",
           "settings": {
-            "image": "shopify:\/\/shop_images\/contact-customer-service.jpg",
+            "image": "shopify://shop_images/contact-customer-service.jpg",
             "title": "",
             "text": "",
             "link_label": "",
@@ -612,7 +621,7 @@
       ],
       "settings": {
         "title": "HAPPY CUSTOMERS",
-        "sub_link": "shopify:\/\/pages\/reviews",
+        "sub_link": "shopify://pages/reviews",
         "heading_size": "h2",
         "image_width": "full",
         "image_ratio": "adapt",
