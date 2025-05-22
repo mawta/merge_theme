@@ -20,10 +20,18 @@
             "text": "⭐Free Shipping for all orders over $100⭐",
             "link": ""
           }
+        },
+        "announcement_URmeqg": {
+          "type": "announcement",
+          "settings": {
+            "text": "Place your order by May 28 to ensure delivery before Father’s Day!",
+            "link": ""
+          }
         }
       },
       "block_order": [
-        "announcement-bar-0"
+        "announcement-bar-0",
+        "announcement_URmeqg"
       ],
       "settings": {
         "color_scheme": "scheme-8a179a35-f2d7-4bc3-89e4-3104034c7e22",
@@ -40,6 +48,7 @@
       "blocks": {
         "announcement_CXaKdQ": {
           "type": "announcement",
+          "disabled": true,
           "settings": {
             "text": "Place your order by May 28 to ensure delivery before Father’s Day!",
             "link": ""
