@@ -305,6 +305,9 @@
         "lai_product_reviews_lai_product_section_NBkAVE",
         "lai_product_reviews_card_carousel_XgPcbA"
       ],
+      "custom_css": [
+        "body .scm-reviews-importer {margin-top: 0; padding-top: 0px;}"
+      ],
       "settings": {
         "include_margins": true
       }
