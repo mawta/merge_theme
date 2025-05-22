@@ -672,6 +672,26 @@
       "settings": {
         "maxwidth": 1440
       }
+    },
+    "1747929502913310f9": {
+      "type": "apps",
+      "blocks": {
+        "lai_product_reviews_card_carousel_wgFACG": {
+          "type": "shopify://apps/lai-product-reviews/blocks/cardCarousel/cad3c6c6-329e-4416-ba74-b79359b5b6e1",
+          "settings": {
+            "source": "homePage",
+            "title": "",
+            "background": "#fff",
+            "width_container": ""
+          }
+        }
+      },
+      "block_order": [
+        "lai_product_reviews_card_carousel_wgFACG"
+      ],
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
@@ -686,6 +706,7 @@
     "multicolumn_8yQcQF",
     "615e689d-7f23-46e9-99bf-2d1fe1eae062",
     "featured_collection",
-    "7f21fd9e-3c8b-4c74-9917-1637d19e66ab"
+    "7f21fd9e-3c8b-4c74-9917-1637d19e66ab",
+    "1747929502913310f9"
   ]
 }
