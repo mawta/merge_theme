@@ -694,7 +694,7 @@ $(window).on("load", function () {
   }
 
   if($(".notification-shipping").hasClass('hidden')){
-    modalConfirm("getShareCustomily");
+    // modalConfirm("getShareCustomily");
   }
  
 });
