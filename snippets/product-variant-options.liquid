@@ -1,18 +1,18 @@
 {% comment %}
-Renders product variant options
+  Renders product variant options
 
-Accepts:
-- product: {Object} product object.
-- option: {Object} current product_option object.
-- block: {Object} block object.
+  Accepts:
+  - product: {Object} product object.
+  - option: {Object} current product_option object.
+  - block: {Object} block object.
 
 
-Usage:
-{% render 'product-variant-options',
-product: product,
-option: option,
-block: block
-%}
+  Usage:
+  {% render 'product-variant-options',
+  product: product,
+  option: option,
+  block: block
+  %}
 {% endcomment %}
 
 {%- liquid
@@ -24,16 +24,27 @@ block: block
   assign product_form_id = 'product-form-' | append: section.id
 -%}
 
-  <script>console.log("value", {{option | json}})</script>
-  <script>console.log({{product | json}})</script>
-  <script>console.log("variants_available_arr",{{variants_available_arr | json}})</script>
-  <script>console.log("variants_option1_arr",{{variants_option1_arr | json}})</script>
-  <script>console.log("variants_option2_arr",{{variants_option2_arr | json}})</script>
-  <script>console.log("variants_option3_arr",{{variants_option3_arr | json}})</script>
-  <script>console.log("product.variants",{{product.variants | json}})</script>
-  
-  
-  
+<script>
+  console.log("value", {{option | json}})
+</script>
+<script>
+  console.log({{product | json}})
+</script>
+<script>
+  console.log("variants_available_arr",{{variants_available_arr | json}})
+</script>
+<script>
+  console.log("variants_option1_arr",{{variants_option1_arr | json}})
+</script>
+<script>
+  console.log("variants_option2_arr",{{variants_option2_arr | json}})
+</script>
+<script>
+  console.log("variants_option3_arr",{{variants_option3_arr | json}})
+</script>
+<script>
+  console.log("product.variants",{{product.variants | json}})
+</script>
 
 {%- for value in option.values -%}
   {%- liquid
@@ -55,11 +66,10 @@ block: block
           endif
       endcase
     endfor
-
   -%}
-  
+
   {% if typeCasePhone == true %}
-    <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
+    <option value="{{ value | escape }}">
       {% if option_disabled -%}
         {{- 'products.product.value_unavailable' | t: option_value: value -}}
       {%- else -%}
@@ -73,26 +83,30 @@ block: block
       name="{{ option.name }}"
       value="{{ value | escape }}"
       form="{{ product_form_id }}"
-      {% if option.selected_value == value %}checked{% endif %}
-      {% if option_disabled %}class="disabled"{% endif %}>
+      {% if option_disabled %}
+        class="disabled"
+      {% endif %}
+    >
     <label
       for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
       class="swatch-elment {% if option.name == "Color" %}color {% endif %} {{ value | handle }}-swatch"
-      {% if option.name == "Color" %}style=" background-color: {% render 'product-color' , color: value %} " {% endif %}>
-      {% if option.name != "Color" %}
+      {% if option.name == 'Color' %}
+        style=" background-color: {% render 'product-color' , color: value %} "
+      {% endif %}
+    >
+      {% if option.name != 'Color' %}
         {{ value }}
         {% render 'product-best-selling', product: product, value: value %}
       {% endif %}
 
       <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
-      {% if option.name == "Color" %}
+      {% if option.name == 'Color' %}
         <div class="tooltip">{{ value }}</div>
       {% endif %}
     </label>
 
-
   {%- elsif block.settings.picker_type == 'dropdown' -%}
-    <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
+    <option value="{{ value | escape }}">
       {% if option_disabled -%}
         {{- 'products.product.value_unavailable' | t: option_value: value -}}
       {%- else -%}
