@@ -235,6 +235,13 @@
           font-size: 1.6rem;
         }
       }
+
+       @media screen and (max-width: 480px) {
+        .btn-preview {
+          display: none
+        }
+      }
+      
     {% endstyle %}
 
     {{ 'app.css' | asset_url | stylesheet_tag }}
