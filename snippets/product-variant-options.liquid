@@ -161,11 +161,11 @@
     console.log('[observer] Button đã xuất hiện');
     var form = btn.closest('form');
     if (!form) return;
-    var requiredRadios = form.querySelectorAll('input[type="radio"][required]');
+    var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
     console.log('[observer] requiredRadios:', requiredRadios);
     var allSelected = true;
     requiredRadios.forEach(function(radio) {
-      if (!form.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
+      if (!document.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
     });
     if (allSelected) {
       btn.removeAttribute('disabled');
