@@ -162,15 +162,10 @@
     var form = btn.closest('form');
     if (!form) return;
     var requiredRadios = form.querySelectorAll('input[type="radio"][required]');
-    var requiredSelects = form.querySelectorAll('select[required]');
     console.log('[observer] requiredRadios:', requiredRadios);
-    console.log('[observer] requiredSelects:', requiredSelects);
     var allSelected = true;
     requiredRadios.forEach(function(radio) {
       if (!form.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
-    });
-    requiredSelects.forEach(function(select) {
-      if (!select.value || select.value === '' || select.value === 'default') allSelected = false;
     });
     if (allSelected) {
       btn.removeAttribute('disabled');
@@ -189,7 +184,7 @@
   });
   observer.observe(document.body, { childList: true, subtree: true });
   document.addEventListener('change', function(e) {
-    if (e.target.matches('select[required], input[type="radio"][required]')) {
+    if (e.target.matches('input[type="radio"][required]')) {
       updateAddToCartBtnState();
     }
   });
