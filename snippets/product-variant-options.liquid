@@ -118,27 +118,24 @@
 {%- endfor -%}
 
 <script>
-  // Đảm bảo script chỉ chạy sau khi DOM đã sẵn sàng
   document.addEventListener('DOMContentLoaded', function() {
     function checkAllOptionsSelected() {
-      var allGroups = document.querySelectorAll('[name^="options"][required], .product__radio-group[required], .product__option[required]');
-      var allSelected = true;
-      // Kiểm tra radio
-      document.querySelectorAll('.product__radio-group[required], [name^="options"][required]').forEach(function(group) {
-        var radios = group.querySelectorAll('input[type="radio"]');
-        if (radios.length) {
-          var checked = Array.from(radios).some(function(radio) { return radio.checked; });
-          if (!checked) allSelected = false;
-        }
-      });
+      // Lấy tất cả select/radio trong form add to cart
+      var form = document.querySelector('.customily-add-to-cart-btn')?.closest('form');
+      if (!form) return true;
+      var selects = form.querySelectorAll('select[required]');
+      var radios = form.querySelectorAll('input[type="radio"][required]');
       // Kiểm tra select
-      document.querySelectorAll('select[required]').forEach(function(select) {
-        if (!select.value) allSelected = false;
-      });
-      // Nếu không có nhóm nào thì vẫn cho add
-      return allGroups.length === 0 || allSelected;
+      for (var select of selects) {
+        if (!select.value || select.value === '' || select.value === 'default') return false;
+      }
+      // Kiểm tra radio
+      var radioNames = Array.from(radios).map(r => r.name).filter((v,i,a) => a.indexOf(v)===i);
+      for (var name of radioNames) {
+        if (!form.querySelector('input[type="radio"][name="'+name+'"]:checked')) return false;
+      }
+      return true;
     }
-
     function toggleAddToCartButton() {
       var btn = document.querySelector('.customily-add-to-cart-btn');
       if (!btn) return;
@@ -148,16 +145,22 @@
         btn.setAttribute('disabled', 'disabled');
       }
     }
-
-    // Lắng nghe thay đổi trên radio/select
+    // Lắng nghe thay đổi trên select/radio
     document.addEventListener('change', function(e) {
-      if (
-        e.target.matches('input[type="radio"], select') &&
-        (e.target.hasAttribute('required') || e.target.closest('.product__radio-group[required]'))
-      ) {
+      if (e.target.matches('select[required], input[type="radio"][required]')) {
         toggleAddToCartButton();
       }
     });
+    // Chặn submit nếu thiếu option
+    var form = document.querySelector('.customily-add-to-cart-btn')?.closest('form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        if (!checkAllOptionsSelected()) {
+          e.preventDefault();
+          toggleAddToCartButton();
+        }
+      });
+    }
     // Kiểm tra lần đầu
     toggleAddToCartButton();
   });
