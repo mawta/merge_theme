@@ -86,6 +86,7 @@
       {% if option_disabled %}
         class="disabled"
       {% endif %}
+      required
     >
     <label
       for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
@@ -106,7 +107,7 @@
     </label>
 
   {%- elsif block.settings.picker_type == 'dropdown' -%}
-    <option value="{{ value | escape }}">
+    <option value="{{ value | escape }}" {% if forloop.first %}required{% endif %}>
       {% if option_disabled -%}
         {{- 'products.product.value_unavailable' | t: option_value: value -}}
       {%- else -%}
