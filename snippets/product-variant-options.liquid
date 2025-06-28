@@ -130,50 +130,73 @@
 {%- endfor -%}
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    function checkAllOptionsSelected() {
-      // Lấy tất cả select/radio trong form add to cart
-      var form = document.querySelector('.customily-add-to-cart-btn')?.closest('form');
-      if (!form) return true;
-      var selects = form.querySelectorAll('select[required]');
-      var radios = form.querySelectorAll('input[type="radio"][required]');
-      // Kiểm tra select
-      for (var select of selects) {
-        if (!select.value || select.value === '' || select.value === 'default') return false;
+  // Đảm bảo không radio nào được checked mặc định khi có thay đổi DOM (observer)
+  function uncheckAllRadiosInProductForm() {
+    document.querySelectorAll('.product-form__input input[type="radio"]').forEach(function(radio) {
+      if (!radio.matches(':checked')) {
+        radio.checked = false;
+        radio.removeAttribute('checked');
       }
-      // Kiểm tra radio
-      var radioNames = Array.from(radios).map(r => r.name).filter((v,i,a) => a.indexOf(v)===i);
-      for (var name of radioNames) {
-        if (!form.querySelector('input[type="radio"][name="'+name+'"]:checked')) return false;
-      }
-      return true;
+    });
+  }
+  function observeProductFormRadios() {
+    var productFormInputs = document.querySelectorAll('.product-form__input');
+    productFormInputs.forEach(function(productForm) {
+      const observer = new MutationObserver(() => {
+        uncheckAllRadiosInProductForm();
+      });
+      observer.observe(productForm, { childList: true, subtree: true });
+    });
+  }
+  observeProductFormRadios();
+</script>
+<script>
+  function checkAllOptionsSelected() {
+    var form = document.querySelector('.customily-add-to-cart-btn')?.closest('form');
+    if (!form) return true;
+    var selects = form.querySelectorAll('select[required]');
+    var radios = form.querySelectorAll('input[type="radio"][required]');
+    for (var select of selects) {
+      if (!select.value || select.value === '' || select.value === 'default') return false;
     }
-    function toggleAddToCartButton() {
-      var btn = document.querySelector('.customily-add-to-cart-btn');
-      if (!btn) return;
-      if (checkAllOptionsSelected()) {
-        btn.removeAttribute('disabled');
-      } else {
-        btn.setAttribute('disabled', 'disabled');
-      }
+    var radioNames = Array.from(radios).map(r => r.name).filter((v,i,a) => a.indexOf(v)===i);
+    for (var name of radioNames) {
+      if (!form.querySelector('input[type="radio"][name="'+name+'"]:checked')) return false;
     }
-    // Lắng nghe thay đổi trên select/radio
+    return true;
+  }
+  function toggleAddToCartButton() {
+    var btn = document.querySelector('.customily-add-to-cart-btn');
+    if (!btn) return;
+    if (checkAllOptionsSelected()) {
+      btn.removeAttribute('disabled');
+    } else {
+      btn.setAttribute('disabled', 'disabled');
+    }
+  }
+  function observeProductFormRadiosAndButton() {
+    var productFormInputs = document.querySelectorAll('.product-form__input');
+    productFormInputs.forEach(function(productForm) {
+      const observer = new MutationObserver(() => {
+        toggleAddToCartButton();
+      });
+      observer.observe(productForm, { childList: true, subtree: true });
+    });
+    // Theo dõi sự xuất hiện của button
+    var form = document.querySelector('.product-form__input')?.closest('form');
+    if (form) {
+      const btnObserver = new MutationObserver(() => {
+        toggleAddToCartButton();
+      });
+      btnObserver.observe(form, { childList: true, subtree: true });
+    }
     document.addEventListener('change', function(e) {
       if (e.target.matches('select[required], input[type="radio"][required]')) {
         toggleAddToCartButton();
       }
     });
-    // Chặn submit nếu thiếu option
-    var form = document.querySelector('.customily-add-to-cart-btn')?.closest('form');
-    if (form) {
-      form.addEventListener('submit', function(e) {
-        if (!checkAllOptionsSelected()) {
-          e.preventDefault();
-          toggleAddToCartButton();
-        }
-      });
-    }
     // Kiểm tra lần đầu
     toggleAddToCartButton();
-  });
+  }
+  observeProductFormRadiosAndButton();
 </script>
