@@ -154,7 +154,11 @@
 (function() {
   function updateAddToCartBtnState() {
     var btn = document.querySelector('.customily-add-to-cart-btn');
-    if (!btn) return;
+    if (!btn) {
+      console.log('[observer] Button chưa xuất hiện');
+      return;
+    }
+    console.log('[observer] Button đã xuất hiện');
     var form = btn.closest('form');
     if (!form) return;
     var requiredRadios = form.querySelectorAll('input[type="radio"][required]');
@@ -168,11 +172,19 @@
     });
     if (allSelected) {
       btn.removeAttribute('disabled');
+      console.log('[observer] Button enabled');
     } else {
       btn.setAttribute('disabled', 'disabled');
+      console.log('[observer] Button disabled');
     }
   }
-  var observer = new MutationObserver(updateAddToCartBtnState);
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.type === 'childList') {
+        updateAddToCartBtnState();
+      }
+    });
+  });
   observer.observe(document.body, { childList: true, subtree: true });
   document.addEventListener('change', function(e) {
     if (e.target.matches('select[required], input[type="radio"][required]')) {
