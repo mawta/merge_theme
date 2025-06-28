@@ -151,52 +151,35 @@
   observeProductFormRadios();
 </script>
 <script>
-  function checkAllOptionsSelected() {
-    var form = document.querySelector('.customily-add-to-cart-btn')?.closest('form');
-    if (!form) return true;
-    var selects = form.querySelectorAll('select[required]');
-    var radios = form.querySelectorAll('input[type="radio"][required]');
-    for (var select of selects) {
-      if (!select.value || select.value === '' || select.value === 'default') return false;
-    }
-    var radioNames = Array.from(radios).map(r => r.name).filter((v,i,a) => a.indexOf(v)===i);
-    for (var name of radioNames) {
-      if (!form.querySelector('input[type="radio"][name="'+name+'"]:checked')) return false;
-    }
-    return true;
-  }
-  function toggleAddToCartButton() {
+(function() {
+  function updateAddToCartBtnState() {
     var btn = document.querySelector('.customily-add-to-cart-btn');
     if (!btn) return;
-    if (checkAllOptionsSelected()) {
+    var form = btn.closest('form');
+    if (!form) return;
+    var requiredRadios = form.querySelectorAll('input[type="radio"][required]');
+    var requiredSelects = form.querySelectorAll('select[required]');
+    var allSelected = true;
+    requiredRadios.forEach(function(radio) {
+      if (!form.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
+    });
+    requiredSelects.forEach(function(select) {
+      if (!select.value || select.value === '' || select.value === 'default') allSelected = false;
+    });
+    if (allSelected) {
       btn.removeAttribute('disabled');
     } else {
       btn.setAttribute('disabled', 'disabled');
     }
   }
-  function observeProductFormRadiosAndButton() {
-    var productFormInputs = document.querySelectorAll('.product-form__input');
-    productFormInputs.forEach(function(productForm) {
-      const observer = new MutationObserver(() => {
-        toggleAddToCartButton();
-      });
-      observer.observe(productForm, { childList: true, subtree: true });
-    });
-    // Theo dõi sự xuất hiện của button
-    var form = document.querySelector('.product-form__input')?.closest('form');
-    if (form) {
-      const btnObserver = new MutationObserver(() => {
-        toggleAddToCartButton();
-      });
-      btnObserver.observe(form, { childList: true, subtree: true });
+  var observer = new MutationObserver(updateAddToCartBtnState);
+  observer.observe(document.body, { childList: true, subtree: true });
+  document.addEventListener('change', function(e) {
+    if (e.target.matches('select[required], input[type="radio"][required]')) {
+      updateAddToCartBtnState();
     }
-    document.addEventListener('change', function(e) {
-      if (e.target.matches('select[required], input[type="radio"][required]')) {
-        toggleAddToCartButton();
-      }
-    });
-    // Kiểm tra lần đầu
-    toggleAddToCartButton();
-  }
-  observeProductFormRadiosAndButton();
+  });
+  // Kiểm tra lần đầu
+  updateAddToCartBtnState();
+})();
 </script>
