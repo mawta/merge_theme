@@ -163,6 +163,8 @@
     if (!form) return;
     var requiredRadios = form.querySelectorAll('input[type="radio"][required]');
     var requiredSelects = form.querySelectorAll('select[required]');
+    console.log('[observer] requiredRadios:', requiredRadios);
+    console.log('[observer] requiredSelects:', requiredSelects);
     var allSelected = true;
     requiredRadios.forEach(function(radio) {
       if (!form.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
