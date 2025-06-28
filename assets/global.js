@@ -571,7 +571,6 @@ class HeaderDrawer extends MenuDrawer {
     setTimeout(() => {
       this.mainDetailsToggle.classList.add("menu-opening");
     });
-
     summaryElement.setAttribute("aria-expanded", true);
     window.addEventListener("resize", this.onResize);
     trapFocus(this.mainDetailsToggle, summaryElement);
@@ -1110,8 +1109,8 @@ class VariantSelects extends HTMLElement {
       pickerType == "radios"
         ? document.querySelector("variant-radios")
         : document.querySelector("variant-selects");
-    if(!variantSelects){
-      return
+    if (!variantSelects) {
+      return;
     }
     const fieldsets =
       pickerType == "radios"
@@ -1211,10 +1210,10 @@ class VariantSelects extends HTMLElement {
     const typeCanvas = "Canvas";
     const sizePoster = ['11"x14"', '14"x11"', '8"x12"', '12"x8"'];
     const typePoster = "Poster";
-    const sizeCard = ['5" x 7"','7" x 5"'];
+    const sizeCard = ['5" x 7"', '7" x 5"'];
     const pack = "1 Card";
-    
-    if (country == "US") {     
+
+    if (country == "US") {
       return true;
     }
 
@@ -1222,10 +1221,12 @@ class VariantSelects extends HTMLElement {
       if (optionLevel == 1) {
         if (
           colorSand == inputValue ||
-          (typeCanvas == selectedOptions[0] && sizeCanvas.includes(inputValue.replace(/\s/g, ''))) ||
-          (typePoster == selectedOptions[0] && sizePoster.includes(inputValue.replace(/\s/g, '')))
-          || sizeCard.includes(selectedOptions[0]) && pack == inputValue
-          ) {
+          (typeCanvas == selectedOptions[0] &&
+            sizeCanvas.includes(inputValue.replace(/\s/g, ""))) ||
+          (typePoster == selectedOptions[0] &&
+            sizePoster.includes(inputValue.replace(/\s/g, ""))) ||
+          (sizeCard.includes(selectedOptions[0]) && pack == inputValue)
+        ) {
           return false;
         }
       } else if (optionLevel == 2) {
@@ -1299,37 +1300,12 @@ class VariantSelects extends HTMLElement {
           return variant.options[0] === this.options[0];
         });
       }
-      if (this.currentVariant) {
-        const option2 =  document.querySelector(
-          `input[value='${this.currentVariant.option2}']`
-        )
-        if(option2) option2.checked = true;   
-      }
     }
 
     if (!this.currentVariant) {
       this.currentVariant = this.getVariantData().find((variant) => {
         return variant.options[0] === this.options[0];
       });
-    }
-
-   
-    if (this.options.length == 3) {
-      if (this.currentVariant) {
-        document.querySelector(
-          `input[value='${this.currentVariant.option3}']`
-        ).checked = true;
-      }
-    }
-
-    if (this.options.length == 2) {
-      document.querySelector(
-        `input[value="${this.currentVariant.option1}"]`
-      ).checked = true;
-
-      document.querySelector(
-        `input[value='${this.currentVariant.option2}']`
-      ).checked = true;
     }
 
     const money = Shopify.formatMoney(
@@ -1457,9 +1433,10 @@ class VariantSelects extends HTMLElement {
       : this.dataset.section;
 
     fetch(
-      `${this.dataset.url}?variant=${requestedVariantId}&section_id=${this.dataset.originalSection
-        ? this.dataset.originalSection
-        : this.dataset.section
+      `${this.dataset.url}?variant=${requestedVariantId}&section_id=${
+        this.dataset.originalSection
+          ? this.dataset.originalSection
+          : this.dataset.section
       }`
     )
       .then((response) => response.text())
