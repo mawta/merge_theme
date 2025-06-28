@@ -72,7 +72,7 @@
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
         {%- endif -%}
 
-        {% include 'quantity-product', product: product, section: section, block: block %}
+        {% render 'quantity-product', product: product, section: section, block: block %}
         <div class="product-form__buttons">
           <div class="btn-preview-desktop">
             <a href="#" id="btn-preview-desktop" class="button customily-preview-button ld-custom"
@@ -124,6 +124,27 @@
         </div>
       {%- endform -%}
     </product-form>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('{{ product_form_id }}') || document.querySelector('form[data-type="add-to-cart-form"]');
+        if (!form) return;
+        var submitBtn = form.querySelector('button[type="submit"]');
+        var variantInput = form.querySelector('input[name="id"]');
+        function checkVariantSelected() {
+          if (!variantInput.value || variantInput.disabled) {
+            submitBtn.disabled = true;
+          } else {
+            submitBtn.disabled = false;
+          }
+        }
+        // Initial check
+        checkVariantSelected();
+        // Listen for variant change
+        form.addEventListener('change', function(e) {
+          setTimeout(checkVariantSelected, 50);
+        });
+      });
+    </script>
   {%- else -%}
     <div class="product-form">
       <div class="product-form__buttons form">
