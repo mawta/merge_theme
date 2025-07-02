@@ -127,6 +127,12 @@
   {%- elsif block.settings.picker_type == 'dropdown' -%}
     <option value="{{ value | escape }}" {% if option_disabled %}disabled{% endif %}>{{ value }}</option>
   {%- endif -%}
+
+  {%- if forloop.last -%}
+    <div class="option-required-warning" style="color: red; font-size: 0.9em; display: none; margin-top: 4px;">
+      {{ option.name }} is required. Please select an option.
+    </div>
+  {%- endif -%}
 {%- endfor -%}
 
 <script>
@@ -166,6 +172,30 @@
     var allSelected = true;
     requiredRadios.forEach(function(radio) {
       if (!document.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
+    });
+    // Show/hide required warning for each option
+    requiredRadios.forEach(function(radio) {
+      var optionName = radio.name;
+      // Find the warning for this option (assume it's the next .option-required-warning after the last input for this name)
+      var radios = document.querySelectorAll('input[type="radio"][name="'+optionName+'"]');
+      var warning = null;
+      if (radios.length > 0) {
+        var lastRadio = radios[radios.length - 1];
+        var next = lastRadio.nextElementSibling;
+        while (next && !next.classList.contains('option-required-warning')) {
+          next = next.nextElementSibling;
+        }
+        warning = next;
+      }
+      if (!document.querySelector('input[type="radio"][name="'+optionName+'"]:checked')) {
+        if (warning) {
+          warning.style.display = 'block';
+        }
+      } else {
+        if (warning) {
+          warning.style.display = 'none';
+        }
+      }
     });
     if (allSelected) {
       btn.removeAttribute('disabled');
