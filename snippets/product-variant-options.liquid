@@ -136,9 +136,19 @@
 </script>
 <script>
 (function() {
-  function getVisibleRequiredRadios() {
-    return Array.from(document.querySelectorAll('input[type="radio"][required]')).filter(function(radio) {
-      return radio.offsetParent !== null;
+  function getRequiredRadioGroups() {
+    // Lấy tất cả radio required, visible, enabled
+    var radios = Array.from(document.querySelectorAll('input[type="radio"][required]')).filter(function(radio) {
+      return radio.offsetParent !== null && !radio.disabled;
+    });
+    // Lấy unique name
+    var names = Array.from(new Set(radios.map(function(r){ return r.name; })));
+    // Chỉ giữ lại nhóm có ít nhất 1 radio enabled, visible, required
+    return names.filter(function(name) {
+      var groupRadios = Array.from(document.querySelectorAll('input[type="radio"][name="'+name+'"]'));
+      return groupRadios.some(function(radio) {
+        return radio.required && radio.offsetParent !== null && !radio.disabled;
+      });
     });
   }
   function updateAddToCartBtnState() {
@@ -148,15 +158,14 @@
     }
     var form = btn.closest('form');
     if (!form) return;
-    var requiredRadios = getVisibleRequiredRadios();
+    var requiredGroups = getRequiredRadioGroups();
     var allSelected = true;
-    requiredRadios.forEach(function(radio) {
-      if (!document.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
+    requiredGroups.forEach(function(name) {
+      if (!document.querySelector('input[type="radio"][name="'+name+'"]:checked')) allSelected = false;
     });
-    // Show/hide required warning for each option
-    requiredRadios.forEach(function(radio) {
-      var optionName = radio.name;
-      var radios = document.querySelectorAll('input[type="radio"][name="'+optionName+'"]');
+    // Ẩn cảnh báo từng option
+    requiredGroups.forEach(function(name) {
+      var radios = document.querySelectorAll('input[type="radio"][name="'+name+'"]');
       var warning = null;
       if (radios.length > 0) {
         var lastRadio = radios[radios.length - 1];
@@ -166,10 +175,8 @@
         }
         warning = next;
       }
-      // Ban đầu ẩn hết, chỉ hiện khi click add to cart mà thiếu
       if (warning) warning.style.display = 'none';
     });
-    // Luôn enable button, chỉ cảnh báo khi chưa chọn đủ
     btn.removeAttribute('disabled');
     if (!allSelected) {
       btn.classList.add('not-all-selected');
@@ -196,12 +203,10 @@
     var btn = e.target.closest('.customily-add-to-cart-btn');
     if (btn && btn.classList.contains('not-all-selected')) {
       e.preventDefault();
-      // Lắc nút
       btn.classList.add('shake');
       setTimeout(function() {
         btn.classList.remove('shake');
       }, 500);
-      // Hiện cảnh báo tổng phía trên (nếu chưa có)
       var globalWarning = document.querySelector('.global-option-warning');
       if (!globalWarning) {
         globalWarning = document.createElement('div');
@@ -213,31 +218,27 @@
       } else {
         globalWarning.style.display = 'block';
       }
-      // Hiện cảnh báo từng option thiếu
-      var requiredRadios = getVisibleRequiredRadios();
-      requiredRadios.forEach(function(radio) {
-        var optionName = radio.name;
-        var radios = document.querySelectorAll('input[type="radio"][name="'+optionName+'"]');
-        var warning = null;
-        if (radios.length > 0) {
-          var lastRadio = radios[radios.length - 1];
-          var next = lastRadio.nextElementSibling;
-          while (next && !next.classList.contains('option-required-warning')) {
-            next = next.nextElementSibling;
+      var requiredGroups = getRequiredRadioGroups();
+      requiredGroups.forEach(function(name) {
+        if (!document.querySelector('input[type="radio"][name="'+name+'"]:checked')) {
+          var radios = document.querySelectorAll('input[type="radio"][name="'+name+'"]');
+          var warning = null;
+          if (radios.length > 0) {
+            var lastRadio = radios[radios.length - 1];
+            var next = lastRadio.nextElementSibling;
+            while (next && !next.classList.contains('option-required-warning')) {
+              next = next.nextElementSibling;
+            }
+            warning = next;
           }
-          warning = next;
-        }
-        if (!document.querySelector('input[type="radio"][name="'+optionName+'"]:checked')) {
           if (warning) warning.style.display = 'block';
         }
       });
-      // Cuộn lên cảnh báo nếu cần
       globalWarning.scrollIntoView({behavior: 'smooth', block: 'center'});
       return false;
     } else if (btn) {
       var globalWarning = document.querySelector('.global-option-warning');
       if (globalWarning) globalWarning.style.display = 'none';
-      // Ẩn cảnh báo từng option khi đã chọn đủ
       var optionWarnings = document.querySelectorAll('.option-required-warning');
       optionWarnings.forEach(function(w){ w.style.display = 'none'; });
     }
