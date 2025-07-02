@@ -202,7 +202,7 @@
         globalWarning = document.createElement('div');
         globalWarning.className = 'global-option-warning';
         globalWarning.style.cssText = 'color: red; font-size: 1em; margin-bottom: 10px; text-align: center;';
-        globalWarning.textContent = 'Bạn cần chọn đầy đủ các tuỳ chọn trước khi thêm vào giỏ hàng!';
+        globalWarning.textContent = 'Please select all required options before adding to cart!';
         var form = btn.closest('form');
         if (form) form.parentNode.insertBefore(globalWarning, form);
       } else {
