@@ -24,28 +24,6 @@
   assign product_form_id = 'product-form-' | append: section.id
 -%}
 
-<script>
-  console.log("value", {{option | json}})
-</script>
-<script>
-  console.log({{product | json}})
-</script>
-<script>
-  console.log("variants_available_arr",{{variants_available_arr | json}})
-</script>
-<script>
-  console.log("variants_option1_arr",{{variants_option1_arr | json}})
-</script>
-<script>
-  console.log("variants_option2_arr",{{variants_option2_arr | json}})
-</script>
-<script>
-  console.log("variants_option3_arr",{{variants_option3_arr | json}})
-</script>
-<script>
-  console.log("product.variants",{{product.variants | json}})
-</script>
-
 {%- for value in option.values -%}
   {%- liquid
     assign option_disabled = true
@@ -161,14 +139,11 @@
   function updateAddToCartBtnState() {
     var btn = document.querySelector('.customily-add-to-cart-btn');
     if (!btn) {
-      console.log('[observer] Button chưa xuất hiện');
       return;
     }
-    console.log('[observer] Button đã xuất hiện');
     var form = btn.closest('form');
     if (!form) return;
     var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
-    console.log('[observer] requiredRadios:', requiredRadios);
     var allSelected = true;
     requiredRadios.forEach(function(radio) {
       if (!document.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
