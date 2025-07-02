@@ -197,12 +197,12 @@
         }
       }
     });
-    if (allSelected) {
-      btn.removeAttribute('disabled');
-      console.log('[observer] Button enabled');
+    // Luôn enable button, chỉ cảnh báo khi chưa chọn đủ
+    btn.removeAttribute('disabled');
+    if (!allSelected) {
+      btn.classList.add('not-all-selected');
     } else {
-      btn.setAttribute('disabled', 'disabled');
-      console.log('[observer] Button disabled');
+      btn.classList.remove('not-all-selected');
     }
   }
   var observer = new MutationObserver(function(mutations) {
@@ -218,6 +218,54 @@
       updateAddToCartBtnState();
     }
   });
+
+  // Hiệu ứng rung và cảnh báo khi bấm nếu chưa chọn đủ
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.customily-add-to-cart-btn');
+    if (btn && btn.classList.contains('not-all-selected')) {
+      e.preventDefault();
+      // Lắc nút
+      btn.classList.add('shake');
+      setTimeout(function() {
+        btn.classList.remove('shake');
+      }, 500);
+      // Hiện cảnh báo tổng phía trên (nếu chưa có)
+      var globalWarning = document.querySelector('.global-option-warning');
+      if (!globalWarning) {
+        globalWarning = document.createElement('div');
+        globalWarning.className = 'global-option-warning';
+        globalWarning.style.cssText = 'color: red; font-size: 1em; margin-bottom: 10px; text-align: center;';
+        globalWarning.textContent = 'Bạn cần chọn đầy đủ các tuỳ chọn trước khi thêm vào giỏ hàng!';
+        var form = btn.closest('form');
+        if (form) form.parentNode.insertBefore(globalWarning, form);
+      } else {
+        globalWarning.style.display = 'block';
+      }
+      // Cuộn lên cảnh báo nếu cần
+      globalWarning.scrollIntoView({behavior: 'smooth', block: 'center'});
+    } else if (btn) {
+      var globalWarning = document.querySelector('.global-option-warning');
+      if (globalWarning) globalWarning.style.display = 'none';
+    }
+  });
+
+  // Thêm CSS shake
+  var style = document.createElement('style');
+  style.innerHTML = `
+    .customily-add-to-cart-btn.shake {
+      animation: shake 0.5s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-8px); }
+      80% { transform: translateX(8px); }
+      100% { transform: translateX(0); }
+    }
+  `;
+  document.head.appendChild(style);
+
   // Kiểm tra lần đầu
   updateAddToCartBtnState();
 })();
