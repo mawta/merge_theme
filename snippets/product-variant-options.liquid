@@ -136,6 +136,11 @@
 </script>
 <script>
 (function() {
+  function getVisibleRequiredRadios() {
+    return Array.from(document.querySelectorAll('input[type="radio"][required]')).filter(function(radio) {
+      return radio.offsetParent !== null;
+    });
+  }
   function updateAddToCartBtnState() {
     var btn = document.querySelector('.customily-add-to-cart-btn');
     if (!btn) {
@@ -143,7 +148,7 @@
     }
     var form = btn.closest('form');
     if (!form) return;
-    var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
+    var requiredRadios = getVisibleRequiredRadios();
     var allSelected = true;
     requiredRadios.forEach(function(radio) {
       if (!document.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
@@ -209,7 +214,7 @@
         globalWarning.style.display = 'block';
       }
       // Hiện cảnh báo từng option thiếu
-      var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
+      var requiredRadios = getVisibleRequiredRadios();
       requiredRadios.forEach(function(radio) {
         var optionName = radio.name;
         var radios = document.querySelectorAll('input[type="radio"][name="'+optionName+'"]');
