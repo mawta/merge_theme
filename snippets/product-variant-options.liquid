@@ -24,6 +24,28 @@
   assign product_form_id = 'product-form-' | append: section.id
 -%}
 
+<script>
+  console.log("value", {{option | json}})
+</script>
+<script>
+  console.log({{product | json}})
+</script>
+<script>
+  console.log("variants_available_arr",{{variants_available_arr | json}})
+</script>
+<script>
+  console.log("variants_option1_arr",{{variants_option1_arr | json}})
+</script>
+<script>
+  console.log("variants_option2_arr",{{variants_option2_arr | json}})
+</script>
+<script>
+  console.log("variants_option3_arr",{{variants_option3_arr | json}})
+</script>
+<script>
+  console.log("product.variants",{{product.variants | json}})
+</script>
+
 {%- for value in option.values -%}
   {%- liquid
     assign option_disabled = true
@@ -107,9 +129,9 @@
   {%- endif -%}
 
   {%- if forloop.last -%}
-    <div class="option-required-warning" style="color: red; font-size: 0.9em; display: none; margin-top: 4px;">
+    <!-- <div class="option-required-warning" style="color: red; font-size: 0.9em; display: none; margin-top: 4px;">
       {{ option.name }} is required. Please select an option.
-    </div>
+    </div> -->
   {%- endif -%}
 {%- endfor -%}
 
@@ -139,22 +161,14 @@
   function updateAddToCartBtnState() {
     var btn = document.querySelector('.customily-add-to-cart-btn');
     if (!btn) {
+      console.log('[observer] Button chưa xuất hiện');
       return;
     }
-    // --- PHẦN KHỞI TẠO (VẪN GIỮ NGUYÊN) ---
-    const productForm = document.querySelector('form[action^="/cart/add"]');
-    if (!productForm) {
-      console.error("Validation Script: Không tìm thấy form sản phẩm.");
-      return;
-    }
-
-    const formId = productForm.id;
-    if (!formId) {
-      console.error("Validation Script: Form sản phẩm cần có ID.");
-      return;
-    }
-
-    var requiredRadios = document.querySelectorAll(`input[type="radio"][required][form="${formId}"]`);
+    console.log('[observer] Button đã xuất hiện');
+    var form = btn.closest('form');
+    if (!form) return;
+    var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
+    console.log('[observer] requiredRadios:', requiredRadios);
     var allSelected = true;
     requiredRadios.forEach(function(radio) {
       if (!document.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
@@ -162,6 +176,7 @@
     // Show/hide required warning for each option
     requiredRadios.forEach(function(radio) {
       var optionName = radio.name;
+      // Find the warning for this option (assume it's the next .option-required-warning after the last input for this name)
       var radios = document.querySelectorAll('input[type="radio"][name="'+optionName+'"]');
       var warning = null;
       if (radios.length > 0) {
@@ -172,15 +187,22 @@
         }
         warning = next;
       }
-      // Ban đầu ẩn hết, chỉ hiện khi click add to cart mà thiếu
-      if (warning) warning.style.display = 'none';
+      if (!document.querySelector('input[type="radio"][name="'+optionName+'"]:checked')) {
+        if (warning) {
+          warning.style.display = 'block';
+        }
+      } else {
+        if (warning) {
+          warning.style.display = 'none';
+        }
+      }
     });
-    // Luôn enable button, chỉ cảnh báo khi chưa chọn đủ
-    btn.removeAttribute('disabled');
-    if (!allSelected) {
-      btn.classList.add('not-all-selected');
+    if (allSelected) {
+      btn.removeAttribute('disabled');
+      console.log('[observer] Button enabled');
     } else {
-      btn.classList.remove('not-all-selected');
+      btn.setAttribute('disabled', 'disabled');
+      console.log('[observer] Button disabled');
     }
   }
   var observer = new MutationObserver(function(mutations) {
@@ -196,76 +218,6 @@
       updateAddToCartBtnState();
     }
   });
-
-  // Hiệu ứng rung và cảnh báo khi bấm nếu chưa chọn đủ
-  document.addEventListener('click', function(e) {
-    var btn = e.target.closest('.customily-add-to-cart-btn');
-    if (btn && btn.classList.contains('not-all-selected')) {
-      e.preventDefault();
-      // Lắc nút
-      btn.classList.add('shake');
-      setTimeout(function() {
-        btn.classList.remove('shake');
-      }, 500);
-      // Hiện cảnh báo tổng phía trên (nếu chưa có)
-      var globalWarning = document.querySelector('.global-option-warning');
-      if (!globalWarning) {
-        globalWarning = document.createElement('div');
-        globalWarning.className = 'global-option-warning';
-        globalWarning.style.cssText = 'color: red; font-size: 1em; margin-bottom: 10px; text-align: center;';
-        globalWarning.textContent = 'Please select all required options before adding to cart!';
-        var form = btn.closest('form');
-        if (form) form.parentNode.insertBefore(globalWarning, form);
-      } else {
-        globalWarning.style.display = 'block';
-      }
-      // Hiện cảnh báo từng option thiếu
-      var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
-      requiredRadios.forEach(function(radio) {
-        var optionName = radio.name;
-        var radios = document.querySelectorAll('input[type="radio"][name="'+optionName+'"]');
-        var warning = null;
-        if (radios.length > 0) {
-          var lastRadio = radios[radios.length - 1];
-          var next = lastRadio.nextElementSibling;
-          while (next && !next.classList.contains('option-required-warning')) {
-            next = next.nextElementSibling;
-          }
-          warning = next;
-        }
-        if (!document.querySelector('input[type="radio"][name="'+optionName+'"]:checked')) {
-          if (warning) warning.style.display = 'block';
-        }
-      });
-      // Cuộn lên cảnh báo nếu cần
-      globalWarning.scrollIntoView({behavior: 'smooth', block: 'center'});
-      return false;
-    } else if (btn) {
-      var globalWarning = document.querySelector('.global-option-warning');
-      if (globalWarning) globalWarning.style.display = 'none';
-      // Ẩn cảnh báo từng option khi đã chọn đủ
-      var optionWarnings = document.querySelectorAll('.option-required-warning');
-      optionWarnings.forEach(function(w){ w.style.display = 'none'; });
-    }
-  }, true);
-
-  // Thêm CSS shake
-  var style = document.createElement('style');
-  style.innerHTML = `
-    .customily-add-to-cart-btn.shake {
-      animation: shake 0.5s;
-    }
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      20% { transform: translateX(-8px); }
-      40% { transform: translateX(8px); }
-      60% { transform: translateX(-8px); }
-      80% { transform: translateX(8px); }
-      100% { transform: translateX(0); }
-    }
-  `;
-  document.head.appendChild(style);
-
   // Kiểm tra lần đầu
   updateAddToCartBtnState();
 })();
