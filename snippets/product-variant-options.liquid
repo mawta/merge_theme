@@ -24,28 +24,6 @@
   assign product_form_id = 'product-form-' | append: section.id
 -%}
 
-<script>
-  console.log("value", {{option | json}})
-</script>
-<script>
-  console.log({{product | json}})
-</script>
-<script>
-  console.log("variants_available_arr",{{variants_available_arr | json}})
-</script>
-<script>
-  console.log("variants_option1_arr",{{variants_option1_arr | json}})
-</script>
-<script>
-  console.log("variants_option2_arr",{{variants_option2_arr | json}})
-</script>
-<script>
-  console.log("variants_option3_arr",{{variants_option3_arr | json}})
-</script>
-<script>
-  console.log("product.variants",{{product.variants | json}})
-</script>
-
 {%- for value in option.values -%}
   {%- liquid
     assign option_disabled = true
@@ -129,9 +107,9 @@
   {%- endif -%}
 
   {%- if forloop.last -%}
-    <!-- <div class="option-required-warning" style="color: red; font-size: 0.9em; display: none; margin-top: 4px;">
+    <div class="option-required-warning" style="color: red; font-size: 0.9em; display: none; margin-top: 4px;">
       {{ option.name }} is required. Please select an option.
-    </div> -->
+    </div>
   {%- endif -%}
 {%- endfor -%}
 
@@ -157,68 +135,95 @@
   observeProductFormRadios();
 </script>
 <script>
-(function() {
-  function updateAddToCartBtnState() {
-    var btn = document.querySelector('.customily-add-to-cart-btn');
-    if (!btn) {
-      console.log('[observer] Button chưa xuất hiện');
-      return;
-    }
-    console.log('[observer] Button đã xuất hiện');
-    var form = btn.closest('form');
+  (function() {
+    const form = document.getElementById('{{ product_form_id }}');
     if (!form) return;
-    var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
-    console.log('[observer] requiredRadios:', requiredRadios);
-    var allSelected = true;
-    requiredRadios.forEach(function(radio) {
-      if (!document.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
-    });
-    // Show/hide required warning for each option
-    requiredRadios.forEach(function(radio) {
-      var optionName = radio.name;
-      // Find the warning for this option (assume it's the next .option-required-warning after the last input for this name)
-      var radios = document.querySelectorAll('input[type="radio"][name="'+optionName+'"]');
-      var warning = null;
-      if (radios.length > 0) {
-        var lastRadio = radios[radios.length - 1];
-        var next = lastRadio.nextElementSibling;
-        while (next && !next.classList.contains('option-required-warning')) {
-          next = next.nextElementSibling;
+  
+    const btn = form.querySelector('.customily-add-to-cart-btn');
+    if (!btn) return;
+  
+    const requiredRadioGroups = new Set(
+      Array.from(form.querySelectorAll('input[type="radio"][required]')).map(radio => radio.name)
+    );
+  
+    function updateAddToCartBtnState() {
+      let allSelected = true;
+      requiredRadioGroups.forEach(name => {
+        if (!form.querySelector(`input[type="radio"][name="${name}"]:checked`)) {
+          allSelected = false;
         }
-        warning = next;
-      }
-      if (!document.querySelector('input[type="radio"][name="'+optionName+'"]:checked')) {
-        if (warning) {
-          warning.style.display = 'block';
-        }
+      });
+  
+      if (allSelected) {
+        btn.classList.remove('not-all-selected');
+        // Ẩn cảnh báo chung nếu có
+        const globalWarning = form.parentNode.querySelector('.global-option-warning');
+        if (globalWarning) globalWarning.style.display = 'none';
       } else {
-        if (warning) {
-          warning.style.display = 'none';
-        }
+        btn.classList.add('not-all-selected');
       }
-    });
-    if (allSelected) {
-      btn.removeAttribute('disabled');
-      console.log('[observer] Button enabled');
-    } else {
-      btn.setAttribute('disabled', 'disabled');
-      console.log('[observer] Button disabled');
     }
-  }
-  var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      if (mutation.type === 'childList') {
+  
+    // Xử lý sự kiện click vào nút Add to Cart
+    btn.addEventListener('click', function(e) {
+      if (!this.classList.contains('not-all-selected')) {
+        return; // Nếu đã chọn đủ, cho phép form submit
+      }
+  
+      e.preventDefault(); // Ngăn form submit
+  
+      // Lắc nút để tạo hiệu ứng
+      this.classList.add('shake');
+      setTimeout(() => this.classList.remove('shake'), 500);
+  
+      // Hiển thị cảnh báo chung
+      let globalWarning = form.parentNode.querySelector('.global-option-warning');
+      if (!globalWarning) {
+        globalWarning = document.createElement('div');
+        globalWarning.className = 'global-option-warning';
+        globalWarning.style.cssText = 'color: red; font-size: 1em; margin-bottom: 10px; text-align: center;';
+        globalWarning.textContent = 'Vui lòng chọn tất cả các tùy chọn bắt buộc!';
+        form.parentNode.insertBefore(globalWarning, form);
+      }
+      globalWarning.style.display = 'block';
+      globalWarning.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  
+      // Hiển thị cảnh báo cho từng tùy chọn bị thiếu
+      requiredRadioGroups.forEach(name => {
+        const isSelected = form.querySelector(`input[type="radio"][name="${name}"]:checked`);
+        const firstRadioOfGroup = form.querySelector(`input[type="radio"][name="${name}"]`);
+        // Lấy id của thông báo lỗi từ aria-describedby
+        const warningId = firstRadioOfGroup.getAttribute('aria-describedby');
+        if (warningId) {
+          const warningEl = document.getElementById(warningId);
+          if (warningEl) {
+            warningEl.style.display = isSelected ? 'none' : 'block';
+          }
+        }
+      });
+    });
+  
+    // Theo dõi thay đổi trong form để cập nhật trạng thái nút
+    form.addEventListener('change', (e) => {
+      if (e.target.matches('input[type="radio"][required]')) {
         updateAddToCartBtnState();
       }
     });
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
-  document.addEventListener('change', function(e) {
-    if (e.target.matches('input[type="radio"][required]')) {
-      updateAddToCartBtnState();
-    }
-  });
-  // Kiểm tra lần đầu
-  updateAddToCartBtnState();
-})();
+  
+    // Thêm CSS cho hiệu ứng shake
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .customily-add-to-cart-btn.shake {
+        animation: shake 0.5s;
+      }
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-8px); }
+        40%, 80% { transform: translateX(8px); }
+      }`;
+    document.head.appendChild(style);
+  
+    // Chạy kiểm tra lần đầu khi tải trang
+    updateAddToCartBtnState();
+  })();
 </script>
