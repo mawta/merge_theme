@@ -136,94 +136,93 @@
 </script>
 <script>
   (function() {
-    const form = document.getElementById('{{ product_form_id }}');
-    if (!form) return;
+    // 1. Xác định các đối tượng cần làm việc
+    const productForm = document.querySelector('form[action^="/cart/add"]');
+    if (!productForm) return;
   
-    const btn = form.querySelector('.customily-add-to-cart-btn');
-    if (!btn) return;
+    const addToCartBtn = productForm.querySelector('.customily-add-to-cart-btn');
+    if (!addToCartBtn) return;
   
-    const requiredRadioGroups = new Set(
-      Array.from(form.querySelectorAll('input[type="radio"][required]')).map(radio => radio.name)
+    // Lấy danh sách các nhóm option bắt buộc (dựa trên thuộc tính 'name')
+    const requiredOptionGroups = new Set(
+      Array.from(productForm.querySelectorAll('input[type="radio"][required]')).map(radio => radio.name)
     );
   
-    function updateAddToCartBtnState() {
-      let allSelected = true;
-      requiredRadioGroups.forEach(name => {
-        if (!form.querySelector(`input[type="radio"][name="${name}"]:checked`)) {
-          allSelected = false;
+    // 2. Hàm kiểm tra xem tất cả các option đã được chọn chưa
+    function allOptionsSelected() {
+      for (const groupName of requiredOptionGroups) {
+        if (!productForm.querySelector(`input[type="radio"][name="${groupName}"]:checked`)) {
+          return false; // Trả về false ngay khi tìm thấy một nhóm chưa được chọn
         }
-      });
-  
-      if (allSelected) {
-        btn.classList.remove('not-all-selected');
-        // Ẩn cảnh báo chung nếu có
-        const globalWarning = form.parentNode.querySelector('.global-option-warning');
-        if (globalWarning) globalWarning.style.display = 'none';
-      } else {
-        btn.classList.add('not-all-selected');
       }
+      return true; // Tất cả đã được chọn
     }
   
-    // Xử lý sự kiện click vào nút Add to Cart
-    btn.addEventListener('click', function(e) {
-      if (!this.classList.contains('not-all-selected')) {
-        return; // Nếu đã chọn đủ, cho phép form submit
-      }
+    // 3. Xử lý sự kiện click vào nút "Add to Cart"
+    addToCartBtn.addEventListener('click', function(event) {
+      // Nếu chưa chọn đủ tất cả các option
+      if (!allOptionsSelected()) {
+        // **Dòng quan trọng nhất: Ngăn form được submit đi**
+        event.preventDefault();
   
-      e.preventDefault(); // Ngăn form submit
+        // a. Lắc nút để gây chú ý
+        this.classList.add('shake');
+        setTimeout(() => this.classList.remove('shake'), 500);
   
-      // Lắc nút để tạo hiệu ứng
-      this.classList.add('shake');
-      setTimeout(() => this.classList.remove('shake'), 500);
+        // b. Hiển thị cảnh báo chung
+        let globalWarning = productForm.querySelector('.global-option-warning');
+        if (!globalWarning) {
+          globalWarning = document.createElement('div');
+          globalWarning.className = 'global-option-warning';
+          globalWarning.style.cssText = 'color: red; font-size: 1em; margin-bottom: 10px; text-align: center;';
+          globalWarning.textContent = 'Vui lòng chọn đầy đủ các tùy chọn!';
+          productForm.prepend(globalWarning); // Thêm vào đầu form
+        }
+        globalWarning.style.display = 'block';
+        globalWarning.scrollIntoView({ behavior: 'smooth', block: 'center' });
   
-      // Hiển thị cảnh báo chung
-      let globalWarning = form.parentNode.querySelector('.global-option-warning');
-      if (!globalWarning) {
-        globalWarning = document.createElement('div');
-        globalWarning.className = 'global-option-warning';
-        globalWarning.style.cssText = 'color: red; font-size: 1em; margin-bottom: 10px; text-align: center;';
-        globalWarning.textContent = 'Vui lòng chọn tất cả các tùy chọn bắt buộc!';
-        form.parentNode.insertBefore(globalWarning, form);
-      }
-      globalWarning.style.display = 'block';
-      globalWarning.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  
-      // Hiển thị cảnh báo cho từng tùy chọn bị thiếu
-      requiredRadioGroups.forEach(name => {
-        const isSelected = form.querySelector(`input[type="radio"][name="${name}"]:checked`);
-        const firstRadioOfGroup = form.querySelector(`input[type="radio"][name="${name}"]`);
-        // Lấy id của thông báo lỗi từ aria-describedby
-        const warningId = firstRadioOfGroup.getAttribute('aria-describedby');
-        if (warningId) {
-          const warningEl = document.getElementById(warningId);
+        // c. Hiện cảnh báo cho từng option bị thiếu
+        requiredOptionGroups.forEach(name => {
+          const isSelected = productForm.querySelector(`input[type="radio"][name="${name}"]:checked`);
+          // Tìm warning tương ứng với nhóm option này
+          const warningEl = productForm.querySelector(`.option-required-warning[data-option-name="${name}"]`);
           if (warningEl) {
             warningEl.style.display = isSelected ? 'none' : 'block';
           }
+        });
+      } else {
+        // Nếu đã chọn đủ, ẩn tất cả các cảnh báo
+        productForm.querySelectorAll('.global-option-warning, .option-required-warning').forEach(warning => {
+          warning.style.display = 'none';
+        });
+      }
+    });
+  
+    // 4. Lắng nghe sự kiện 'change' để ẩn cảnh báo khi người dùng chọn một option
+    productForm.addEventListener('change', function(event) {
+      if (event.target.matches('input[type="radio"][required]')) {
+        const groupName = event.target.name;
+        const warningEl = productForm.querySelector(`.option-required-warning[data-option-name="${groupName}"]`);
+        if (warningEl) {
+          warningEl.style.display = 'none';
         }
-      });
-    });
-  
-    // Theo dõi thay đổi trong form để cập nhật trạng thái nút
-    form.addEventListener('change', (e) => {
-      if (e.target.matches('input[type="radio"][required]')) {
-        updateAddToCartBtnState();
       }
     });
   
-    // Thêm CSS cho hiệu ứng shake
-    const style = document.createElement('style');
-    style.innerHTML = `
-      .customily-add-to-cart-btn.shake {
-        animation: shake 0.5s;
-      }
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        20%, 60% { transform: translateX(-8px); }
-        40%, 80% { transform: translateX(8px); }
-      }`;
-    document.head.appendChild(style);
-  
-    // Chạy kiểm tra lần đầu khi tải trang
-    updateAddToCartBtnState();
+    // 5. Thêm CSS cho hiệu ứng shake (nếu chưa có)
+    if (!document.querySelector('#shake-animation-style')) {
+      const style = document.createElement('style');
+      style.id = 'shake-animation-style';
+      style.innerHTML = `
+        .customily-add-to-cart-btn.shake {
+          animation: shake 0.5s;
+        }
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          20%, 60% { transform: translateX(-8px); }
+          40%, 80% { transform: translateX(8px); }
+        }`;
+      document.head.appendChild(style);
+    }
   })();
 </script>
