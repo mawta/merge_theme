@@ -141,9 +141,20 @@
     if (!btn) {
       return;
     }
-    var form = btn.closest('form');
-    if (!form) return;
-    var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
+    // --- PHẦN KHỞI TẠO (VẪN GIỮ NGUYÊN) ---
+    const productForm = document.querySelector('form[action^="/cart/add"]');
+    if (!productForm) {
+      console.error("Validation Script: Không tìm thấy form sản phẩm.");
+      return;
+    }
+
+    const formId = productForm.id;
+    if (!formId) {
+      console.error("Validation Script: Form sản phẩm cần có ID.");
+      return;
+    }
+
+    var requiredRadios = document.querySelectorAll(`input[type="radio"][required][form="${formId}"]`);
     var allSelected = true;
     requiredRadios.forEach(function(radio) {
       if (!document.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
