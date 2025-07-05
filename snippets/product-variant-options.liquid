@@ -206,11 +206,12 @@
       notice.id = noticeId;
       notice.style.color = 'red';
       notice.style.fontSize = '0.95em';
-      notice.style.marginTop = '8px';
+      notice.style.marginBottom = '8px';
+      notice.style.fontStyle = 'italic';
       notice.style.display = 'none';
       notice.textContent = 'You need to select all options';
       if (btn.parentNode) {
-        btn.parentNode.insertBefore(notice, btn.nextSibling);
+        btn.parentNode.insertBefore(notice, btn);
       }
     }
     if (allSelected) {
