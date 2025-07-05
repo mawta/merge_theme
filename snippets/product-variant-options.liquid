@@ -160,7 +160,10 @@
 (function() {
   function updateAddToCartBtnState() {
     var btn = document.querySelector('.customily-add-to-cart-btn');
+    var noticeId = 'add-to-cart-options-warning';
+    var notice = document.getElementById(noticeId);
     if (!btn) {
+      if (notice) notice.style.display = 'none';
       console.log('[observer] Button chưa xuất hiện');
       return;
     }
@@ -197,11 +200,26 @@
         }
       }
     });
+    // Add or remove the global warning message
+    if (!notice) {
+      notice = document.createElement('div');
+      notice.id = noticeId;
+      notice.style.color = 'red';
+      notice.style.fontSize = '0.95em';
+      notice.style.marginTop = '8px';
+      notice.style.display = 'none';
+      notice.textContent = 'You need to select all options';
+      if (btn.parentNode) {
+        btn.parentNode.insertBefore(notice, btn.nextSibling);
+      }
+    }
     if (allSelected) {
       btn.removeAttribute('disabled');
+      if (notice) notice.style.display = 'none';
       console.log('[observer] Button enabled');
     } else {
       btn.setAttribute('disabled', 'disabled');
+      if (notice) notice.style.display = 'block';
       console.log('[observer] Button disabled');
     }
   }
