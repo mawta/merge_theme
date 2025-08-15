@@ -24,7 +24,7 @@
   assign product_form_id = 'product-form-' | append: section.id
 -%}
 
-<script>
+{% comment %} <script>
   console.log("value", {{option | json}})
 </script>
 <script>
@@ -44,7 +44,7 @@
 </script>
 <script>
   console.log("product.variants",{{product.variants | json}})
-</script>
+</script> {% endcomment %}
 
 {%- for value in option.values -%}
   {%- liquid
@@ -164,14 +164,14 @@
     var notice = document.getElementById(noticeId);
     if (!btn) {
       if (notice) notice.style.display = 'none';
-      console.log('[observer] Button chưa xuất hiện');
+      {% comment %} console.log('[observer] Button chưa xuất hiện'); {% endcomment %}
       return;
     }
-    console.log('[observer] Button đã xuất hiện');
+    {% comment %} console.log('[observer] Button đã xuất hiện'); {% endcomment %}
     var form = btn.closest('form');
     if (!form) return;
     var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
-    console.log('[observer] requiredRadios:', requiredRadios);
+    {% comment %} console.log('[observer] requiredRadios:', requiredRadios); {% endcomment %}
     var allSelected = true;
     requiredRadios.forEach(function(radio) {
       if (!document.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
@@ -217,11 +217,11 @@
     if (allSelected) {
       btn.removeAttribute('disabled');
       if (notice) notice.style.display = 'none';
-      console.log('[observer] Button enabled');
+      {% comment %} console.log('[observer] Button enabled'); {% endcomment %}
     } else {
       btn.setAttribute('disabled', 'disabled');
       if (notice) notice.style.display = 'block';
-      console.log('[observer] Button disabled');
+      {% comment %} console.log('[observer] Button disabled'); {% endcomment %}
     }
   }
   var observer = new MutationObserver(function(mutations) {
