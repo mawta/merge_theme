@@ -1,0 +1,60 @@
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Cấu hình observer: quan sát thay đổi ở cây con (subtree) và danh sách con (childList)
+    const observerOptions = {
+        childList: true,
+        subtree: true
+    };
+
+    const observer = new MutationObserver((mutations) => {
+        // Tìm tất cả các button mục tiêu chưa được xử lý
+        // Class 'js-processed-redirect' là do mình tự thêm vào để đánh dấu là đã xử lý rồi, tránh lặp vô tận
+        const buttons = document.querySelectorAll('.cbb-also-bought-add-to-cart-button:not(.js-processed-redirect)');
+
+        buttons.forEach(button => {
+            // Tìm container cha chứa cả button và cái link h3
+            // Thường nó nằm chung trong một thẻ div hoặc li bao quanh sản phẩm
+            // Ta sẽ duyệt ngược lên trên (closest) cho đến khi tìm thấy thằng cha nào chứa cái link kia
+            let container = button.parentElement;
+            let productLinkTag = null;
+
+            // Lặp tối đa 5 cấp cha để tìm cái link (để tránh treo browser nếu không tìm thấy)
+            let depth = 0;
+            while (container && depth < 5) {
+                productLinkTag = container.querySelector('.cbb-also-bought-product-name a');
+                if (productLinkTag) break;
+                container = container.parentElement;
+                depth++;
+            }
+
+            if (productLinkTag) {
+                // 1. Clone cái nút ra (Clone này sẽ SẠCH, không còn event click cũ của App)
+                const newButton = button.cloneNode(true);
+
+                // 2. Đánh dấu class để observer lần sau bỏ qua thằng này
+                newButton.classList.add('js-processed-redirect');
+                
+                // 3. Gán sự kiện click mới
+                newButton.onclick = function(e) {
+                    e.preventDefault(); // Chặn hành vi mặc định nếu có
+                    e.stopPropagation(); // Chặn lan truyền sự kiện
+                    
+                    // Chuyển hướng sang link của sản phẩm
+                    window.location.href = productLinkTag.href;
+                };
+
+                // 4. Thay thế nút cũ bằng nút mới
+                button.parentNode.replaceChild(newButton, button);
+                
+                console.log('Đã thay thế sự kiện cho nút:', productLinkTag.href);
+            }
+        });
+    });
+
+    // Bắt đầu quan sát toàn bộ body để bắt được nội dung App inject vào
+    const targetNode = document.body;
+    if (targetNode) {
+        observer.observe(targetNode, observerOptions);
+    }
+});
+</script>
