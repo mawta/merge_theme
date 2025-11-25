@@ -1158,36 +1158,36 @@ class VariantSelects extends HTMLElement {
       });
     }
 
-    for (
-      let optionLevel = 1, fieldsetsLength = fieldsets.length, change = false;
-      optionLevel < fieldsetsLength && !change;
-      optionLevel++
-    ) {
-      if (pickerType == "radios") {
-        if (
-          fieldsets[optionLevel].querySelector("input:checked").disabled ===
-          true
-        ) {
-          if (fieldsets[optionLevel].querySelector("input:not(:disabled)")) {
-            change = fieldsets[optionLevel].querySelector(
-              "input:not(:disabled)"
-            ).checked = true;
-          }
-        }
-      } else {
-        if (
-          fieldsets[optionLevel].querySelector("option:checked").disabled ===
-          true
-        ) {
-          change = fieldsets[optionLevel].querySelector(
-            "option:not(:disabled)"
-          ).selected = "selected";
-        }
-      }
-      //if a new option has been selected, restart the whole process
-      if (change)
-        variantSelects.dispatchEvent(new Event("change", { bubbles: true }));
-    }
+    // for (
+    //   let optionLevel = 1, fieldsetsLength = fieldsets.length, change = false;
+    //   optionLevel < fieldsetsLength && !change;
+    //   optionLevel++
+    // ) {
+    //   if (pickerType == "radios") {
+    //     if (
+    //       fieldsets[optionLevel].querySelector("input:checked").disabled ===
+    //       true
+    //     ) {
+    //       if (fieldsets[optionLevel].querySelector("input:not(:disabled)")) {
+    //         change = fieldsets[optionLevel].querySelector(
+    //           "input:not(:disabled)"
+    //         ).checked = true;
+    //       }
+    //     }
+    //   } else {
+    //     if (
+    //       fieldsets[optionLevel].querySelector("option:checked").disabled ===
+    //       true
+    //     ) {
+    //       change = fieldsets[optionLevel].querySelector(
+    //         "option:not(:disabled)"
+    //       ).selected = "selected";
+    //     }
+    //   }
+    //   //if a new option has been selected, restart the whole process
+    //   if (change)
+    //     variantSelects.dispatchEvent(new Event("change", { bubbles: true }));
+    // }
   }
   validCombo(inputValue, optionLevel) {
     const pickerType = document.querySelector("variant-radios")
