@@ -1,0 +1,57 @@
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+// KHỞI TẠO PIXEL CỦA BẠN
+fbq('init', '1691484347888990');
+
+// GỬI SỰ KIỆN PAGEVIEW MẶC ĐỊNH
+fbq('track', 'PageView');
+</script>
+
+<script>
+    // Hàm tạo ID duy nhất cho sự kiện (giữ nguyên, cần có ở đâu đó trong theme của bạn)
+    function generateEventId() {
+        return 'event_' + new Date().getTime() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    async function sendToServer(eventName, eventData) {
+        const eventId = generateEventId();
+        eventData.event_id = eventId;
+
+        // 1. Gửi sự kiện từ trình duyệt ngay lập tức (vẫn giữ nguyên)
+        fbq('track', eventName, eventData);
+
+        // 2. Chuẩn bị dữ liệu và URL cho Google Apps Script (vẫn giữ nguyên)
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbzufml9q5e5Gp8BTd526gd98_FLQsTuopjQN5K8unDW7H9Z-xcPBqsjZme9UI49HrtFPA/exec';
+        const clientIp = '{{ request.remote_ip }}';
+        const userAgent = '{{ request.user_agent }}';
+        const currentUrl = '{{ request.origin }}{{ request.path }}';
+        
+        const urlWithParams = `${gasUrl}?ip=${encodeURIComponent(clientIp)}&userAgent=${encodeURIComponent(userAgent)}&url=${encodeURIComponent(currentUrl)}`;
+
+        // 3. SỬA LẠI: Gửi dữ liệu bằng request JSON chuẩn
+        try {
+            await fetch(urlWithParams, { 
+                method: 'POST',
+                body: JSON.stringify({
+                    eventName: eventName,
+                    eventData: eventData
+                }),
+                // Dùng header JSON chuẩn
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+                // Đã bỏ mode: 'no-cors'
+            });
+        } catch (error) {
+            console.error('Failed to send event to GAS:', error);
+        }
+    }
+</script>
