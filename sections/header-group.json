@@ -16,13 +16,13 @@
       "name": "BFCM Countdown Bar",
       "settings": {
         "bg_color": "#000000",
-        "text_color": "#FFFFFF",
-        "bar_font_size": 14,
-        "timer_bg": "#8C231B",
-        "timer_text": "#FFFFFF",
+        "text_color": "#ffffff",
+        "bar_font_size": 16,
+        "timer_bg": "#8c231b",
+        "timer_text": "#ffffff",
         "msg_start": "BFCM Week:",
         "msg_bold": "20% OFF",
-        "highlight_color": "#FFFFFF",
+        "highlight_color": "#ffffff",
         "msg_end": "Sitewide",
         "coupon_label": "Use code:",
         "coupon_code": "BFCM20"
