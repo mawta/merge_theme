@@ -1,0 +1,268 @@
+{% schema %}
+{
+  "name": "BFCM Split Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Màu nền & Bố cục"
+    },
+    {
+      "type": "color",
+      "id": "bg_left",
+      "label": "Màu nền bên trái",
+      "default": "#FFF6EB"
+    },
+    {
+      "type": "color",
+      "id": "bg_right",
+      "label": "Màu nền bên phải",
+      "default": "#8C231B"
+    },
+    {
+      "type": "header",
+      "content": "Nội dung bên trái"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Tiêu đề",
+      "default": "BFCM Sale Is On"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Màu tiêu đề",
+      "default": "#8C231B"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Mô tả",
+      "default": "Your moment to save big and love big is right now!"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Màu mô tả",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Chữ trên nút",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Link nút"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Màu nền nút",
+      "default": "#EA972D"
+    },
+    {
+      "type": "color",
+      "id": "btn_text",
+      "label": "Màu chữ nút",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Ảnh bên phải"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_right",
+      "label": "Chọn ảnh banner phải"
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFCM Split Banner",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  /* Scoped CSS để không ảnh hưởng theme */
+  #shopify-section-{{ section.id }} .bfcm-banner-wrapper {
+    width: 100%;
+    /* Gradient chia đôi màu nền lấy từ settings */
+    background: linear-gradient(90deg, {{ section.settings.bg_left }} 50%, {{ section.settings.bg_right }} 50%);
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .bfcm-banner-container {
+    display: flex;
+    width: 100%;
+    max-width: 1414px;
+    position: relative;
+    /* Chiều cao tối thiểu */
+    min-height: 387px; 
+    margin: 0 auto;
+  }
+
+  #shopify-section-{{ section.id }} .bfcm-col {
+    flex: 1; /* Chia 50-50 */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* --- CỘT TRÁI --- */
+  #shopify-section-{{ section.id }} .left-col {
+    background-color: {{ section.settings.bg_left }};
+  }
+
+  #shopify-section-{{ section.id }} .left-content {
+    text-align: center;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .sale-title {
+    color: {{ section.settings.heading_color }};
+    font-family: Arial, sans-serif; /* Fallback font */
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 15px 0;
+  }
+
+  #shopify-section-{{ section.id }} .sale-desc {
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    color: {{ section.settings.text_color }};
+    margin: 0 0 30px 0;
+    line-height: 1.4;
+    max-width: 450px;
+  }
+
+  #shopify-section-{{ section.id }} .shop-now-btn {
+    background-color: {{ section.settings.btn_bg }};
+    color: {{ section.settings.btn_text }};
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 12px 35px;
+    text-decoration: none;
+    border-radius: 50px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+  }
+
+  #shopify-section-{{ section.id }} .shop-now-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    opacity: 0.9;
+  }
+
+  /* --- CỘT PHẢI --- */
+  #shopify-section-{{ section.id }} .right-col {
+    background-color: {{ section.settings.bg_right }};
+  }
+
+  #shopify-section-{{ section.id }} .right-col img,
+  #shopify-section-{{ section.id }} .right-col svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Placeholder SVG khi chưa chọn ảnh */
+  .placeholder-svg {
+    background-color: rgba(255,255,255,0.1);
+    width: 100%;
+    height: 100%;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 1024px) {
+    #shopify-section-{{ section.id }} .sale-title { font-size: 36px; }
+    #shopify-section-{{ section.id }} .sale-desc { font-size: 18px; }
+    #shopify-section-{{ section.id }} .bfcm-banner-container { min-height: auto; }
+  }
+
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} .bfcm-banner-wrapper {
+      /* Đổi chiều gradient khi mobile */
+      background: linear-gradient(180deg, {{ section.settings.bg_left }} 50%, {{ section.settings.bg_right }} 50%);
+    }
+    #shopify-section-{{ section.id }} .bfcm-banner-container {
+      flex-direction: column;
+    }
+    #shopify-section-{{ section.id }} .bfcm-col {
+      width: 100%;
+      min-height: 300px;
+    }
+    #shopify-section-{{ section.id }} .left-content {
+      padding: 40px 20px;
+    }
+    #shopify-section-{{ section.id }} .sale-title {
+      font-size: 32px;
+    }
+    #shopify-section-{{ section.id }} .sale-desc {
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+  }
+{% endstyle %}
+
+<div class="bfcm-banner-wrapper">
+  <div class="bfcm-banner-container">
+    
+    <!-- CỘT TRÁI -->
+    <div class="bfcm-col left-col">
+      <div class="left-content">
+        {% if section.settings.heading != blank %}
+          <h2 class="sale-title">{{ section.settings.heading }}</h2>
+        {% endif %}
+        
+        {% if section.settings.description != blank %}
+          <p class="sale-desc">{{ section.settings.description }}</p>
+        {% endif %}
+        
+        {% if section.settings.btn_label != blank %}
+          <a href="{{ section.settings.btn_link }}" class="shop-now-btn">
+            {{ section.settings.btn_label }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- CỘT PHẢI -->
+    <div class="bfcm-col right-col">
+      {% if section.settings.image_right != blank %}
+        <!-- Render ảnh với lazy loading chuẩn Shopify -->
+        {{ section.settings.image_right | image_url: width: 800 | image_tag: 
+          loading: 'lazy', 
+          widths: '375, 550, 750, 1100, 1500', 
+          class: 'banner-img' 
+        }}
+      {% else %}
+        <!-- Hiển thị placeholder nếu user chưa chọn ảnh -->
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+
+  </div>
+</div>
