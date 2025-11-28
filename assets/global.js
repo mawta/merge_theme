@@ -1118,14 +1118,12 @@ class VariantSelects extends HTMLElement {
         : Array.from(
             variantSelects.querySelectorAll(".product-form__input--dropdown")
           );
-    selectedOptions = fieldsets.map((fieldset) => {
+    const tempOptions = fieldsets.map((fieldset) => {
       if (pickerType == "radios") {
-        // Tìm nút radio đang được chọn
-        const checkedRadio = Array.from(
-          fieldset.querySelectorAll("input")
-        ).find((radio) => radio.checked);
-        // Nếu tìm thấy thì lấy value, không thì trả về null để tránh lỗi crash
-        return checkedRadio ? checkedRadio.value : null;
+        const checked = Array.from(fieldset.querySelectorAll("input")).find(
+          (radio) => radio.checked
+        );
+        return checked ? checked.value : null;
       } else {
         return Array.from(
           fieldset.querySelectorAll("select"),
@@ -1133,6 +1131,9 @@ class VariantSelects extends HTMLElement {
         );
       }
     });
+    // Nếu có bất kỳ option nào bị null (do Customily đang load), dừng luôn, không reset về mặc định
+    if (tempOptions.includes(null)) return;
+    selectedOptions = tempOptions;
 
     //loop through the option sets starting from the 2nd set and disable any invalid options
     for (
@@ -1268,10 +1269,12 @@ class VariantSelects extends HTMLElement {
   }
 
   updateOptions() {
-    this.options = Array.from(
-      this.querySelectorAll("select"),
-      (select) => select.value
-    );
+    const fieldsets = Array.from(this.querySelectorAll("fieldset"));
+    this.options = fieldsets.map((fieldset) => {
+      return Array.from(fieldset.querySelectorAll("input")).find(
+        (radio) => radio.checked
+      ).value;
+    });
   }
 
   updateMasterId() {
