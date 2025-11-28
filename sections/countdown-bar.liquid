@@ -216,39 +216,42 @@
   .sep-desktop { display: inline-block; order: 3; }
   .sep-mobile { display: none; order: 3; }
 
-  /* --- TOOLTIP COPY --- */
+  /* --- TOOLTIP COPY (ĐÃ SỬA: ĐÈ LÊN TRÊN CODE) --- */
   .copy-tooltip {
     position: absolute;
-    top: 130%;
+    /* Căn giữa tuyệt đối so với khung coupon */
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    background: #fff;
-    color: #000;
-    padding: 4px 8px;
+    transform: translate(-50%, -50%);
+    
+    background: #fff; /* Nền trắng */
+    color: #000;      /* Chữ đen */
+    font-weight: bold;
+    padding: 4px 12px;
     border-radius: 4px;
     font-size: 12px;
+    
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s;
+    transition: all 0.2s ease-in-out;
     white-space: nowrap;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    
     /* Z-INDEX CAO ĐÈ LÊN TẤT CẢ */
     z-index: 99999;
+    pointer-events: none; /* Không cho chuột bấm vào tooltip */
   }
+
+  /* Bỏ mũi tên vì giờ tooltip nằm đè lên rồi */
   .copy-tooltip::after {
-    content: "";
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent #fff transparent;
+    display: none;
   }
+
   .copy-tooltip.show {
     opacity: 1;
     visibility: visible;
-    top: 115%;
+    /* Scale nhẹ lên khi hiện cho đẹp */
+    transform: translate(-50%, -50%) scale(1.1);
   }
 
   /* --- RESPONSIVE MOBILE --- */
