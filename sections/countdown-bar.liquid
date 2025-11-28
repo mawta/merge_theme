@@ -77,22 +77,26 @@
     z-index: 50;
   }
 
+  /* Flex Container chính */
   .bfcm-bar-container {
     display: flex;
-    justify-content: center; /* Căn giữa toàn bộ nội dung */
+    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
+    flex-wrap: wrap; /* Cho phép xuống dòng khi cần */
+    gap: 0; /* Reset gap để tự control margin */
     max-width: 1400px;
     margin: 0 auto;
   }
 
-  /* --- TIMER STYLES --- */
+  /* --- CÁC PHẦN TỬ CON --- */
+  
+  /* 1. ĐỒNG HỒ */
   .bfcm-timer-wrapper {
     display: flex;
     align-items: center;
     gap: 4px;
     font-weight: bold;
+    order: 1; /* Mặc định Desktop đứng đầu */
   }
 
   .timer-box {
@@ -100,54 +104,70 @@
     color: {{ section.settings.timer_text }};
     padding: 2px 6px;
     border-radius: 4px;
-    min-width: 28px;
+    min-width: 26px;
     text-align: center;
     font-weight: bold;
+    font-size: 13px;
   }
-
+  
   .timer-colon {
-    font-weight: bold;
-    margin: 0 2px;
+    font-weight: bold; 
+    margin: 0 1px;
   }
 
-  /* --- TEXT & CODE STYLES --- */
-  .bfcm-text {
+  /* 2. TEXT THÔNG BÁO */
+  .bfcm-message {
     font-weight: 600;
+    margin: 0 15px; /* Khoảng cách với đồng hồ và code trên Desktop */
+    order: 2; /* Mặc định Desktop đứng giữa */
+    text-align: center;
   }
 
-  .bfcm-separator {
-    opacity: 0.5;
-    margin: 0 5px;
-  }
-
+  /* 3. MÃ CODE VÀ LABEL */
   .bfcm-coupon-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     cursor: pointer;
     position: relative;
+    order: 4; /* Desktop đứng cuối */
   }
 
   .bfcm-code {
-    font-weight: 800; /* Đậm hơn cho mã code */
-    text-decoration: underline; /* Hoặc bỏ nếu không thích */
+    font-weight: 800;
+    text-decoration: underline;
+  }
+  
+  .coupon-label {
+    white-space: nowrap;
   }
 
+  /* ICON COPY */
   .copy-icon {
     width: 16px;
     height: 16px;
     fill: {{ section.settings.text_color }};
     transition: transform 0.2s;
   }
-
   .bfcm-coupon-wrapper:active .copy-icon {
     transform: scale(0.9);
   }
 
-  /* Tooltip "Copied" */
+  /* SEPARATORS (DẤU GẠCH ĐỨNG) */
+  .bfcm-separator {
+    opacity: 0.6;
+    margin: 0 10px;
+    font-size: 14px;
+  }
+  
+  /* Mặc định: Gạch desktop hiện, gạch mobile ẩn */
+  .sep-desktop { display: inline-block; order: 3; }
+  .sep-mobile { display: none; order: 3; }
+
+  /* --- TOOLTIP COPY --- */
   .copy-tooltip {
     position: absolute;
-    top: 100%;
+    top: 130%;
     left: 50%;
     transform: translateX(-50%);
     background: #fff;
@@ -155,38 +175,75 @@
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 12px;
-    margin-top: 5px;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s;
     white-space: nowrap;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10;
   }
-
+  .copy-tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+  }
   .copy-tooltip.show {
     opacity: 1;
     visibility: visible;
-    top: 120%;
+    top: 115%;
   }
 
-  /* --- RESPONSIVE --- */
+  /* --- RESPONSIVE MOBILE --- */
   @media (max-width: 768px) {
     .bfcm-bar-container {
-      justify-content: center;
-      gap: 8px;
-      flex-direction: column; /* Xếp dọc trên mobile cho dễ đọc */
-      text-align: center;
+      padding: 5px 0;
     }
-    .bfcm-separator {
-      display: none; /* Ẩn dấu gạch đứng trên mobile */
+
+    /* Đưa TEXT lên dòng đầu tiên */
+    .bfcm-message {
+      order: 1; 
+      width: 100%; /* Chiếm hết dòng */
+      margin: 0 0 8px 0; /* Cách dòng dưới 1 chút */
+      font-size: 13px;
     }
+
+    /* Đưa ĐỒNG HỒ xuống dòng 2, bên trái */
+    .bfcm-timer-wrapper {
+      order: 2;
+    }
+
+    /* Hiện dấu gạch đứng Mobile ở giữa dòng 2 */
+    .sep-mobile {
+      display: inline-block;
+      order: 3;
+      margin: 0 8px;
+    }
+    
+    /* Ẩn dấu gạch đứng Desktop (vì text đã lên dòng 1 rồi) */
+    .sep-desktop {
+      display: none;
+    }
+
+    /* Đưa CODE xuống dòng 2, bên phải */
+    .bfcm-coupon-wrapper {
+      order: 4;
+    }
+    
+    /* Chỉnh lại font mobile cho gọn */
+    .timer-box { padding: 1px 4px; min-width: 24px; font-size: 12px; }
+    .bfcm-code, .coupon-label { font-size: 13px; }
   }
 {% endstyle %}
 
 <div class="bfcm-announcement-bar">
   <div class="bfcm-bar-container">
     
-    <!-- 1. Countdown Timer -->
+    <!-- 1. ĐỒNG HỒ -->
     <div class="bfcm-timer-wrapper" id="timer-{{ section.id }}">
       <span class="timer-box hours">23</span>
       <span class="timer-colon">:</span>
@@ -195,18 +252,23 @@
       <span class="timer-box seconds">59</span>
     </div>
 
-    <!-- 2. Text Content -->
-    <div class="bfcm-content">
-      <span class="bfcm-text">{{ section.settings.announcement_text }}</span>
-      <span class="bfcm-separator">|</span>
-      <span>{{ section.settings.coupon_label }}</span>
+    <!-- Dấu gạch đứng cho Mobile (giữa đồng hồ và code) -->
+    <span class="bfcm-separator sep-mobile">|</span>
+
+    <!-- 2. TEXT THÔNG BÁO -->
+    <div class="bfcm-message">
+      {{ section.settings.announcement_text }}
     </div>
 
-    <!-- 3. Coupon Code & Copy -->
+    <!-- Dấu gạch đứng cho Desktop (giữa text và code) -->
+    <span class="bfcm-separator sep-desktop">|</span>
+
+    <!-- 3. MÃ CODE & COPY -->
     <div class="bfcm-coupon-wrapper" onclick="copyToClipboard('{{ section.settings.coupon_code }}', this)">
+      <span class="coupon-label">{{ section.settings.coupon_label }}</span>
       <span class="bfcm-code">{{ section.settings.coupon_code }}</span>
       
-      <!-- Icon Copy SVG -->
+      <!-- Icon Copy -->
       <svg class="copy-icon" viewBox="0 0 24 24">
         <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
       </svg>
@@ -220,7 +282,7 @@
 <script>
   (function() {
     const STORAGE_KEY = 'bfcm_timer_target';
-    const DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    const DURATION = 24 * 60 * 60 * 1000; 
     const timerWrapper = document.getElementById('timer-{{ section.id }}');
     const elHours = timerWrapper.querySelector('.hours');
     const elMinutes = timerWrapper.querySelector('.minutes');
@@ -229,8 +291,6 @@
     function getTargetTime() {
       let target = localStorage.getItem(STORAGE_KEY);
       const now = new Date().getTime();
-
-      // Nếu không có target hoặc target đã qua -> Set target mới là now + 24h
       if (!target || now > target) {
         target = now + DURATION;
         localStorage.setItem(STORAGE_KEY, target);
@@ -243,7 +303,6 @@
       let target = getTargetTime();
       let distance = target - now;
 
-      // Nếu lỡ distance < 0 (trường hợp hiếm khi vừa mở lại tab), reset lại
       if (distance < 0) {
         localStorage.removeItem(STORAGE_KEY);
         target = getTargetTime();
@@ -259,19 +318,16 @@
       elSeconds.textContent = seconds < 10 ? '0' + seconds : seconds;
     }
 
-    // Chạy ngay lập tức để không bị delay 1s
     updateTimer();
     setInterval(updateTimer, 1000);
   })();
 
-  // Hàm Copy
   function copyToClipboard(text, element) {
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(text).then(() => {
         showTooltip(element);
       });
     } else {
-      // Fallback cho trình duyệt cũ
       const textArea = document.createElement("textarea");
       textArea.value = text;
       textArea.style.position = "fixed";
