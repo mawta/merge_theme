@@ -11,6 +11,23 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "countdown_bar_tJQnHm": {
+      "type": "countdown-bar",
+      "name": "BFCM Countdown Bar",
+      "settings": {
+        "bg_color": "#000000",
+        "text_color": "#FFFFFF",
+        "bar_font_size": 14,
+        "timer_bg": "#8C231B",
+        "timer_text": "#FFFFFF",
+        "msg_start": "BFCM Week:",
+        "msg_bold": "20% OFF",
+        "highlight_color": "#FFFFFF",
+        "msg_end": "Sitewide",
+        "coupon_label": "Use code:",
+        "coupon_code": "BFCM20"
+      }
+    },
     "announcement_bar_HFtDmQ": {
       "type": "announcement-bar",
       "blocks": {
@@ -80,23 +97,6 @@
         "margin_bottom": 0,
         "padding_top": 20,
         "padding_bottom": 0
-      }
-    },
-    "countdown_bar_tJQnHm": {
-      "type": "countdown-bar",
-      "name": "BFCM Countdown Bar",
-      "settings": {
-        "bg_color": "#000000",
-        "text_color": "#FFFFFF",
-        "bar_font_size": 14,
-        "timer_bg": "#8C231B",
-        "timer_text": "#FFFFFF",
-        "msg_start": "BFCM Week:",
-        "msg_bold": "30% OFF",
-        "highlight_color": "#FFFFFF",
-        "msg_end": "Sitewide",
-        "coupon_label": "Use code:",
-        "coupon_code": "MBF30"
       }
     }
   },
