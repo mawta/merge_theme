@@ -13,16 +13,18 @@
       "type": "bfcm-banner",
       "name": "BFCM Split Banner",
       "settings": {
-        "bg_left": "#FFF6EB",
-        "bg_right": "#8C231B",
+        "bg_left": "#fff6eb",
+        "bg_right": "#8c231b",
+        "margin_top": 20,
+        "margin_bottom": 0,
         "heading": "BFCM Sale Is On",
-        "heading_color": "#8C231B",
+        "heading_color": "#8c231b",
         "description": "Your moment to save big and love big is right now!",
         "text_color": "#000000",
         "btn_label": "SHOP NOW",
         "btn_link": "",
-        "btn_bg": "#EA972D",
-        "btn_text": "#FFFFFF",
+        "btn_bg": "#ea972d",
+        "btn_text": "#ffffff",
         "image_right": "shopify://shop_images/Black_Friday_1.png"
       }
     },
