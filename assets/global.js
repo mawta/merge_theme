@@ -1119,14 +1119,19 @@ class VariantSelects extends HTMLElement {
             variantSelects.querySelectorAll(".product-form__input--dropdown")
           );
     selectedOptions = fieldsets.map((fieldset) => {
-      return pickerType == "radios"
-        ? Array.from(fieldset.querySelectorAll("input")).find(
-            (radio) => radio.checked
-          ).value
-        : Array.from(
-            fieldset.querySelectorAll("select"),
-            (select) => select.value
-          );
+      if (pickerType == "radios") {
+        // Tìm nút radio đang được chọn
+        const checkedRadio = Array.from(
+          fieldset.querySelectorAll("input")
+        ).find((radio) => radio.checked);
+        // Nếu tìm thấy thì lấy value, không thì trả về null để tránh lỗi crash
+        return checkedRadio ? checkedRadio.value : null;
+      } else {
+        return Array.from(
+          fieldset.querySelectorAll("select"),
+          (select) => select.value
+        );
+      }
     });
 
     //loop through the option sets starting from the 2nd set and disable any invalid options
