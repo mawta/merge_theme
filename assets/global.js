@@ -1118,12 +1118,18 @@ class VariantSelects extends HTMLElement {
         : Array.from(
             variantSelects.querySelectorAll(".product-form__input--dropdown")
           );
-    const tempOptions = fieldsets.map((fieldset) => {
+    selectedOptions = fieldsets.map((fieldset, index) => {
       if (pickerType == "radios") {
-        const checked = Array.from(fieldset.querySelectorAll("input")).find(
-          (radio) => radio.checked
-        );
-        return checked ? checked.value : null;
+        const checkedRadio = Array.from(
+          fieldset.querySelectorAll("input")
+        ).find((radio) => radio.checked);
+        // LOGIC FIX: Nếu có nút checked -> lấy value.
+        // Nếu không (do Customily đang load) -> Giữ lại giá trị cũ từ selectedOptions để không bị reset về S.
+        return checkedRadio
+          ? checkedRadio.value
+          : selectedOptions && selectedOptions[index]
+          ? selectedOptions[index]
+          : null;
       } else {
         return Array.from(
           fieldset.querySelectorAll("select"),
@@ -1131,9 +1137,6 @@ class VariantSelects extends HTMLElement {
         );
       }
     });
-    // Nếu có bất kỳ option nào bị null (do Customily đang load), dừng luôn, không reset về mặc định
-    if (tempOptions.includes(null)) return;
-    selectedOptions = tempOptions;
 
     //loop through the option sets starting from the 2nd set and disable any invalid options
     for (
@@ -1269,12 +1272,10 @@ class VariantSelects extends HTMLElement {
   }
 
   updateOptions() {
-    const fieldsets = Array.from(this.querySelectorAll("fieldset"));
-    this.options = fieldsets.map((fieldset) => {
-      return Array.from(fieldset.querySelectorAll("input")).find(
-        (radio) => radio.checked
-      ).value;
-    });
+    this.options = Array.from(
+      this.querySelectorAll("select"),
+      (select) => select.value
+    );
   }
 
   updateMasterId() {
@@ -1659,10 +1660,16 @@ class VariantRadios extends VariantSelects {
 
   updateOptions() {
     const fieldsets = Array.from(this.querySelectorAll("fieldset"));
-    this.options = fieldsets.map((fieldset) => {
-      return Array.from(fieldset.querySelectorAll("input")).find(
+    this.options = fieldsets.map((fieldset, index) => {
+      const checkedRadio = Array.from(fieldset.querySelectorAll("input")).find(
         (radio) => radio.checked
-      ).value;
+      );
+      if (checkedRadio) {
+        return checkedRadio.value;
+      } else {
+        // LOGIC FIX: Tương tự, nếu mất checked thì lấy lại giá trị cũ trong this.options
+        return this.options && this.options[index] ? this.options[index] : null;
+      }
     });
   }
 }
