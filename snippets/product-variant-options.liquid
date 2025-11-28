@@ -19,6 +19,21 @@
   #customily-cart-btn-preview {
     display: none
   }
+  /* Style cho nút copy */
+  .promo-code-trigger {
+    cursor: pointer;
+    font-weight: bold;
+    border-bottom: 1px dashed #333; /* Gạch chân nét đứt cho ra dáng mã code */
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+    transition: all 0.2s;
+  }
+  .promo-code-trigger:hover {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
 </style>
 
 
@@ -146,34 +161,63 @@
     var noticeId = 'add-to-cart-options-warning';
     var notice = document.getElementById(noticeId);
     
-    // --- Code thêm mới (Promo Text) ---
+    // --- Code xử lý Promo Code ---
     var promoId = 'bfcm-promo-msg';
     var promo = document.getElementById(promoId);
     
     if (!btn) {
       if (notice) notice.style.display = 'none';
-      if (promo) promo.style.display = 'none'; // Ẩn luôn promo nếu chưa có nút
+      if (promo) promo.style.display = 'none';
       return;
     }
 
     var form = btn.closest('form');
     if (!form) return;
 
-    // 1. Xử lý hiển thị dòng Promo Code (BFCM20)
+    // 1. Tạo và hiển thị Promo Code
     if (!promo) {
       promo = document.createElement('div');
       promo.id = promoId;
       promo.style.fontSize = '0.95em';
       promo.style.marginBottom = '5px';
-      // Thêm nội dung với style bold theo yêu cầu
-      promo.innerHTML = 'Use the code <b>BFCM20</b> to get <b>20% Off</b> your purchase.';
+      
+      // Icon Copy (SVG)
+      var copyIconSVG = '<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      
+      // Nội dung HTML
+      promo.innerHTML = 'Use the code <span id="bfcm-trigger" class="promo-code-trigger" title="Click to copy">BFCM20 ' + copyIconSVG + '</span> to get <b>20% Off</b> your purchase.';
+      
       if (btn.parentNode) {
         btn.parentNode.insertBefore(promo, btn);
       }
+
+      // Thêm sự kiện Click to Copy
+      var trigger = document.getElementById('bfcm-trigger');
+      if (trigger) {
+        trigger.addEventListener('click', function() {
+          var codeToCopy = 'BFCM20';
+          navigator.clipboard.writeText(codeToCopy).then(function() {
+            // Visual feedback: Đổi nội dung tạm thời
+            var originalContent = trigger.innerHTML;
+            trigger.style.color = 'green';
+            trigger.style.borderColor = 'green';
+            trigger.innerHTML = 'Copied! <svg viewBox="0 0 24 24" width="14" height="14" stroke="green" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            
+            setTimeout(function() {
+              trigger.innerHTML = originalContent;
+              trigger.style.color = '';
+              trigger.style.borderColor = '';
+            }, 2000);
+          }, function(err) {
+            console.error('Could not copy text: ', err);
+          });
+        });
+      }
+
     } else {
        promo.style.display = 'block';
     }
-    // --- Hết phần code thêm mới ---
+    // --- Hết phần Promo Code ---
 
     var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
     var allSelected = true;
@@ -205,7 +249,7 @@
       }
     });
 
-    // 2. Xử lý dòng cảnh báo (Notice)
+    // 2. Xử lý Warning Message
     if (!notice) {
       notice = document.createElement('div');
       notice.id = noticeId;
@@ -216,8 +260,6 @@
       notice.style.display = 'none';
       notice.textContent = '* You need to select all options (size, color, quantity...)';
       if (btn.parentNode) {
-        // Insert notice trước btn. 
-        // Vì promo đã được insert trước btn ở trên, nên thứ tự sẽ là: Promo -> Notice -> Btn
         btn.parentNode.insertBefore(notice, btn);
       }
     }
