@@ -11,13 +11,56 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "countdown_bar_tJQnHm": {
+      "type": "countdown-bar",
+      "name": "BFCM Countdown Bar",
+      "settings": {
+        "bg_color": "#000000",
+        "text_color": "#ffffff",
+        "bar_font_size": 16,
+        "timer_bg": "#8c231b",
+        "timer_text": "#ffffff",
+        "msg_start": "BFCM Week:",
+        "msg_bold": "20% OFF",
+        "highlight_color": "#ffffff",
+        "msg_end": "Sitewide",
+        "coupon_label": "Use code:",
+        "coupon_code": "BFCM20"
+      }
+    },
+    "announcement_bar_HFtDmQ": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_cabz4f": {
+          "type": "announcement",
+          "settings": {
+            "text": "BFCM Week: 20% OFF Sitewide | Use code: BFCM20",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_cabz4f"
+      ],
+      "disabled": true,
+      "name": "t:sections.announcement-bar.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "show_line_separator": true,
+        "show_social": false,
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "⭐Free Shipping for all orders over $100⭐",
+            "text": "⭐Free Shipping for all orders over $150⭐",
             "link": ""
           }
         }
@@ -34,32 +77,6 @@
         "show_social": false,
         "auto_rotate": true,
         "change_slides_speed": 3,
-        "enable_country_selector": false,
-        "enable_language_selector": false
-      }
-    },
-    "announcement_bar_n7kAPp": {
-      "type": "announcement-bar",
-      "blocks": {
-        "announcement_CXaKdQ": {
-          "type": "announcement",
-          "disabled": true,
-          "settings": {
-            "text": "Place your order by May 28 to ensure delivery before Father’s Day!",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement_CXaKdQ"
-      ],
-      "disabled": true,
-      "settings": {
-        "color_scheme": "scheme-8a179a35-f2d7-4bc3-89e4-3104034c7e22",
-        "show_line_separator": true,
-        "show_social": false,
-        "auto_rotate": false,
-        "change_slides_speed": 10,
         "enable_country_selector": false,
         "enable_language_selector": false
       }
@@ -84,8 +101,9 @@
     }
   },
   "order": [
+    "countdown_bar_tJQnHm",
+    "announcement_bar_HFtDmQ",
     "announcement-bar",
-    "announcement_bar_n7kAPp",
     "header"
   ]
 }

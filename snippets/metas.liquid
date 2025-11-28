@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // 4. Thay thế nút cũ bằng nút mới
                 button.parentNode.replaceChild(newButton, button);
                 
-                console.log('Đã thay thế sự kiện cho nút:', productLinkTag.href);
+                {% comment %} console.log('Đã thay thế sự kiện cho nút:', productLinkTag.href); {% endcomment %}
             }
         });
     });
