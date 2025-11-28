@@ -9,14 +9,24 @@
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Màu nền",
+      "label": "Màu nền thanh bar",
       "default": "#000000"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Màu chữ",
+      "label": "Màu chữ thường",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "bar_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Cỡ chữ (Font Size)",
+      "default": 14
     },
     {
       "type": "header",
@@ -36,24 +46,50 @@
     },
     {
       "type": "header",
-      "content": "Nội dung"
+      "content": "Nội dung thông báo"
+    },
+    {
+      "type": "paragraph",
+      "content": "Chia nội dung thành 3 phần để highlight phần giữa."
     },
     {
       "type": "text",
-      "id": "announcement_text",
-      "label": "Dòng thông báo",
-      "default": "BFCM Week: 30% OFF Sitewide"
+      "id": "msg_start",
+      "label": "Văn bản đầu (Thường)",
+      "default": "BFCM Week:"
+    },
+    {
+      "type": "text",
+      "id": "msg_bold",
+      "label": "Văn bản nhấn mạnh (In Đậm)",
+      "default": "30% OFF"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Màu chữ nhấn mạnh",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "text",
+      "id": "msg_end",
+      "label": "Văn bản cuối (Thường)",
+      "default": "Sitewide"
+    },
+    {
+      "type": "header",
+      "content": "Mã giảm giá"
     },
     {
       "type": "text",
       "id": "coupon_label",
-      "label": "Text trước mã code",
+      "label": "Text dẫn dắt",
       "default": "Use code:"
     },
     {
       "type": "text",
       "id": "coupon_code",
-      "label": "Mã giảm giá",
+      "label": "Mã Code (In Đậm)",
       "default": "MBF30"
     }
   ],
@@ -69,9 +105,10 @@
   .bfcm-announcement-bar {
     background-color: {{ section.settings.bg_color }};
     color: {{ section.settings.text_color }};
-    padding: 10px 20px;
+    /* Dùng font-size từ settings */
+    font-size: {{ section.settings.bar_font_size }}px;
     font-family: Arial, sans-serif;
-    font-size: 14px;
+    padding: 10px 20px;
     line-height: 1.5;
     position: relative;
     z-index: 50;
@@ -82,8 +119,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap; /* Cho phép xuống dòng khi cần */
-    gap: 0; /* Reset gap để tự control margin */
+    flex-wrap: wrap; 
+    gap: 0; 
     max-width: 1400px;
     margin: 0 auto;
   }
@@ -96,7 +133,7 @@
     align-items: center;
     gap: 4px;
     font-weight: bold;
-    order: 1; /* Mặc định Desktop đứng đầu */
+    order: 1; /* Desktop: Đứng đầu */
   }
 
   .timer-box {
@@ -104,10 +141,11 @@
     color: {{ section.settings.timer_text }};
     padding: 2px 6px;
     border-radius: 4px;
-    min-width: 26px;
+    min-width: 2.2em; /* Độ rộng tương đối theo font-size */
     text-align: center;
     font-weight: bold;
-    font-size: 13px;
+    /* Giảm nhẹ font-size đồng hồ so với text chính cho đỡ thô */
+    font-size: 0.9em; 
   }
   
   .timer-colon {
@@ -117,10 +155,17 @@
 
   /* 2. TEXT THÔNG BÁO */
   .bfcm-message {
-    font-weight: 600;
-    margin: 0 15px; /* Khoảng cách với đồng hồ và code trên Desktop */
-    order: 2; /* Mặc định Desktop đứng giữa */
+    /* Đổi về font-weight normal để chỉ đậm phần cần đậm */
+    font-weight: 400; 
+    margin: 0 15px; 
+    order: 2; /* Desktop: Đứng giữa */
     text-align: center;
+  }
+
+  /* Class riêng cho phần in đậm (30% OFF) */
+  .bfcm-highlight {
+    font-weight: 800; /* Đậm hẳn */
+    color: {{ section.settings.highlight_color }};
   }
 
   /* 3. MÃ CODE VÀ LABEL */
@@ -130,22 +175,27 @@
     gap: 6px;
     cursor: pointer;
     position: relative;
-    order: 4; /* Desktop đứng cuối */
+    order: 4; /* Desktop: Đứng cuối */
   }
 
+  /* Text "Use code:" để thường */
+  .coupon-label {
+    white-space: nowrap;
+    font-weight: 400;
+  }
+
+  /* Mã Code in đậm */
   .bfcm-code {
     font-weight: 800;
     text-decoration: underline;
+    /* Mã code luôn lấy màu highlight hoặc màu text chính nếu muốn nổi bật */
+    color: {{ section.settings.highlight_color }};
   }
   
-  .coupon-label {
-    white-space: nowrap;
-  }
-
   /* ICON COPY */
   .copy-icon {
-    width: 16px;
-    height: 16px;
+    width: 1.2em; /* Size icon theo font text */
+    height: 1.2em;
     fill: {{ section.settings.text_color }};
     transition: transform 0.2s;
   }
@@ -157,10 +207,9 @@
   .bfcm-separator {
     opacity: 0.6;
     margin: 0 10px;
-    font-size: 14px;
+    font-weight: 400;
   }
   
-  /* Mặc định: Gạch desktop hiện, gạch mobile ẩn */
   .sep-desktop { display: inline-block; order: 3; }
   .sep-mobile { display: none; order: 3; }
 
@@ -204,12 +253,13 @@
       padding: 5px 0;
     }
 
-    /* Đưa TEXT lên dòng đầu tiên */
+    /* Đưa TEXT lên dòng 1 */
     .bfcm-message {
       order: 1; 
-      width: 100%; /* Chiếm hết dòng */
-      margin: 0 0 8px 0; /* Cách dòng dưới 1 chút */
-      font-size: 13px;
+      width: 100%; 
+      margin: 0 0 8px 0; 
+      /* Mobile giảm nhẹ font-size 1 chút nếu setting quá to */
+      font-size: 0.95em; 
     }
 
     /* Đưa ĐỒNG HỒ xuống dòng 2, bên trái */
@@ -217,14 +267,14 @@
       order: 2;
     }
 
-    /* Hiện dấu gạch đứng Mobile ở giữa dòng 2 */
+    /* Hiện gạch đứng Mobile */
     .sep-mobile {
       display: inline-block;
       order: 3;
       margin: 0 8px;
     }
     
-    /* Ẩn dấu gạch đứng Desktop (vì text đã lên dòng 1 rồi) */
+    /* Ẩn gạch đứng Desktop */
     .sep-desktop {
       display: none;
     }
@@ -233,10 +283,6 @@
     .bfcm-coupon-wrapper {
       order: 4;
     }
-    
-    /* Chỉnh lại font mobile cho gọn */
-    .timer-box { padding: 1px 4px; min-width: 24px; font-size: 12px; }
-    .bfcm-code, .coupon-label { font-size: 13px; }
   }
 {% endstyle %}
 
@@ -252,15 +298,17 @@
       <span class="timer-box seconds">59</span>
     </div>
 
-    <!-- Dấu gạch đứng cho Mobile (giữa đồng hồ và code) -->
+    <!-- Dấu gạch đứng cho Mobile -->
     <span class="bfcm-separator sep-mobile">|</span>
 
-    <!-- 2. TEXT THÔNG BÁO -->
+    <!-- 2. TEXT THÔNG BÁO (Chia 3 phần) -->
     <div class="bfcm-message">
-      {{ section.settings.announcement_text }}
+      {{ section.settings.msg_start }} 
+      <span class="bfcm-highlight">{{ section.settings.msg_bold }}</span> 
+      {{ section.settings.msg_end }}
     </div>
 
-    <!-- Dấu gạch đứng cho Desktop (giữa text và code) -->
+    <!-- Dấu gạch đứng cho Desktop -->
     <span class="bfcm-separator sep-desktop">|</span>
 
     <!-- 3. MÃ CODE & COPY -->
