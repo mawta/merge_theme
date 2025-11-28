@@ -62,7 +62,7 @@
       "type": "text",
       "id": "msg_bold",
       "label": "Văn bản nhấn mạnh (In Đậm)",
-      "default": "30% OFF"
+      "default": "20% OFF"
     },
     {
       "type": "color",
@@ -90,7 +90,7 @@
       "type": "text",
       "id": "coupon_code",
       "label": "Mã Code (In Đậm)",
-      "default": "MBF30"
+      "default": "BFCM20"
     }
   ],
   "presets": [
@@ -157,7 +157,8 @@
   .bfcm-message {
     /* Đổi về font-weight normal để chỉ đậm phần cần đậm */
     font-weight: 400; 
-    margin: 0 15px; 
+    /* CHỈNH SỬA: Bỏ margin phải, chỉ để margin trái để cách đồng hồ */
+    margin: 0 0 0 15px; 
     order: 2; /* Desktop: Đứng giữa */
     text-align: center;
   }
@@ -206,7 +207,8 @@
   /* SEPARATORS (DẤU GẠCH ĐỨNG) */
   .bfcm-separator {
     opacity: 0.6;
-    margin: 0 10px;
+    /* CHỈNH SỬA: Căn đều margin 2 bên 15px cho cân đối */
+    margin: 0 15px;
     font-weight: 400;
   }
   
@@ -257,6 +259,7 @@
     .bfcm-message {
       order: 1; 
       width: 100%; 
+      /* Reset lại margin cho mobile */
       margin: 0 0 8px 0; 
       /* Mobile giảm nhẹ font-size 1 chút nếu setting quá to */
       font-size: 0.95em; 
