@@ -31,28 +31,6 @@
   assign product_form_id = 'product-form-' | append: section.id
 -%}
 
-{% comment %} <script>
-  console.log("value", {{option | json}})
-</script>
-<script>
-  console.log({{product | json}})
-</script>
-<script>
-  console.log("variants_available_arr",{{variants_available_arr | json}})
-</script>
-<script>
-  console.log("variants_option1_arr",{{variants_option1_arr | json}})
-</script>
-<script>
-  console.log("variants_option2_arr",{{variants_option2_arr | json}})
-</script>
-<script>
-  console.log("variants_option3_arr",{{variants_option3_arr | json}})
-</script>
-<script>
-  console.log("product.variants",{{product.variants | json}})
-</script> {% endcomment %}
-
 {%- for value in option.values -%}
   {%- liquid
     assign option_disabled = true
@@ -136,10 +114,7 @@
   {%- endif -%}
 
   {%- if forloop.last -%}
-    <!-- <div class="option-required-warning" style="color: red; font-size: 0.9em; display: none; margin-top: 4px;">
-      {{ option.name }} is required. Please select an option.
-    </div> -->
-  {%- endif -%}
+    {%- endif -%}
 {%- endfor -%}
 
 <script>
@@ -163,30 +138,52 @@
   }
   observeProductFormRadios();
 </script>
+
 <script>
 (function() {
   function updateAddToCartBtnState() {
     var btn = document.querySelector('.customily-add-to-cart-btn');
     var noticeId = 'add-to-cart-options-warning';
     var notice = document.getElementById(noticeId);
+    
+    // --- Code thêm mới (Promo Text) ---
+    var promoId = 'bfcm-promo-msg';
+    var promo = document.getElementById(promoId);
+    
     if (!btn) {
       if (notice) notice.style.display = 'none';
-      {% comment %} console.log('[observer] Button chưa xuất hiện'); {% endcomment %}
+      if (promo) promo.style.display = 'none'; // Ẩn luôn promo nếu chưa có nút
       return;
     }
-    {% comment %} console.log('[observer] Button đã xuất hiện'); {% endcomment %}
+
     var form = btn.closest('form');
     if (!form) return;
+
+    // 1. Xử lý hiển thị dòng Promo Code (BFCM20)
+    if (!promo) {
+      promo = document.createElement('div');
+      promo.id = promoId;
+      promo.style.fontSize = '0.95em';
+      promo.style.marginBottom = '5px';
+      // Thêm nội dung với style bold theo yêu cầu
+      promo.innerHTML = 'Use the code <b>BFCM20</b> to get <b>20% Off</b> your purchase.';
+      if (btn.parentNode) {
+        btn.parentNode.insertBefore(promo, btn);
+      }
+    } else {
+       promo.style.display = 'block';
+    }
+    // --- Hết phần code thêm mới ---
+
     var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
-    {% comment %} console.log('[observer] requiredRadios:', requiredRadios); {% endcomment %}
     var allSelected = true;
     requiredRadios.forEach(function(radio) {
       if (!document.querySelector('input[type="radio"][name="'+radio.name+'"]:checked')) allSelected = false;
     });
+
     // Show/hide required warning for each option
     requiredRadios.forEach(function(radio) {
       var optionName = radio.name;
-      // Find the warning for this option (assume it's the next .option-required-warning after the last input for this name)
       var radios = document.querySelectorAll('input[type="radio"][name="'+optionName+'"]');
       var warning = null;
       if (radios.length > 0) {
@@ -207,7 +204,8 @@
         }
       }
     });
-    // Add or remove the global warning message
+
+    // 2. Xử lý dòng cảnh báo (Notice)
     if (!notice) {
       notice = document.createElement('div');
       notice.id = noticeId;
@@ -218,19 +216,21 @@
       notice.style.display = 'none';
       notice.textContent = '* You need to select all options (size, color, quantity...)';
       if (btn.parentNode) {
+        // Insert notice trước btn. 
+        // Vì promo đã được insert trước btn ở trên, nên thứ tự sẽ là: Promo -> Notice -> Btn
         btn.parentNode.insertBefore(notice, btn);
       }
     }
+
     if (allSelected) {
       btn.removeAttribute('disabled');
       if (notice) notice.style.display = 'none';
-      {% comment %} console.log('[observer] Button enabled'); {% endcomment %}
     } else {
       btn.setAttribute('disabled', 'disabled');
       if (notice) notice.style.display = 'block';
-      {% comment %} console.log('[observer] Button disabled'); {% endcomment %}
     }
   }
+
   var observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
       if (mutation.type === 'childList') {
