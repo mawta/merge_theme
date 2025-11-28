@@ -111,7 +111,8 @@
     padding: 10px 20px;
     line-height: 1.5;
     position: relative;
-    z-index: 50;
+    /* Tăng z-index của thanh bar lên cao để tránh bị header che */
+    z-index: 1000;
   }
 
   /* Flex Container chính */
@@ -230,8 +231,9 @@
     visibility: hidden;
     transition: all 0.3s;
     white-space: nowrap;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    /* Z-INDEX CAO ĐÈ LÊN TẤT CẢ */
+    z-index: 99999;
   }
   .copy-tooltip::after {
     content: "";
