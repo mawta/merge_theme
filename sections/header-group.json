@@ -17,7 +17,7 @@
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "BFCM Week: 30% OFF Sitewide | Use code: BFCM20",
+            "text": "BFCM Week: 20% OFF Sitewide | Use code: BFCM20",
             "link": ""
           }
         }
@@ -34,32 +34,6 @@
         "show_social": false,
         "auto_rotate": true,
         "change_slides_speed": 3,
-        "enable_country_selector": false,
-        "enable_language_selector": false
-      }
-    },
-    "announcement_bar_n7kAPp": {
-      "type": "announcement-bar",
-      "blocks": {
-        "announcement_CXaKdQ": {
-          "type": "announcement",
-          "disabled": true,
-          "settings": {
-            "text": "Place your order by May 28 to ensure delivery before Father’s Day!",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement_CXaKdQ"
-      ],
-      "disabled": true,
-      "settings": {
-        "color_scheme": "scheme-8a179a35-f2d7-4bc3-89e4-3104034c7e22",
-        "show_line_separator": true,
-        "show_social": false,
-        "auto_rotate": false,
-        "change_slides_speed": 10,
         "enable_country_selector": false,
         "enable_language_selector": false
       }
@@ -85,7 +59,6 @@
   },
   "order": [
     "announcement-bar",
-    "announcement_bar_n7kAPp",
     "header"
   ]
 }

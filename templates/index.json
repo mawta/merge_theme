@@ -9,19 +9,6 @@
  */
 {
   "sections": {
-    "bec901c8-7007-4481-bdb1-1a8240f469b0": {
-      "type": "slideshow-with-text",
-      "settings": {
-        "title": "Valentine's Day Gifts",
-        "url_sub_collection_1": "shopify://collections/best-sellers",
-        "title_sub_collection_1": "Best Seller",
-        "url_sub_collection": "shopify://collections/new-arrivals",
-        "title_sub_collection": "What’s New",
-        "sub_review": "Based on 11368 reviews",
-        "padding_top": 16,
-        "padding_bottom": 16
-      }
-    },
     "8b6091a7-bd0e-4e4c-ae46-4f67da1f210a": {
       "type": "slideshow",
       "blocks": {
@@ -680,7 +667,6 @@
     }
   },
   "order": [
-    "bec901c8-7007-4481-bdb1-1a8240f469b0",
     "8b6091a7-bd0e-4e4c-ae46-4f67da1f210a",
     "96c06772-d51b-400b-a6cb-2f37dbdb7acf",
     "product_trending_7ahr9k",
