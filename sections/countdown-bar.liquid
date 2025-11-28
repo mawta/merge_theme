@@ -1,0 +1,298 @@
+{% schema %}
+{
+  "name": "BFCM Countdown Bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Giao diện chung"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Màu nền",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Màu chữ",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Cài đặt đồng hồ"
+    },
+    {
+      "type": "color",
+      "id": "timer_bg",
+      "label": "Màu nền ô giờ",
+      "default": "#8C231B"
+    },
+    {
+      "type": "color",
+      "id": "timer_text",
+      "label": "Màu số đồng hồ",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Nội dung"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Dòng thông báo",
+      "default": "BFCM Week: 30% OFF Sitewide"
+    },
+    {
+      "type": "text",
+      "id": "coupon_label",
+      "label": "Text trước mã code",
+      "default": "Use code:"
+    },
+    {
+      "type": "text",
+      "id": "coupon_code",
+      "label": "Mã giảm giá",
+      "default": "MBF30"
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFCM Countdown Bar"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .bfcm-announcement-bar {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 50;
+  }
+
+  .bfcm-bar-container {
+    display: flex;
+    justify-content: center; /* Căn giữa toàn bộ nội dung */
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* --- TIMER STYLES --- */
+  .bfcm-timer-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: bold;
+  }
+
+  .timer-box {
+    background-color: {{ section.settings.timer_bg }};
+    color: {{ section.settings.timer_text }};
+    padding: 2px 6px;
+    border-radius: 4px;
+    min-width: 28px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .timer-colon {
+    font-weight: bold;
+    margin: 0 2px;
+  }
+
+  /* --- TEXT & CODE STYLES --- */
+  .bfcm-text {
+    font-weight: 600;
+  }
+
+  .bfcm-separator {
+    opacity: 0.5;
+    margin: 0 5px;
+  }
+
+  .bfcm-coupon-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .bfcm-code {
+    font-weight: 800; /* Đậm hơn cho mã code */
+    text-decoration: underline; /* Hoặc bỏ nếu không thích */
+  }
+
+  .copy-icon {
+    width: 16px;
+    height: 16px;
+    fill: {{ section.settings.text_color }};
+    transition: transform 0.2s;
+  }
+
+  .bfcm-coupon-wrapper:active .copy-icon {
+    transform: scale(0.9);
+  }
+
+  /* Tooltip "Copied" */
+  .copy-tooltip {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  .copy-tooltip.show {
+    opacity: 1;
+    visibility: visible;
+    top: 120%;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .bfcm-bar-container {
+      justify-content: center;
+      gap: 8px;
+      flex-direction: column; /* Xếp dọc trên mobile cho dễ đọc */
+      text-align: center;
+    }
+    .bfcm-separator {
+      display: none; /* Ẩn dấu gạch đứng trên mobile */
+    }
+  }
+{% endstyle %}
+
+<div class="bfcm-announcement-bar">
+  <div class="bfcm-bar-container">
+    
+    <!-- 1. Countdown Timer -->
+    <div class="bfcm-timer-wrapper" id="timer-{{ section.id }}">
+      <span class="timer-box hours">23</span>
+      <span class="timer-colon">:</span>
+      <span class="timer-box minutes">59</span>
+      <span class="timer-colon">:</span>
+      <span class="timer-box seconds">59</span>
+    </div>
+
+    <!-- 2. Text Content -->
+    <div class="bfcm-content">
+      <span class="bfcm-text">{{ section.settings.announcement_text }}</span>
+      <span class="bfcm-separator">|</span>
+      <span>{{ section.settings.coupon_label }}</span>
+    </div>
+
+    <!-- 3. Coupon Code & Copy -->
+    <div class="bfcm-coupon-wrapper" onclick="copyToClipboard('{{ section.settings.coupon_code }}', this)">
+      <span class="bfcm-code">{{ section.settings.coupon_code }}</span>
+      
+      <!-- Icon Copy SVG -->
+      <svg class="copy-icon" viewBox="0 0 24 24">
+        <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
+      </svg>
+
+      <span class="copy-tooltip">Copied!</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    const STORAGE_KEY = 'bfcm_timer_target';
+    const DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    const timerWrapper = document.getElementById('timer-{{ section.id }}');
+    const elHours = timerWrapper.querySelector('.hours');
+    const elMinutes = timerWrapper.querySelector('.minutes');
+    const elSeconds = timerWrapper.querySelector('.seconds');
+
+    function getTargetTime() {
+      let target = localStorage.getItem(STORAGE_KEY);
+      const now = new Date().getTime();
+
+      // Nếu không có target hoặc target đã qua -> Set target mới là now + 24h
+      if (!target || now > target) {
+        target = now + DURATION;
+        localStorage.setItem(STORAGE_KEY, target);
+      }
+      return parseInt(target);
+    }
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      let target = getTargetTime();
+      let distance = target - now;
+
+      // Nếu lỡ distance < 0 (trường hợp hiếm khi vừa mở lại tab), reset lại
+      if (distance < 0) {
+        localStorage.removeItem(STORAGE_KEY);
+        target = getTargetTime();
+        distance = target - now;
+      }
+
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      elHours.textContent = hours < 10 ? '0' + hours : hours;
+      elMinutes.textContent = minutes < 10 ? '0' + minutes : minutes;
+      elSeconds.textContent = seconds < 10 ? '0' + seconds : seconds;
+    }
+
+    // Chạy ngay lập tức để không bị delay 1s
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  })();
+
+  // Hàm Copy
+  function copyToClipboard(text, element) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        showTooltip(element);
+      });
+    } else {
+      // Fallback cho trình duyệt cũ
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showTooltip(element);
+      } catch (err) {
+        console.error('Unable to copy', err);
+      }
+      document.body.removeChild(textArea);
+    }
+  }
+
+  function showTooltip(element) {
+    const tooltip = element.querySelector('.copy-tooltip');
+    tooltip.classList.add('show');
+    setTimeout(() => {
+      tooltip.classList.remove('show');
+    }, 2000);
+  }
+</script>
