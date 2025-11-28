@@ -11,13 +11,38 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "announcement_bar_HFtDmQ": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_cabz4f": {
+          "type": "announcement",
+          "settings": {
+            "text": "BFCM Week: 20% OFF Sitewide | Use code: BFCM20",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_cabz4f"
+      ],
+      "name": "t:sections.announcement-bar.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "show_line_separator": true,
+        "show_social": false,
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "BFCM Week: 20% OFF Sitewide | Use code: BFCM20",
+            "text": "⭐Free Shipping for all orders over $150⭐",
             "link": ""
           }
         }
@@ -34,31 +59,6 @@
         "show_social": false,
         "auto_rotate": true,
         "change_slides_speed": 3,
-        "enable_country_selector": false,
-        "enable_language_selector": false
-      }
-    },
-    "announcement_bar_HFtDmQ": {
-      "type": "announcement-bar",
-      "blocks": {
-        "announcement_cabz4f": {
-          "type": "announcement",
-          "settings": {
-            "text": "⭐Free Shipping for all orders over $150⭐",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement_cabz4f"
-      ],
-      "name": "t:sections.announcement-bar.presets.name",
-      "settings": {
-        "color_scheme": "",
-        "show_line_separator": true,
-        "show_social": false,
-        "auto_rotate": false,
-        "change_slides_speed": 5,
         "enable_country_selector": false,
         "enable_language_selector": false
       }
@@ -83,8 +83,8 @@
     }
   },
   "order": [
-    "announcement-bar",
     "announcement_bar_HFtDmQ",
+    "announcement-bar",
     "header"
   ]
 }
