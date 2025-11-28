@@ -9,6 +9,23 @@
  */
 {
   "sections": {
+    "bfcm_banner_xRNzx8": {
+      "type": "bfcm-banner",
+      "name": "BFCM Split Banner",
+      "settings": {
+        "bg_left": "#FFF6EB",
+        "bg_right": "#8C231B",
+        "heading": "BFCM Sale Is On",
+        "heading_color": "#8C231B",
+        "description": "Your moment to save big and love big is right now!",
+        "text_color": "#000000",
+        "btn_label": "SHOP NOW",
+        "btn_link": "",
+        "btn_bg": "#EA972D",
+        "btn_text": "#FFFFFF",
+        "image_right": "shopify://shop_images/Black_Friday_1.png"
+      }
+    },
     "8b6091a7-bd0e-4e4c-ae46-4f67da1f210a": {
       "type": "slideshow",
       "blocks": {
@@ -667,6 +684,7 @@
     }
   },
   "order": [
+    "bfcm_banner_xRNzx8",
     "8b6091a7-bd0e-4e4c-ae46-4f67da1f210a",
     "96c06772-d51b-400b-a6cb-2f37dbdb7acf",
     "product_trending_7ahr9k",
