@@ -4864,9 +4864,6 @@ body:has(.customily-download-button.disabled) #btn-preview:after {
 }
 
 @media screen and (max-width: 749px) {
-  .utility-bar--bottom-border {
-    background: #0b2a4a !important;
-  }
   .announcement-bar__message.h5 {
     color: white;
     font-size: 13px !important;
