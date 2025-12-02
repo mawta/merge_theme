@@ -17,22 +17,6 @@
   data-section="{{ section.id }}"
   data-product-id="{{ product.id }}"
 >
-  {% comment %}
-    {% if checkout_scripts contains 'previewBarInjector.init();' %}
-      <script defer src="https://cdn.customily.com/customily.js"></script>
-      <script defer src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js"></script>
-    {% elsif settings.customily_local == true %}
-      <script type="text/javascript" src="{{ 'customily.js' | asset_url }}?v=1001" defer></script>
-      <script
-        type="text/javascript"
-        src="{{ 'customily.shopify.script.unified.js' | asset_url }}?v=1001"
-        defer
-      ></script>
-    {% else %}
-      <script defer src="https://cdn.customily.com/customily.js"></script>
-      <script defer src="https://cdn.customily.com/shopify/static/customily.shopify.script.unified.js"></script>
-    {% endif %}
-  {% endcomment %}
 
   {%- if product.quantity_price_breaks_configured? -%}
     {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
