@@ -14,13 +14,30 @@
   endif
 -%}
 
-{% comment %} --- BẮT ĐẦU: ĐOẠN CODE THÊM VÀO ĐỂ CHỈNH CỠ CHỮ --- {% endcomment %}
+{% comment %} --- CUSTOM STYLES: FONT SIZE & COLORS --- {% endcomment %}
 {% style %}
-  #shopify-section-{{ section.id }} .announcement-bar__message {
+  /* Override Background */
+  #shopify-section-{{ section.id }} .utility-bar {
+    background-color: {{ section.settings.custom_background_color }};
+    background-image: none; /* Xóa gradient mặc định nếu có */
+  }
+
+  /* Override Text Color cho message, link và icon */
+  #shopify-section-{{ section.id }} .announcement-bar__message,
+  #shopify-section-{{ section.id }} .announcement-bar__link,
+  #shopify-section-{{ section.id }} .social-list__link,
+  #shopify-section-{{ section.id }} .localization-selector {
+    color: {{ section.settings.custom_text_color }};
     font-size: {{ section.settings.font_size }}px;
   }
+  
+  /* Xử lý màu cho SVG icon (mũi tên, social icon) để ăn theo màu text */
+  #shopify-section-{{ section.id }} .icon {
+    color: {{ section.settings.custom_text_color }};
+    fill: currentColor;
+  }
 {% endstyle %}
-{% comment %} --- KẾT THÚC: ĐOẠN CODE THÊM VÀO ĐỂ CHỈNH CỠ CHỮ --- {% endcomment %}
+{% comment %} --- END CUSTOM STYLES --- {% endcomment %}
 
 {% if social_icons %}
   {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
@@ -240,6 +257,18 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "accent-1"
+    },
+    {
+      "type": "color",
+      "id": "custom_background_color",
+      "label": "Custom Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color",
+      "default": "#ffffff"
     },
     {
       "type": "range",
