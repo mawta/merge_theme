@@ -18,6 +18,8 @@
         "bg_color": "#000000",
         "text_color": "#ffffff",
         "bar_font_size": 16,
+        "end_hour": 15,
+        "end_minute": 0,
         "timer_bg": "#8c231b",
         "timer_text": "#ffffff",
         "msg_start": "BFCM Week:",
