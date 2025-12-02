@@ -192,7 +192,7 @@
       }
 
       // Thêm sự kiện Click to Copy
-      var trigger = document.getElementById('bfcm-trigger');
+      {% comment %} var trigger = document.getElementById('bfcm-trigger');
       if (trigger) {
         trigger.addEventListener('click', function() {
           var codeToCopy = 'BFCM20';
@@ -212,10 +212,10 @@
             console.error('Could not copy text: ', err);
           });
         });
-      }
+      } {% endcomment %}
 
     } else {
-       promo.style.display = 'block';
+       {% comment %} promo.style.display = 'block'; {% endcomment %}
     }
     // --- Hết phần Promo Code ---
 
