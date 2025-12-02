@@ -169,7 +169,9 @@
         jerseyNotice = document.createElement('div');
         jerseyNotice.id = jerseyNoticeId;
         jerseyNotice.className = 'jersey-arrival-notice';
-        jerseyNotice.textContent = 'Arrive after Christmas';
+        jerseyNotice.textContent = '* Arrive after Christmas';
+        jerseyNotice.style.fontStyle = 'italic';
+        jerseyNotice.style.fontWeight = 'bold';
         
         if (btn.parentNode) {
           // Chèn vào trước nút Add to Cart
