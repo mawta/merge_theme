@@ -176,7 +176,7 @@
 
     // 1. Tạo và hiển thị Promo Code
     if (!promo) {
-      promo = document.createElement('div');
+      {% comment %} promo = document.createElement('div');
       promo.id = promoId;
       promo.style.fontSize = '0.95em';
       promo.style.marginBottom = '5px';
@@ -186,9 +186,9 @@
       
       // Nội dung HTML
       promo.innerHTML = 'Use the code <span id="bfcm-trigger" class="promo-code-trigger" title="Click to copy">BFCM20 ' + copyIconSVG + '</span> to get <b style="font-weight: 800">20% Off</b> your purchase.';
-      
+       {% endcomment %}
       if (btn.parentNode) {
-        btn.parentNode.insertBefore(promo, btn);
+        {% comment %} btn.parentNode.insertBefore(promo, btn); {% endcomment %}
       }
 
       // Thêm sự kiện Click to Copy
