@@ -14,6 +14,14 @@
   endif
 -%}
 
+{% comment %} --- BẮT ĐẦU: ĐOẠN CODE THÊM VÀO ĐỂ CHỈNH CỠ CHỮ --- {% endcomment %}
+{% style %}
+  #shopify-section-{{ section.id }} .announcement-bar__message {
+    font-size: {{ section.settings.font_size }}px;
+  }
+{% endstyle %}
+{% comment %} --- KẾT THÚC: ĐOẠN CODE THÊM VÀO ĐỂ CHỈNH CỠ CHỮ --- {% endcomment %}
+
 {% if social_icons %}
   {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 {% endif %}
@@ -232,6 +240,16 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "accent-1"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
     },
     {
       "type": "checkbox",
