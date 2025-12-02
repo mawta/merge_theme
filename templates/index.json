@@ -11,6 +11,7 @@
   "sections": {
     "bfcm_banner_xRNzx8": {
       "type": "bfcm-banner",
+      "disabled": true,
       "name": "BFCM Split Banner",
       "settings": {
         "bg_left": "#fff6eb",
@@ -56,7 +57,6 @@
       "block_order": [
         "c96ede44-9992-46b2-a043-f51dd6318422"
       ],
-      "disabled": true,
       "custom_css": [
         "div#Slide-template--17567536218276__8b6091a7-bd0e-4e4c-ae46-4f67da1f210a-1 {position: relative;}",
         "div#Slide-template--17567536218276__8b6091a7-bd0e-4e4c-ae46-4f67da1f210a-1 .slideshow__text-wrapper.banner__content {position: absolute; top: -10%; left: 10%; background: transparent; justify-content: flex-start;}",
