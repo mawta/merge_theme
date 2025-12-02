@@ -14,15 +14,14 @@
   endif
 -%}
 
-{% comment %} --- CUSTOM STYLES: FONT SIZE & COLORS --- {% endcomment %}
+{% comment %} --- CUSTOM STYLES: FONT SIZE & COLORS (DESKTOP & MOBILE) --- {% endcomment %}
 {% style %}
-  /* Override Background */
+  /* --- Global / Desktop Styles --- */
   #shopify-section-{{ section.id }} .utility-bar {
     background-color: {{ section.settings.custom_background_color }};
-    background-image: none; /* Xóa gradient mặc định nếu có */
+    background-image: none;
   }
 
-  /* Override Text Color cho message, link và icon */
   #shopify-section-{{ section.id }} .announcement-bar__message,
   #shopify-section-{{ section.id }} .announcement-bar__link,
   #shopify-section-{{ section.id }} .social-list__link,
@@ -30,11 +29,28 @@
     color: {{ section.settings.custom_text_color }};
     font-size: {{ section.settings.font_size }}px;
   }
-  
-  /* Xử lý màu cho SVG icon (mũi tên, social icon) để ăn theo màu text */
+
   #shopify-section-{{ section.id }} .icon {
     color: {{ section.settings.custom_text_color }};
     fill: currentColor;
+  }
+
+  /* --- Mobile Styles (max-width: 749px) --- */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .utility-bar {
+      background-color: {{ section.settings.custom_background_color_mobile }};
+    }
+
+    #shopify-section-{{ section.id }} .announcement-bar__message,
+    #shopify-section-{{ section.id }} .announcement-bar__link,
+    #shopify-section-{{ section.id }} .social-list__link,
+    #shopify-section-{{ section.id }} .localization-selector {
+      color: {{ section.settings.custom_text_color_mobile }};
+    }
+
+    #shopify-section-{{ section.id }} .icon {
+      color: {{ section.settings.custom_text_color_mobile }};
+    }
   }
 {% endstyle %}
 {% comment %} --- END CUSTOM STYLES --- {% endcomment %}
@@ -259,16 +275,40 @@
       "default": "accent-1"
     },
     {
+      "type": "header",
+      "content": "Custom Colors (Desktop)"
+    },
+    {
       "type": "color",
       "id": "custom_background_color",
-      "label": "Custom Background Color",
+      "label": "Background Color",
       "default": "#000000"
     },
     {
       "type": "color",
       "id": "custom_text_color",
-      "label": "Custom Text Color",
+      "label": "Text Color",
       "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Custom Colors (Mobile)"
+    },
+    {
+      "type": "color",
+      "id": "custom_background_color_mobile",
+      "label": "Mobile Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color_mobile",
+      "label": "Mobile Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
     },
     {
       "type": "range",
