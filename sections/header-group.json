@@ -13,6 +13,7 @@
   "sections": {
     "countdown_bar_tJQnHm": {
       "type": "countdown-bar",
+      "disabled": true,
       "name": "BFCM Countdown Bar",
       "settings": {
         "bg_color": "#000000",
