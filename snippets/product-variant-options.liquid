@@ -1,41 +1,23 @@
 {% comment %}
   Renders product variant options
-
-  Accepts:
-  - product: {Object} product object.
-  - option: {Object} current product_option object.
-  - block: {Object} block object.
-
-
-  Usage:
-  {% render 'product-variant-options',
-  product: product,
-  option: option,
-  block: block
-  %}
+  Cleaned version: Removed old promo code logic.
+  Feature: Add 'Arrive after Christmas' warning for Jersey products.
 {% endcomment %}
 
 <style>
   #customily-cart-btn-preview {
     display: none
   }
-  /* Style cho nút copy */
-  .promo-code-trigger {
-    cursor: pointer;
-    font-weight: 800;
-    border-bottom: 1px dashed #333; /* Gạch chân nét đứt cho ra dáng mã code */
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 0 4px;
-    transition: all 0.2s;
-  }
-  .promo-code-trigger:hover {
-    background-color: #f0f0f0;
-    border-radius: 4px;
+  
+  /* Style cho dòng thông báo Jersey */
+  .jersey-arrival-notice {
+    font-weight: 800; /* In đậm */
+    color: #333; /* Màu chữ */
+    margin-bottom: 8px;
+    display: block;
+    font-size: 0.95em;
   }
 </style>
-
 
 {%- liquid
   assign variants_available_arr = product.variants | map: 'available'
@@ -44,6 +26,12 @@
   assign variants_option3_arr = product.variants | map: 'option3'
 
   assign product_form_id = 'product-form-' | append: section.id
+
+  # Check tag Jersey
+  assign has_jersey_tag = false
+  if product.tags contains 'Jersey'
+    assign has_jersey_tag = true
+  endif
 -%}
 
 {%- for value in option.values -%}
@@ -128,8 +116,6 @@
     <option value="{{ value | escape }}" {% if option_disabled %}disabled{% endif %}>{{ value }}</option>
   {%- endif -%}
 
-  {%- if forloop.last -%}
-    {%- endif -%}
 {%- endfor -%}
 
 <script>
@@ -156,68 +142,44 @@
 
 <script>
 (function() {
+  // Lấy biến từ Liquid xuống JS
+  var isJerseyProduct = {{ has_jersey_tag | default: false }};
+
   function updateAddToCartBtnState() {
     var btn = document.querySelector('.customily-add-to-cart-btn');
     var noticeId = 'add-to-cart-options-warning';
     var notice = document.getElementById(noticeId);
     
-    // --- Code xử lý Promo Code ---
-    var promoId = 'bfcm-promo-msg';
-    var promo = document.getElementById(promoId);
-    
+    // ID cho thông báo Jersey
+    var jerseyNoticeId = 'jersey-arrival-notice';
+    var jerseyNotice = document.getElementById(jerseyNoticeId);
+
     if (!btn) {
       if (notice) notice.style.display = 'none';
-      if (promo) promo.style.display = 'none';
+      if (jerseyNotice) jerseyNotice.style.display = 'none';
       return;
     }
 
     var form = btn.closest('form');
     if (!form) return;
 
-    // 1. Tạo và hiển thị Promo Code
-    if (!promo) {
-      {% comment %} promo = document.createElement('div');
-      promo.id = promoId;
-      promo.style.fontSize = '0.95em';
-      promo.style.marginBottom = '5px';
-      
-      // Icon Copy (SVG)
-      var copyIconSVG = '<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-      
-      // Nội dung HTML
-      promo.innerHTML = 'Use the code <span id="bfcm-trigger" class="promo-code-trigger" title="Click to copy">BFCM20 ' + copyIconSVG + '</span> to get <b style="font-weight: 800">20% Off</b> your purchase.';
-       {% endcomment %}
-      if (btn.parentNode) {
-        {% comment %} btn.parentNode.insertBefore(promo, btn); {% endcomment %}
+    // --- 1. Xử lý Jersey Notice ---
+    if (isJerseyProduct) {
+      if (!jerseyNotice) {
+        jerseyNotice = document.createElement('div');
+        jerseyNotice.id = jerseyNoticeId;
+        jerseyNotice.className = 'jersey-arrival-notice';
+        jerseyNotice.textContent = 'Arrive after Christmas';
+        
+        if (btn.parentNode) {
+          // Chèn vào trước nút Add to Cart
+          btn.parentNode.insertBefore(jerseyNotice, btn);
+        }
+      } else {
+        jerseyNotice.style.display = 'block';
       }
-
-      // Thêm sự kiện Click to Copy
-      {% comment %} var trigger = document.getElementById('bfcm-trigger');
-      if (trigger) {
-        trigger.addEventListener('click', function() {
-          var codeToCopy = 'BFCM20';
-          navigator.clipboard.writeText(codeToCopy).then(function() {
-            // Visual feedback: Đổi nội dung tạm thời
-            var originalContent = trigger.innerHTML;
-            trigger.style.color = 'green';
-            trigger.style.borderColor = 'green';
-            trigger.innerHTML = 'Copied! <svg viewBox="0 0 24 24" width="14" height="14" stroke="green" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-            
-            setTimeout(function() {
-              trigger.innerHTML = originalContent;
-              trigger.style.color = '';
-              trigger.style.borderColor = '';
-            }, 2000);
-          }, function(err) {
-            console.error('Could not copy text: ', err);
-          });
-        });
-      } {% endcomment %}
-
-    } else {
-       {% comment %} promo.style.display = 'block'; {% endcomment %}
     }
-    // --- Hết phần Promo Code ---
+    // ----------------------------
 
     var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
     var allSelected = true;
@@ -249,7 +211,7 @@
       }
     });
 
-    // 2. Xử lý Warning Message
+    // 2. Xử lý Warning Message (Validate options)
     if (!notice) {
       notice = document.createElement('div');
       notice.id = noticeId;
