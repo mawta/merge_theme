@@ -29,7 +29,7 @@
 
   # Check tag Jersey
   assign has_jersey_tag = false
-  if product.tags contains 'Jersey'
+  if product.tags contains 'Jersey' or product.tags contains 'jersey'
     assign has_jersey_tag = true
   endif
 -%}
