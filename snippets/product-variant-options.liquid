@@ -152,8 +152,6 @@
   var isJerseyProduct = {{ has_jersey_tag | default: false }};
   var isFastProduct = {{ has_fast_tag | default: false }};
 
-  
-
   function updateAddToCartBtnState() {
     var btn = document.querySelector('.customily-add-to-cart-btn');
     var noticeId = 'add-to-cart-options-warning';
@@ -190,7 +188,24 @@
       } else {
         jerseyNotice.style.display = 'block';
       }
-    } else if()
+    } elseif(isFastProduct) {
+      if (!jerseyNotice) {
+        jerseyNotice = document.createElement('div');
+        jerseyNotice.id = jerseyNoticeId;
+        jerseyNotice.className = 'jersey-arrival-notice';
+        jerseyNotice.textContent = '* Choose Fast or Express Shipping to get your order by Christmas!';
+        jerseyNotice.style.fontStyle = 'italic';
+        jerseyNotice.style.fontWeight = 'bold';
+        jerseyNotice.style.fontSize = '16px';
+        
+        if (btn.parentNode) {
+          // Chèn vào trước nút Add to Cart
+          btn.parentNode.insertBefore(jerseyNotice, btn);
+        }
+      } else {
+        jerseyNotice.style.display = 'block';
+      }
+    }
     // ----------------------------
 
     var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
