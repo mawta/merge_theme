@@ -147,6 +147,7 @@
 </script>
 
 <script>
+  console.log("product tags", JSON.parse('{{ product.tags | json }}'))
 (function() {
   // Lấy biến từ Liquid xuống JS
   var isJerseyProduct = {{ has_jersey_tag | default: false }};
