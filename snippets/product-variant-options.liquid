@@ -32,12 +32,6 @@
   if product.tags contains 'Jersey' or product.tags contains 'jersey' or product.tags contains 'cap' or product.tags contains 'Cap'
     assign has_jersey_tag = true
   endif
-
-  assign has_fast_tag = false
-  if product.tags contains 'shirt' or product.tags contains 'Shirt' or product.tags contains 'mug' or product.tags contains 'Mug' or product.tags contains 'doormat' or product.tags contains 'Doormat'
-    assign has_fast_tag = true
-  endif
-
       -%}
 
 {%- for value in option.values -%}
