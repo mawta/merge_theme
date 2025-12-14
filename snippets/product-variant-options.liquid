@@ -145,7 +145,7 @@
 (function() {
   // Lấy biến từ Liquid xuống JS
   var isJerseyProduct = {{ has_jersey_tag | default: false }};
-  var isFastProduct = {{ has_fast_tag | default: false }};
+  {% comment %} var isFastProduct = {{ has_fast_tag | default: false }}; {% endcomment %}
 
   function updateAddToCartBtnState() {
     var btn = document.querySelector('.customily-add-to-cart-btn');
@@ -183,24 +183,7 @@
       } else {
         jerseyNotice.style.display = 'block';
       }
-    } else if(isFastProduct) {
-      if (!jerseyNotice) {
-        jerseyNotice = document.createElement('div');
-        jerseyNotice.id = jerseyNoticeId;
-        jerseyNotice.className = 'jersey-arrival-notice';
-        jerseyNotice.textContent = '* Choose Express Shipping to get your order by Christmas!';
-        jerseyNotice.style.fontStyle = 'italic';
-        jerseyNotice.style.fontWeight = 'bold';
-        jerseyNotice.style.fontSize = '16px';
-        
-        if (btn.parentNode) {
-          // Chèn vào trước nút Add to Cart
-          btn.parentNode.insertBefore(jerseyNotice, btn);
-        }
-      } else {
-        jerseyNotice.style.display = 'block';
-      }
-    }
+    } 
     // ----------------------------
 
     var requiredRadios = document.querySelectorAll('input[type="radio"][required]');
