@@ -81,7 +81,7 @@
           {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
         </div>
       {%- else -%}
-        <div class="card__content">
+        <div class="card__content collection-card-{{ card_collection.id }}">
           <div class="card__information">
             <h3 class="card__heading">
               <a
