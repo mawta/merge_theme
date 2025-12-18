@@ -579,6 +579,6 @@ body > div.cl-canvas-container {
 .new-shipping {
   display: none !important
 }
-.trustbadge-product {
+.trustbadge-product, .vtl-tb-main-widget {
   display: none !important
 }
