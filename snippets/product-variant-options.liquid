@@ -178,7 +178,7 @@
         
         if (btn.parentNode) {
           // Chèn vào trước nút Add to Cart
-          btn.parentNode.insertBefore(jerseyNotice, btn);
+          {% comment %} btn.parentNode.insertBefore(jerseyNotice, btn); {% endcomment %}
         }
       } else {
         jerseyNotice.style.display = 'block';
