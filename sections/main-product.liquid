@@ -860,6 +860,108 @@
   </script>
 </section>
 
+<script>
+(function() {
+  const DEBUG_PREFIX = "[Huy-Debug]";
+  window.savedUserChoices = {};
+
+  console.log(`${DEBUG_PREFIX} Script đã sẵn sàng. Đang chờ DOM...`);
+
+  function applySelectionLogic(reason) {
+    console.group(`${DEBUG_PREFIX} Thực thi Sync - Lý do: ${reason}`);
+    
+    const variantRadios = document.querySelector('variant-radios');
+    if (!variantRadios) {
+      console.warn(`${DEBUG_PREFIX} Không tìm thấy thẻ <variant-radios>`);
+      console.groupEnd();
+      return;
+    }
+
+    const allRadios = variantRadios.querySelectorAll('input[type="radio"]');
+    console.log(`${DEBUG_PREFIX} Tổng số radio tìm thấy: ${allRadios.length}`);
+
+    allRadios.forEach(radio => {
+      const optionName = radio.name;
+      const optionValue = radio.value;
+      const isSaved = window.savedUserChoices[optionName] === optionValue;
+
+      if (window.savedUserChoices[optionName]) {
+        if (isSaved) {
+          if (!radio.checked) {
+            console.log(`%c${DEBUG_PREFIX} RESTORE: [${optionName}] -> ${optionValue}`, "color: #00ff00; font-weight: bold");
+            radio.checked = true;
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        } else {
+          radio.checked = false;
+        }
+      } else {
+        // Logic Uncheck mặc định của đại kaaa
+        if (radio.checked) {
+          console.log(`${DEBUG_PREFIX} FORCE-UNCHECK (Mặc định): [${optionName}] -> ${optionValue}`);
+          radio.checked = false;
+        }
+      }
+    });
+
+    console.groupEnd();
+  }
+
+  // 1. Đánh chặn hành vi Click
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('input[type="radio"]')) {
+      const radio = e.target;
+      window.savedUserChoices[radio.name] = radio.value;
+      console.log(`%c${DEBUG_PREFIX} USER-CLICK: [${radio.name}] chọn ${radio.value}`, "color: #2196F3; font-weight: bold");
+    }
+  }, true);
+
+  // 2. MutationObserver để bắt lúc Customily "vẩy" HTML vào
+  const mainObserver = new MutationObserver((mutations) => {
+    let shouldSync = false;
+    mutations.forEach(mutation => {
+      if (mutation.addedNodes.length) {
+        // Log ra xem thằng nào vừa bị nhét vào DOM
+        mutation.addedNodes.forEach(node => {
+          if (node.id && node.id.includes("customily")) {
+            console.warn(`${DEBUG_PREFIX} Phát hiện Customily vừa chèn Element:`, node.id);
+            shouldSync = true;
+          }
+        });
+      }
+    });
+
+    if (shouldSync) {
+      mainObserver.disconnect();
+      applySelectionLogic("DOM Change (Customily detected)");
+      startObserving();
+    }
+  });
+
+  function startObserving() {
+    mainObserver.observe(document.body, { childList: true, subtree: true });
+  }
+
+  // 3. Override console.info để bắt "tín hiệu ngầm" từ App
+  const originalInfo = console.info;
+  console.info = function() {
+    const msg = arguments[0];
+    if (typeof msg === 'string' && msg.includes("Customily")) {
+      console.log(`%c${DEBUG_PREFIX} APP-SIGNAL: Nhận log từ App: "${msg}"`, "color: #ff9800");
+      setTimeout(() => applySelectionLogic("App Signal Detected"), 200);
+    }
+    originalInfo.apply(console, arguments);
+  };
+
+  // Khởi động
+  window.addEventListener('load', () => {
+    applySelectionLogic("Initial Page Load");
+    startObserving();
+  });
+
+})();
+</script>
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",
