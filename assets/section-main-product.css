@@ -775,6 +775,7 @@ a.product__text {
 @media screen and (min-width: 990px) {
   .cl-canvas-container {
     height: auto !important;
+    padding-top: 0 !important;
   }
 
   .product--stacked .product__media-item {
