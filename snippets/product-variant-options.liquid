@@ -118,7 +118,7 @@
 
 {%- endfor -%}
 
-<script>
+{% comment %} <script>
   // Đảm bảo không radio nào được checked mặc định khi có thay đổi DOM (observer)
   function uncheckAllRadiosInProductForm() {
     document.querySelectorAll('.product-form__input input[type="radio"]').forEach(function(radio) {
@@ -138,7 +138,7 @@
     });
   }
   observeProductFormRadios();
-</script>
+</script> {% endcomment %}
 
 <script>
   console.log("product tags", JSON.parse('{{ product.tags | json }}'));
