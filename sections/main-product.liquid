@@ -720,92 +720,97 @@
     endif
   -%}
 
-  <script>
+<script>
 (function() {
-  // 1. Khai báo "bộ nhớ" để lưu lựa chọn của đại kaaa
-  let userSelections = {}; 
-  let isCustomilyLoaded = false;
+  // 1. "Sổ cái" lưu trữ lựa chọn của đại kaaa
+  // Cấu trúc: { "Size": "L", "Color": "Black" }
+  window.savedUserChoices = {};
 
-  // 2. Hàm thực hiện việc Uncheck mặc định HOẶC Restore lựa chọn của khách
-  function syncRadios() {
-    const radioInputs = document.querySelectorAll('.product-form__input input[type="radio"]');
+  // 2. Hàm thực hiện việc áp đặt trạng thái cho Radio
+  function applySelectionLogic() {
+    const variantRadios = document.querySelector('variant-radios');
+    if (!variantRadios) return;
+
+    const allRadios = variantRadios.querySelectorAll('input[type="radio"]');
     
-    radioInputs.forEach(radio => {
-      const name = radio.name;
-      const value = radio.value;
+    allRadios.forEach(radio => {
+      const optionName = radio.name; // VD: "Product Type", "Size"
+      const optionValue = radio.value;
 
-      if (userSelections[name]) {
-        // Nếu khách ĐÃ CHỌN: Ép radio đó phải được checked
-        if (userSelections[name] === value) {
+      if (window.savedUserChoices[optionName]) {
+        // NẾU ĐÃ CHỌN: Nếu đúng giá trị đã lưu thì check, còn lại uncheck
+        if (window.savedUserChoices[optionName] === optionValue) {
           if (!radio.checked) {
             radio.checked = true;
-            radio.setAttribute('checked', 'checked');
-            // Kích hoạt sự kiện change để các script khác (như cập nhật giá) nhận diện được
+            // Trigger để Theme Dawn cập nhật ảnh/giá (quan trọng)
             radio.dispatchEvent(new Event('change', { bubbles: true }));
           }
         } else {
           radio.checked = false;
-          radio.removeAttribute('checked');
         }
       } else {
-        // Nếu khách CHƯA CHỌN: Thực hiện logic "Không checked mặc định" của đại kaaa
+        // NẾU CHƯA CHỌN: Ép tất cả về false (đúng ý đại kaaa)
         radio.checked = false;
-        radio.removeAttribute('checked');
       }
     });
   }
 
-  // 3. Lắng nghe hành vi click thực tế của khách hàng
-  document.addEventListener('change', function(e) {
-    if (e.target.matches('.product-form__input input[type="radio"]')) {
-      // Khi khách chủ động chọn, ta lưu lại vào "bộ nhớ"
-      userSelections[e.target.name] = e.target.value;
-      console.log("Đã ghi nhớ lựa chọn của đại kaaa:", userSelections);
+  // 3. Đánh chặn hành vi Click (Bắt ngay lập tức khi khách chạm vào)
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('input[type="radio"]')) {
+      const radio = e.target;
+      // Lưu vào sổ cái: Name => Value
+      window.savedUserChoices[radio.name] = radio.value;
+      console.log("Đại kaaa vừa chọn:", radio.name, " là ", radio.value);
     }
-  });
+  }, true); // Dùng useCapture để chạy trước các script khác
 
-  // 4. Theo dõi sự thay đổi của DOM (khi Customily load xong nó sẽ chèn thêm HTML)
-  const observer = new MutationObserver((mutations) => {
-    // Kiểm tra xem Customily đã xuất hiện chưa
-    const customilyContainer = document.querySelector('#customily-options, .customily-add-to-cart-btn');
+  // 4. MutationObserver - Canh chừng khi Customily thay đổi DOM
+  const mainObserver = new MutationObserver((mutations) => {
+    let shouldSync = false;
     
-    if (customilyContainer && !isCustomilyLoaded) {
-      isCustomilyLoaded = true;
-      console.log("Customily đã load - Tiến hành đồng bộ lại variant...");
+    for (let mutation of mutations) {
+      // Nếu có thêm bớt element hoặc Customily báo xong
+      if (mutation.addedNodes.length || mutation.removedNodes.length) {
+        shouldSync = true;
+        break;
+      }
     }
 
-    // Tạm dừng observer để tránh vòng lặp vô tận khi ta thay đổi checked
-    observer.disconnect();
-    
-    syncRadios();
-    
-    // Tiếp tục theo dõi
-    startObserving();
+    if (shouldSync) {
+      // Tạm dừng quan sát để tránh loop
+      mainObserver.disconnect();
+      
+      applySelectionLogic();
+      
+      // Quan sát lại
+      startObserving();
+    }
   });
 
   function startObserving() {
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: false // Không cần theo dõi thuộc tính để tối ưu hiệu năng
+    const target = document.querySelector('variant-radios') || document.body;
+    mainObserver.observe(target, { 
+      childList: true, 
+      subtree: true 
     });
   }
 
-  // Chạy lần đầu tiên khi trang load xong
-  window.addEventListener('load', () => {
-    syncRadios();
-    startObserving();
-  });
-
-  // Bắt sự kiện riêng từ console của Customily nếu có
+  // 5. Xử lý khi Customily thông báo hoàn tất qua Console
   const originalInfo = console.info;
   console.info = function() {
-    if (arguments[0] === "Customily Shopify: product loaded") {
-        syncRadios();
+    if (arguments[0] && arguments[0].includes("Customily")) {
+      // Khi thấy bất kỳ log nào của Customily, ta dán lại lựa chọn ngay
+      setTimeout(applySelectionLogic, 100); 
     }
     originalInfo.apply(console, arguments);
   };
 
+  // Khởi chạy
+  window.addEventListener('DOMContentLoaded', () => {
+    applySelectionLogic();
+    startObserving();
+  });
 })();
 </script>
 
