@@ -720,6 +720,95 @@
     endif
   -%}
 
+  <script>
+(function() {
+  // 1. Khai báo "bộ nhớ" để lưu lựa chọn của đại kaaa
+  let userSelections = {}; 
+  let isCustomilyLoaded = false;
+
+  // 2. Hàm thực hiện việc Uncheck mặc định HOẶC Restore lựa chọn của khách
+  function syncRadios() {
+    const radioInputs = document.querySelectorAll('.product-form__input input[type="radio"]');
+    
+    radioInputs.forEach(radio => {
+      const name = radio.name;
+      const value = radio.value;
+
+      if (userSelections[name]) {
+        // Nếu khách ĐÃ CHỌN: Ép radio đó phải được checked
+        if (userSelections[name] === value) {
+          if (!radio.checked) {
+            radio.checked = true;
+            radio.setAttribute('checked', 'checked');
+            // Kích hoạt sự kiện change để các script khác (như cập nhật giá) nhận diện được
+            radio.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        } else {
+          radio.checked = false;
+          radio.removeAttribute('checked');
+        }
+      } else {
+        // Nếu khách CHƯA CHỌN: Thực hiện logic "Không checked mặc định" của đại kaaa
+        radio.checked = false;
+        radio.removeAttribute('checked');
+      }
+    });
+  }
+
+  // 3. Lắng nghe hành vi click thực tế của khách hàng
+  document.addEventListener('change', function(e) {
+    if (e.target.matches('.product-form__input input[type="radio"]')) {
+      // Khi khách chủ động chọn, ta lưu lại vào "bộ nhớ"
+      userSelections[e.target.name] = e.target.value;
+      console.log("Đã ghi nhớ lựa chọn của đại kaaa:", userSelections);
+    }
+  });
+
+  // 4. Theo dõi sự thay đổi của DOM (khi Customily load xong nó sẽ chèn thêm HTML)
+  const observer = new MutationObserver((mutations) => {
+    // Kiểm tra xem Customily đã xuất hiện chưa
+    const customilyContainer = document.querySelector('#customily-options, .customily-add-to-cart-btn');
+    
+    if (customilyContainer && !isCustomilyLoaded) {
+      isCustomilyLoaded = true;
+      console.log("Customily đã load - Tiến hành đồng bộ lại variant...");
+    }
+
+    // Tạm dừng observer để tránh vòng lặp vô tận khi ta thay đổi checked
+    observer.disconnect();
+    
+    syncRadios();
+    
+    // Tiếp tục theo dõi
+    startObserving();
+  });
+
+  function startObserving() {
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: false // Không cần theo dõi thuộc tính để tối ưu hiệu năng
+    });
+  }
+
+  // Chạy lần đầu tiên khi trang load xong
+  window.addEventListener('load', () => {
+    syncRadios();
+    startObserving();
+  });
+
+  // Bắt sự kiện riêng từ console của Customily nếu có
+  const originalInfo = console.info;
+  console.info = function() {
+    if (arguments[0] === "Customily Shopify: product loaded") {
+        syncRadios();
+    }
+    originalInfo.apply(console, arguments);
+  };
+
+})();
+</script>
+
   <script type="application/ld+json">
     {
       "@context": "http://schema.org/",
