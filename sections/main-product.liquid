@@ -967,60 +967,6 @@
 })();
 </script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const handleCanvasSync = () => {
-      const canvasContainers = document.querySelectorAll('.cl-canvas-container');
-      
-      canvasContainers.forEach((canvas) => {
-        // Tìm slide cha
-        const parentSlide = canvas.closest('.product__media-item') || canvas.parentElement;
-        if (!parentSlide) return;
-
-        // 1. Tìm Element 2 (ảnh gốc)
-        const originalMedia = parentSlide.querySelector('.product__media.media.media--transparent');
-        
-        if (originalMedia) {
-          // KHÔNG xóa, chỉ làm cho nó vô hình và không cho bấm vào (pointer-events: none)
-          // nhưng vẫn giữ nguyên vị trí để app Customily tính toán size
-          originalMedia.style.setProperty('opacity', '0', 'important');
-          originalMedia.style.setProperty('visibility', 'hidden', 'important');
-          originalMedia.style.setProperty('pointer-events', 'none', 'important');
-          originalMedia.style.setProperty('position', 'absolute', 'important');
-        }
-
-        // 2. Ép Element 1 (Canvas) phải bằng đúng khung của cha
-        canvas.style.setProperty('position', 'relative', 'important');
-        canvas.style.setProperty('width', '100%', 'important');
-        canvas.style.setProperty('height', '100%', 'important');
-        canvas.style.setProperty('display', 'block', 'important');
-        canvas.style.setProperty('z-index', '10', 'important');
-
-        // 3. Xóa các icon thừa của theme để mobile không bị chạm nhầm
-        const overlays = parentSlide.querySelectorAll('.product__media-icon, .product__media-toggle, .loading-overlay__spinner');
-        overlays.forEach(el => el.style.setProperty('display', 'none', 'important'));
-      });
-    };
-
-    // Khởi tạo Observer
-    const galleryObserver = new MutationObserver((mutations) => {
-      handleCanvasSync();
-    });
-
-    const targetNode = document.querySelector('media-gallery');
-    if (targetNode) {
-      galleryObserver.observe(targetNode, { 
-        childList: true, 
-        subtree: true,
-        attributes: true // Theo dõi cả khi app thay đổi style inline
-      });
-      
-      // Chạy lần đầu ngay khi load
-      handleCanvasSync();
-    }
-  });
-</script>
-
 {% schema %}
 {
   "name": "t:sections.main-product.name",
