@@ -967,43 +967,6 @@
 })();
 </script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const galleryObserver = new MutationObserver((mutations) => {
-      // Tìm tất cả các canvas container (Element 1)
-      const canvasContainers = document.querySelectorAll('.cl-canvas-container');
-      
-      canvasContainers.forEach((canvas) => {
-        // Tìm element cha chứa cả canvas và ảnh gốc (thường là thẻ <li> hoặc div.product-media-container)
-        const parentSlide = canvas.closest('.product__media-item') || canvas.parentElement;
-        
-        if (parentSlide) {
-          // Tìm Element 2: .product__media.media.media--transparent
-          const originalMedia = parentSlide.querySelector('.product__media.media.media--transparent');
-          
-          if (originalMedia) {
-            console.log('Đã phát hiện Canvas - Tiến hành xóa ảnh gốc để tránh xung đột trên mobile');
-            originalMedia.remove(); // Xóa hẳn khỏi DOM
-          }
-
-          // Xóa luôn các icon zoom và nút toggle của theme Dawn/Merge để không bị đè lên canvas
-          const UI_Elements = parentSlide.querySelectorAll('.product__media-icon, .product__media-toggle, .loading-overlay__spinner');
-          UI_Elements.forEach(el => el.remove());
-        }
-      });
-    });
-
-    // Theo dõi sự thay đổi trong toàn bộ Media Gallery
-    const targetNode = document.querySelector('media-gallery');
-    if (targetNode) {
-      galleryObserver.observe(targetNode, { 
-        childList: true, 
-        subtree: true 
-      });
-    }
-  });
-</script>
-
 {% schema %}
 {
   "name": "t:sections.main-product.name",
