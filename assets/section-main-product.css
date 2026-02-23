@@ -1630,7 +1630,7 @@ a.product__text {
 }
 
 .product-media-container .product__modal-opener {
-  /* display: block; */
+  display: block;
   position: relative;
 }
 
