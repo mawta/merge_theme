@@ -3857,36 +3857,24 @@ input[name="Size"] ~ label{
     min-height: 352px;
 }
 
-/* 1. Ẩn triệt để element 2 khi có Customily Canvas (Element 1) */
-/* Dùng selector quan hệ anh em (~) để hỗ trợ cả mobile cũ không có :has() */
-.product-media-container .cl-canvas-container ~ modal-opener .product__media.media,
-.product-media-container .cl-canvas-container ~ modal-opener .product__media-icon,
-.product-media-container .cl-canvas-container ~ modal-opener .product__media-toggle {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-}
 
-/* 2. Trường hợp app chèn canvas vào vị trí khác trong container */
-.product-media-container:has(.cl-canvas-container) modal-opener .product__media.media,
-.product-media-container:has(.cl-canvas-container) .product__media-icon {
+/* 1. Ẩn ảnh gốc và các layer liên quan khi có canvas (Element 1) */
+.product-media-container:has(.cl-canvas-container) .product__media.media.media--transparent,
+.cl-canvas-container ~ modal-opener .product__media.media.media--transparent {
     display: none !important;
 }
 
-/* 3. Đảm bảo Element 1 (Canvas) hiển thị đúng và tràn đầy khung hình trên mobile */
+/* 2. Ẩn luôn icon phóng to và nút toggle để không bị đè lên canvas trên mobile */
+.product-media-container:has(.cl-canvas-container) .product__media-icon,
+.product-media-container:has(.cl-canvas-container) .product__media-toggle {
+    display: none !important;
+}
+
+/* 3. Đảm bảo canvas (Element 1) chiếm trọn không gian và nhận tương tác */
 .product-media-container .cl-canvas-container {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
+    position: relative !important;
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important;
     z-index: 10 !important;
-    display: block !important;
-    background: #fff; /* Tránh bị xuyên thấu nếu ảnh gốc chưa ẩn kịp */
-}
-
-/* 4. Fix lỗi slider trên mobile bị trượt mất canvas */
-.slider.product__media-list .product__media-item.is-active .cl-canvas-container {
-    visibility: visible !important;
+    pointer-events: auto !important;
 }
