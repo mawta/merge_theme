@@ -3856,15 +3856,3 @@ input[name="Size"] ~ label{
 .product-media-container.constrain-height .media {
     min-height: 352px;
 }
-
-
-/* Nếu có element 1 thì ẩn cái media transparent bên trong element 2 */
-.cl-canvas-container + .product-media-container .product__media.media.media--transparent {
-    display: none !important;
-}
-
-/* Ẩn luôn các icon zoom/plus cho sạch giao diện */
-.cl-canvas-container + .product-media-container .product__media-icon,
-.cl-canvas-container + .product-media-container .product__media-toggle {
-    display: none !important;
-}
