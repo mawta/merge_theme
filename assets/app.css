@@ -583,3 +583,14 @@ body > div.cl-canvas-container {
 /* .trustbadge-product, .vtl-tb-main-widget, .collection-card-501431861412 { */
   display: none !important
 }
+
+/* Nếu product-media-container chứa cl-canvas-container */
+.product-media-container:has(.cl-canvas-container) .product__media.media,
+.product-media-container:has(.cl-canvas-container) model-viewer {
+    display: none !important;
+}
+
+/* Hoặc nếu muốn ẩn toàn bộ opener khi có canvas */
+.product-media-container:has(.cl-canvas-container) .product__modal-opener {
+    display: none !important;
+}
