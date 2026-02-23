@@ -579,7 +579,7 @@ body > div.cl-canvas-container {
 .new-shipping {
   display: none !important
 }
-/* .trustbadge-product, .vtl-tb-main-widget { */
-.trustbadge-product, .vtl-tb-main-widget, .collection-card-501431861412 {
+.trustbadge-product, .vtl-tb-main-widget {
+/* .trustbadge-product, .vtl-tb-main-widget, .collection-card-501431861412 { */
   display: none !important
 }
