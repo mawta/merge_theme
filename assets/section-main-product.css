@@ -3883,6 +3883,6 @@ input[name="Size"] ~ label{
   display: none !important;
 }
 
-.product__media-toggle.quick-add-hidden {
+.product__media-toggle.quick-add-hidden, .product__media.media--transparent{
   display: none !important
 }
