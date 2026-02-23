@@ -591,6 +591,8 @@ body > div.cl-canvas-container {
 }
 
 /* Hoặc nếu muốn ẩn toàn bộ opener khi có canvas */
-.product-media-container:has(.cl-canvas-container) .product__modal-opener {
+.product-media-container:has(.cl-canvas-container) .product__modal-opener,
+.product-media-container:has(.cl-canvas-container) .product__media.media--transparent
+{
     display: none !important;
 }
