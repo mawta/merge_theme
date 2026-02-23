@@ -3858,23 +3858,13 @@ input[name="Size"] ~ label{
 }
 
 
-/* 1. Ẩn ảnh gốc và các layer liên quan khi có canvas (Element 1) */
-.product-media-container:has(.cl-canvas-container) .product__media.media.media--transparent,
-.cl-canvas-container ~ modal-opener .product__media.media.media--transparent {
+/* Nếu có element 1 thì ẩn cái media transparent bên trong element 2 */
+.cl-canvas-container + .product-media-container .product__media.media.media--transparent {
     display: none !important;
 }
 
-/* 2. Ẩn luôn icon phóng to và nút toggle để không bị đè lên canvas trên mobile */
-.product-media-container:has(.cl-canvas-container) .product__media-icon,
-.product-media-container:has(.cl-canvas-container) .product__media-toggle {
+/* Ẩn luôn các icon zoom/plus cho sạch giao diện */
+.cl-canvas-container + .product-media-container .product__media-icon,
+.cl-canvas-container + .product-media-container .product__media-toggle {
     display: none !important;
-}
-
-/* 3. Đảm bảo canvas (Element 1) chiếm trọn không gian và nhận tương tác */
-.product-media-container .cl-canvas-container {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
-    z-index: 10 !important;
-    pointer-events: auto !important;
 }
