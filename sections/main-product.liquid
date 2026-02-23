@@ -967,6 +967,67 @@
 })();
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const syncCanvasToMedia = () => {
+      // Tìm Element 1
+      const canvasContainers = document.querySelectorAll('.cl-canvas-container');
+      
+      canvasContainers.forEach((canvas) => {
+        // Tìm element cha lớn nhất của slide (li)
+        const parentSlide = canvas.closest('.product__media-item');
+        if (!parentSlide) return;
+
+        // Tìm container chứa ảnh (Element cha của Element 2)
+        const mediaContainer = parentSlide.querySelector('.product-media-container');
+        if (!mediaContainer) return;
+
+        // 1. Ép container cha có nền trắng và giữ khung
+        mediaContainer.style.setProperty('background-color', '#ffffff', 'important');
+        mediaContainer.style.setProperty('position', 'relative', 'important');
+
+        // 2. Ép Element 2 (ảnh gốc) display none
+        const originalMedia = mediaContainer.querySelector('.product__media.media');
+        if (originalMedia) {
+          originalMedia.style.setProperty('display', 'none', 'important');
+        }
+
+        // 3. Ép Element 1 (Canvas) dài/rộng đúng bằng khung của container cha
+        // Đồng thời tạo nền trắng ngay tại canvas để che mọi thứ bên dưới
+        canvas.style.setProperty('position', 'absolute', 'important');
+        canvas.style.setProperty('top', '0', 'important');
+        canvas.style.setProperty('left', '0', 'important');
+        canvas.style.setProperty('width', '100%', 'important');
+        canvas.style.setProperty('height', '100%', 'important');
+        canvas.style.setProperty('margin', '0', 'important');
+        canvas.style.setProperty('z-index', '10', 'important');
+        canvas.style.setProperty('background-color', '#ffffff', 'important');
+
+        // 4. Ẩn các icon zoom/plus để mobile touch chuẩn vào canvas
+        const uiElements = parentSlide.querySelectorAll('.product__media-icon, .product__media-toggle');
+        uiElements.forEach(el => el.style.setProperty('display', 'none', 'important'));
+      });
+    };
+
+    // Theo dõi mọi thay đổi (kể cả khi app render lại canvas hoặc chuyển slide)
+    const observer = new MutationObserver((mutations) => {
+      syncCanvasToMedia();
+    });
+
+    const target = document.querySelector('media-gallery');
+    if (target) {
+      observer.observe(target, { 
+        childList: true, 
+        subtree: true, 
+        attributes: true, 
+        attributeFilter: ['style', 'class'] 
+      });
+      // Chạy ngay khi load xong
+      syncCanvasToMedia();
+    }
+  });
+</script>
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",
