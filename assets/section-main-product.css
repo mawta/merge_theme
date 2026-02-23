@@ -3882,3 +3882,7 @@ input[name="Size"] ~ label{
 .product-media-container:has(.cl-canvas-container) .product__media-toggle {
   display: none !important;
 }
+
+product__media-toggle.quick-add-hidden {
+  display: none !important
+}
