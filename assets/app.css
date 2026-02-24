@@ -605,7 +605,6 @@ body > div.cl-canvas-container {
 
 .canvas-container { /* the element was .canvas-container */
   position: sticky;
-  top: 0px;
 }
 
 /* related resource: section-main-product.css:75:3 */
