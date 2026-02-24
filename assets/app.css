@@ -602,18 +602,3 @@ body > div.cl-canvas-container {
 {
     display: none !important;
 }
-
-.canvas-container { /* the element was .canvas-container */
-  position: sticky;
-}
-
-/* related resource: section-main-product.css:75:3 */
-.product--medium:not(.product--no-media) .product__media-wrapper { /* the element was .grid__item.product__media-wrapper */
-  overflow-y: auto;
-  position: relative;
-}
-
-/* related resource: section-main-product.css:22:3 */
-.product__column-sticky { /* the element was media-gallery#MediaGallery-template--17567535693988__main */
-  position: static;
-}
