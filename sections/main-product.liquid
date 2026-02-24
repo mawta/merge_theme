@@ -1030,7 +1030,8 @@
   });
 </script>
 
-document.addEventListener("DOMContentLoaded", function() {
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
     // 1. Xác định element cần dính và container làm ranh giới
     // Đại kaaa check lại class xem là .canvas-container hay .cl-canvas-container nhé
     const canvasEl = document.querySelector('.canvas-container'); 
@@ -1082,6 +1083,7 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener('scroll', () => requestAnimationFrame(handleSticky));
     window.addEventListener('resize', () => requestAnimationFrame(handleSticky));
 });
+</script>
 
 {% schema %}
 {
