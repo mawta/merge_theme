@@ -1031,74 +1031,88 @@
 </script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // 1. Xác định element cần dính và container làm ranh giới
-    // Đại kaaa check lại class xem là .canvas-container hay .cl-canvas-container nhé
-    const canvasEl = document.querySelector('.canvas-container'); 
-    
-    // Container chứa toàn bộ cột ảnh bên trái
-    const boundaryEl = document.querySelector('.product__media-wrapper'); 
-
-    if (!canvasEl || !boundaryEl) return;
-
-    // Reset lại CSS để tránh xung đột với app bên thứ 3
-    canvasEl.style.setProperty('position', 'relative', 'important');
-    canvasEl.style.setProperty('top', '0', 'important');
-    canvasEl.style.setProperty('bottom', 'auto', 'important');
-    canvasEl.style.setProperty('margin-bottom', '0', 'important');
-    canvasEl.style.transition = 'transform 0.1s ease-out'; // Giúp mượt hơn khi scroll nhanh
-
-    function handleSticky() {
-        // Lấy tọa độ thực tế trên màn hình
-        const boundaryRect = boundaryEl.getBoundingClientRect();
-        const canvasHeight = canvasEl.offsetHeight;
+document.addEventListener("DOMContentLoaded", function() {
+    // Dùng interval để chờ App Customily render xong DOM
+    const checkExist = setInterval(function() {
         
-        // Khoảng cách từ top màn hình (Đại kaaa tăng lên nếu vướng Header)
-        const stickyOffset = 20; 
+        // 1. targetEl: Phần tử thực tế ta sẽ cho trượt lơ lửng
+        const targetEl = document.querySelector('.canvas-wrapper'); 
+        
+        // 2. anchorEl: Khung gốc chứa canvas (Dùng làm "mỏ neo" để đo tọa độ chuẩn)
+        const anchorEl = document.querySelector('.cl-canvas-container'); 
+        
+        // 3. boundaryEl: Toàn bộ cột media bên trái (Đuôi của cái này là vạch đích)
+        const boundaryEl = document.querySelector('.product__media-wrapper');
 
-        // TÍNH TOÁN QUAN TRỌNG: Quãng đường trượt tối đa
-        // Bằng đúng chiều cao Container trừ đi chiều cao Canvas. 
-        // => Đảm bảo ĐUÔI canvas chạm ĐUÔI container là hết đường.
-        const maxTranslateY = boundaryRect.height - canvasHeight;
-
-        // Nếu người dùng bắt đầu cuộn qua đỉnh của boundary
-        if (boundaryRect.top <= stickyOffset) {
-            
-            // Lượng pixel cần đẩy canvas xuống
-            let translateY = Math.abs(boundaryRect.top) + stickyOffset;
-
-            // NẾU CHẠM ĐÁY -> KHOÁ LẠI
-            if (translateY >= maxTranslateY) {
-                translateY = maxTranslateY;
-            }
-
-            canvasEl.style.transform = `translateY(${translateY}px)`;
-        } else {
-            // Khi cuộn ngược lên trên đỉnh
-            canvasEl.style.transform = `translateY(0px)`;
+        if (targetEl && anchorEl && boundaryEl) {
+            clearInterval(checkExist);
+            initSmartSticky(targetEl, anchorEl, boundaryEl);
         }
+    }, 500);
+
+    function initSmartSticky(target, anchor, boundary) {
+        // Khoảng cách từ đỉnh màn hình xuống canvas khi đang trượt (đại kaaa chỉnh lại nếu vướng Header)
+        const stickyTopOffset = 50; 
+
+        function onScroll() {
+            const boundaryRect = boundary.getBoundingClientRect();
+            const anchorRect = anchor.getBoundingClientRect();
+            const targetHeight = target.offsetHeight; // Lấy chiều cao thực của canvas
+
+            // TRẠNG THÁI 1: Khi chưa cuộn tới ảnh (hoặc cuộn ngược lên trên)
+            if (anchorRect.top > stickyTopOffset) {
+                target.style.setProperty('position', 'relative', 'important');
+                target.style.setProperty('top', '0px', 'important');
+                target.style.setProperty('left', '0px', 'important');
+                target.style.setProperty('width', '100%', 'important');
+            }
+            // TRẠNG THÁI 2 & 3: Bắt đầu cuộn qua ảnh
+            else {
+                // Chuyển sang fixed để "bay" tự do, vô hiệu hóa mọi CSS cản trở của thẻ cha
+                target.style.setProperty('position', 'fixed', 'important');
+                target.style.setProperty('left', anchorRect.left + 'px', 'important');
+                target.style.setProperty('width', anchorRect.width + 'px', 'important');
+                target.style.setProperty('z-index', '9999', 'important'); // Nổi lên trên cùng
+
+                // ===== LOGIC QUYẾT ĐỊNH: ĐUÔI CHẠM ĐUÔI =====
+                const maxBottom = boundaryRect.bottom; // Tọa độ Y đáy của toàn bộ cột trái
+                const predictedBottom = stickyTopOffset + targetHeight; // Tọa độ Y đáy của canvas nếu đang bay
+
+                // Nếu đáy của canvas chạm/vượt quá đáy của cột trái -> Thắng gấp!
+                if (predictedBottom > maxBottom) {
+                    const pushUpTop = maxBottom - targetHeight; 
+                    target.style.setProperty('top', pushUpTop + 'px', 'important');
+                } 
+                // Nếu chưa chạm đáy cột trái -> Tiếp tục bay lơ lửng ở offset
+                else {
+                    target.style.setProperty('top', stickyTopOffset + 'px', 'important');
+                }
+            }
+        }
+
+        // Lắng nghe cuộn và resize màn hình
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        onScroll(); // Tính toán ngay lúc vừa load xong
+
+        // ===== OBSERVER: CHỐNG LẠI APP BÊN THỨ 3 =====
+        // Nếu app Customily cố tình chèn lại style cũ, Observer sẽ vả lại ngay lập tức
+        const observer = new MutationObserver((mutations) => {
+            let needFix = false;
+            mutations.forEach(m => {
+                if (m.attributeName === 'style') {
+                    const currentPos = target.style.position;
+                    // Nếu bị mất thuộc tính fixed hoặc relative mà mình đã set
+                    if (currentPos !== 'fixed' && currentPos !== 'relative') {
+                        needFix = true;
+                    }
+                }
+            });
+            if (needFix) onScroll(); // Bắt tính toán lại vị trí ngay
+        });
+        
+        observer.observe(target, { attributes: true, attributeFilter: ['style'] });
     }
-
-    // Lắng nghe sự kiện scroll và resize
-    window.addEventListener('scroll', () => requestAnimationFrame(handleSticky));
-    window.addEventListener('resize', () => requestAnimationFrame(handleSticky));
-
-    // Thêm đoạn này vào dưới đoạn code ở trên
-const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'style') {
-            const currentPosition = canvasEl.style.position;
-            // Nếu app cố tình đổi thành absolute, ép nó về lại relative
-            if (currentPosition === 'absolute' || currentPosition === 'fixed') {
-                canvasEl.style.setProperty('position', 'relative', 'important');
-                canvasEl.style.setProperty('top', '0', 'important');
-            }
-        }
-    });
-});
-
-// Bắt đầu theo dõi sự thay đổi thuộc tính 'style' của canvas
-observer.observe(canvasEl, { attributes: true, attributeFilter: ['style'] });
 });
 </script>
 
