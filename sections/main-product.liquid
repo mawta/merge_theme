@@ -967,7 +967,7 @@
 })();
 </script>
 
-<script>
+{% comment %} <script>
   document.addEventListener('DOMContentLoaded', function() {
     const syncCanvasToMedia = () => {
       // Tìm Element 1
@@ -1113,6 +1113,135 @@ document.addEventListener("DOMContentLoaded", function() {
         
         observer.observe(target, { attributes: true, attributeFilter: ['style'] });
     }
+});
+</script> {% endcomment %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let isTicking = false;
+    
+    // === HÀM 1: ĐỒNG BỘ HIỂN THỊ CANVAS (ẨN ẢNH GỐC) ===
+    const syncCanvasToMedia = () => {
+        const canvasContainers = document.querySelectorAll('.cl-canvas-container');
+        canvasContainers.forEach((canvas) => {
+            const parentSlide = canvas.closest('.product__media-item');
+            if (!parentSlide) return;
+
+            const mediaContainer = parentSlide.querySelector('.product-media-container');
+            if (!mediaContainer) return;
+
+            mediaContainer.style.setProperty('background-color', '#ffffff', 'important');
+            mediaContainer.style.setProperty('position', 'relative', 'important');
+
+            const originalMedia = mediaContainer.querySelector('.product__media.media');
+            if (originalMedia) {
+                originalMedia.style.setProperty('display', 'none', 'important');
+            }
+
+            canvas.style.setProperty('position', 'absolute', 'important');
+            canvas.style.setProperty('top', '0', 'important');
+            canvas.style.setProperty('left', '0', 'important');
+            canvas.style.setProperty('width', '100%', 'important');
+            canvas.style.setProperty('height', '100%', 'important');
+            canvas.style.setProperty('margin', '0', 'important');
+            canvas.style.setProperty('z-index', '10', 'important');
+            canvas.style.setProperty('display', 'flex', 'important');
+            canvas.style.setProperty('background-color', '#ffffff', 'important');
+
+            const uiElements = parentSlide.querySelectorAll('.product__media-icon, .product__media-toggle');
+            uiElements.forEach(el => el.style.setProperty('display', 'none', 'important'));
+        });
+    };
+
+    // === HÀM 2: TÍNH TOÁN STICKY (CHẠY THEO CUỘN) ===
+    const updateStickyPosition = () => {
+        const target = document.querySelector('.canvas-wrapper'); 
+        const anchor = document.querySelector('.cl-canvas-container'); 
+        const boundary = document.querySelector('.product__media-wrapper');
+
+        if (!target || !anchor || !boundary) return;
+
+        const stickyTopOffset = 50; // Khoảng cách từ đỉnh màn hình
+        const boundaryRect = boundary.getBoundingClientRect();
+        const anchorRect = anchor.getBoundingClientRect();
+        const targetHeight = target.offsetHeight; 
+
+        // TRẠNG THÁI 1: Khi chưa cuộn tới ảnh
+        if (anchorRect.top > stickyTopOffset) {
+            target.style.setProperty('position', 'relative', 'important');
+            target.style.setProperty('top', '0px', 'important');
+            target.style.setProperty('left', '0px', 'important');
+            target.style.setProperty('width', '100%', 'important');
+        } 
+        // TRẠNG THÁI 2 & 3: Bắt đầu cuộn (chuyển sang Fixed)
+        else {
+            target.style.setProperty('position', 'fixed', 'important');
+            target.style.setProperty('left', anchorRect.left + 'px', 'important');
+            target.style.setProperty('width', anchorRect.width + 'px', 'important');
+            target.style.setProperty('z-index', '9999', 'important');
+
+            const maxBottom = boundaryRect.bottom; 
+            const predictedBottom = stickyTopOffset + targetHeight; 
+
+            // CỐT LÕI: Đuôi chạm đuôi thì dừng
+            if (predictedBottom > maxBottom) {
+                const pushUpTop = maxBottom - targetHeight; 
+                target.style.setProperty('top', pushUpTop + 'px', 'important');
+            } else {
+                target.style.setProperty('top', stickyTopOffset + 'px', 'important');
+            }
+        }
+    };
+
+    // === QUẢN LÝ OBSERVER VÀ SCROLL CHỐNG GIẬT ===
+    const galleryTarget = document.querySelector('media-gallery') || document.body;
+    const observerConfig = { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] };
+
+    // Bọc Observer để tránh Vòng lặp vô tận (Infinite Loop)
+    const globalObserver = new MutationObserver((mutations) => {
+        // 1. TẠM NGẮT theo dõi để code của mình set style không bị observer phát hiện lại
+        globalObserver.disconnect(); 
+        
+        // 2. Cập nhật giao diện
+        syncCanvasToMedia();
+        updateStickyPosition(); 
+
+        // 3. BẬT LẠI theo dõi (Đón đầu các thay đổi mới từ app)
+        globalObserver.observe(galleryTarget, observerConfig); 
+    });
+
+    // Bọc Scroll Event bằng rAF (Tối ưu 60FPS)
+    const onScroll = () => {
+        if (!isTicking) {
+            window.requestAnimationFrame(() => {
+                globalObserver.disconnect(); // Tạm ngắt chống lag
+                updateStickyPosition();
+                globalObserver.observe(galleryTarget, observerConfig); // Bật lại
+                isTicking = false;
+            });
+            isTicking = true;
+        }
+    };
+
+    // === KHỞI CHẠY HỆ THỐNG ===
+    // Chạy lần đầu tiên để đảm bảo khung được chia đúng
+    syncCanvasToMedia();
+    updateStickyPosition();
+    
+    // Đăng ký các sự kiện
+    if (galleryTarget) {
+        globalObserver.observe(galleryTarget, observerConfig);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    
+    // Fallback: Chờ App render nếu mạng chậm
+    const checkExist = setInterval(function() {
+        if (document.querySelector('.canvas-wrapper') && document.querySelector('.cl-canvas-container')) {
+            updateStickyPosition();
+            clearInterval(checkExist);
+        }
+    }, 500);
 });
 </script>
 
