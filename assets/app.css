@@ -584,6 +584,12 @@ body > div.cl-canvas-container {
   display: none !important
 }
 
+@media only screen and (max-width: 798px) {
+    .header a[href="/"].header__heading-link {
+       padding: 0 10px !important
+    }
+}
+
 /* Nếu product-media-container chứa cl-canvas-container */
 .product-media-container:has(.cl-canvas-container) .product__media.media,
 .product-media-container:has(.cl-canvas-container) model-viewer {
