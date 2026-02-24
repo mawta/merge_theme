@@ -602,15 +602,3 @@ body > div.cl-canvas-container {
 {
     display: none !important;
 }
-/* ------------------------------- */
-.canvas-container {
-    position: sticky !important;
-    top: 20px !important; /* Điểm neo trên màn hình khi scroll. Đại kaaa có thể tăng lên nếu bị dính Header */
-    
-    /* 3 lệnh dưới đây là để TRỊ dứt điểm bệnh "trượt lố" (đầu chạm đuôi) */
-    transform: none !important; 
-    margin-bottom: 0 !important; 
-    bottom: auto !important; 
-    
-    z-index: 99 !important; /* Đảm bảo canvas không bị chìm dưới các text/option khác */
-}

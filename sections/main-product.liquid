@@ -1030,6 +1030,59 @@
   });
 </script>
 
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Xác định element cần dính và container làm ranh giới
+    // Đại kaaa check lại class xem là .canvas-container hay .cl-canvas-container nhé
+    const canvasEl = document.querySelector('.canvas-container'); 
+    
+    // Container chứa toàn bộ cột ảnh bên trái
+    const boundaryEl = document.querySelector('.product__media-wrapper'); 
+
+    if (!canvasEl || !boundaryEl) return;
+
+    // Reset lại CSS để tránh xung đột với app bên thứ 3
+    canvasEl.style.setProperty('position', 'relative', 'important');
+    canvasEl.style.setProperty('top', '0', 'important');
+    canvasEl.style.setProperty('bottom', 'auto', 'important');
+    canvasEl.style.setProperty('margin-bottom', '0', 'important');
+    canvasEl.style.transition = 'transform 0.1s ease-out'; // Giúp mượt hơn khi scroll nhanh
+
+    function handleSticky() {
+        // Lấy tọa độ thực tế trên màn hình
+        const boundaryRect = boundaryEl.getBoundingClientRect();
+        const canvasHeight = canvasEl.offsetHeight;
+        
+        // Khoảng cách từ top màn hình (Đại kaaa tăng lên nếu vướng Header)
+        const stickyOffset = 20; 
+
+        // TÍNH TOÁN QUAN TRỌNG: Quãng đường trượt tối đa
+        // Bằng đúng chiều cao Container trừ đi chiều cao Canvas. 
+        // => Đảm bảo ĐUÔI canvas chạm ĐUÔI container là hết đường.
+        const maxTranslateY = boundaryRect.height - canvasHeight;
+
+        // Nếu người dùng bắt đầu cuộn qua đỉnh của boundary
+        if (boundaryRect.top <= stickyOffset) {
+            
+            // Lượng pixel cần đẩy canvas xuống
+            let translateY = Math.abs(boundaryRect.top) + stickyOffset;
+
+            // NẾU CHẠM ĐÁY -> KHOÁ LẠI
+            if (translateY >= maxTranslateY) {
+                translateY = maxTranslateY;
+            }
+
+            canvasEl.style.transform = `translateY(${translateY}px)`;
+        } else {
+            // Khi cuộn ngược lên trên đỉnh
+            canvasEl.style.transform = `translateY(0px)`;
+        }
+    }
+
+    // Lắng nghe sự kiện scroll và resize
+    window.addEventListener('scroll', () => requestAnimationFrame(handleSticky));
+    window.addEventListener('resize', () => requestAnimationFrame(handleSticky));
+});
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",
