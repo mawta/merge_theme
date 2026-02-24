@@ -603,9 +603,34 @@ body > div.cl-canvas-container {
     display: none !important;
 }
 
-/* 3. Tinh chỉnh cho canvas-wrapper (nếu cần) */
+/* 1. Biến Container của Canvas thành vật thể Sticky */
+.cl-canvas-container {
+    /* Chuyển từ absolute sang sticky để có khả năng "trượt" */
+    position: sticky !important;
+    
+    /* Kỹ thuật căn giữa "sạch" không dùng transform để tránh bị lỗi kéo ra ngoài (pull out) */
+    top: 0 !important;
+    bottom: 0 !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    
+    /* Giữ nguyên các đặc tính layout cũ */
+    height: fit-content !important; 
+    width: 100% !important;
+    display: flex !important;
+    z-index: 20 !important; /* Đảm bảo luôn nằm trên các layer khác */
+}
+
+/* 2. Đảm bảo phần nội dung canvas bên trong hiển thị chuẩn */
 .canvas-wrapper {
-    margin: 0 auto;
-    display: block;
-    max-width: 100%; [cite: 6]
+    position: relative !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+}
+
+/* 3. Chống hiện tượng bị "giật" hoặc lố khi slide thay đổi (Dành cho Shopify Slider) */
+.product__media-item.slider__slide {
+    /* Phải cho phép nội dung bên trong (canvas) được tự do di chuyển dọc theo li */
+    display: flex;
+    flex-direction: column;
 }
