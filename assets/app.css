@@ -602,3 +602,26 @@ body > div.cl-canvas-container {
 {
     display: none !important;
 }
+
+/* 1. Thiết lập container cha làm ranh giới */
+.product.grid {
+    position: relative;
+    /* Quan trọng: Mặc định grid/flex là stretch, 
+       phải đổi về start thì sticky mới có không gian để "trượt" */
+    align-items: start !important; 
+}
+
+/* 2. Cố định cột chứa Canvas */
+.product__column-sticky {
+    position: sticky !important;
+    top: 20px; /* Khoảng cách từ mép trên trình duyệt khi bắt đầu dính */
+    z-index: 2;
+    /* Đảm bảo chiều cao không vượt quá nội dung bên trong để sticky hoạt động */
+    height: fit-content; 
+}
+
+/* 3. Đảm bảo canvas bên trong luôn nằm gọn trong container */
+.canvas-wrapper {
+    max-width: 100%;
+    position: relative;
+}
