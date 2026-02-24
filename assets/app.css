@@ -614,7 +614,7 @@ body > div.cl-canvas-container {
 /* 2. Cố định cột chứa Canvas */
 .product__column-sticky {
     position: sticky !important;
-    top: 20px; Khoảng cách từ mép trên trình duyệt khi bắt đầu dính
+    /* top: 20px; Khoảng cách từ mép trên trình duyệt khi bắt đầu dính */
     z-index: 2;
     /* Đảm bảo chiều cao không vượt quá nội dung bên trong để sticky hoạt động */
     height: fit-content; 
