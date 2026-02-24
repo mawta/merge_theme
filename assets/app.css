@@ -603,34 +603,37 @@ body > div.cl-canvas-container {
     display: none !important;
 }
 
-/* 1. Biến Container của Canvas thành vật thể Sticky */
+/* 1. Đưa Canvas về trạng thái Sticky và căn giữa viewport */
 .cl-canvas-container {
-    /* Chuyển từ absolute sang sticky để có khả năng "trượt" */
     position: sticky !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
     
-    /* Kỹ thuật căn giữa "sạch" không dùng transform để tránh bị lỗi kéo ra ngoài (pull out) */
-    top: 0 !important;
-    bottom: 0 !important;
-    margin-top: auto !important;
-    margin-bottom: auto !important;
-    
-    /* Giữ nguyên các đặc tính layout cũ */
-    height: fit-content !important; 
+    /* Ghi đè lại các thuộc tính absolute cũ để nó không bị dính vào đỉnh slide */
+    left: 0 !important;
+    height: auto !important;
     width: 100% !important;
-    display: flex !important;
-    z-index: 20 !important; /* Đảm bảo luôn nằm trên các layer khác */
+    z-index: 100 !important;
 }
 
-/* 2. Đảm bảo phần nội dung canvas bên trong hiển thị chuẩn */
+/* 2. Cực kỳ quan trọng: "Xả" các cha trung gian */
+/* Chúng ta biến các lớp bao quanh slide thành 'static' để cái Sticky Canvas 
+   nó không bị giới hạn bởi chiều cao của 1 cái ảnh đơn lẻ, 
+   mà nó sẽ lấy chiều cao của toàn bộ cột Media làm đường chạy. */
+.product__media-item, 
+.product-media-container.media-type-image {
+    position: static !important; 
+    overflow: visible !important;
+}
+
+/* 3. Đảm bảo danh sách trượt không cắt mất canvas khi nó đang "bay" */
+.product__media-list.slider {
+    overflow: visible !important;
+    position: relative; /* Giữ nó làm ranh giới cuối cùng */
+}
+
+/* 4. Căn chỉnh lại canvas wrapper bên trong */
 .canvas-wrapper {
     position: relative !important;
     margin: 0 auto !important;
-    max-width: 100% !important;
-}
-
-/* 3. Chống hiện tượng bị "giật" hoặc lố khi slide thay đổi (Dành cho Shopify Slider) */
-.product__media-item.slider__slide {
-    /* Phải cho phép nội dung bên trong (canvas) được tự do di chuyển dọc theo li */
-    display: flex;
-    flex-direction: column;
 }
