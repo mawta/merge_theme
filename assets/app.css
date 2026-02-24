@@ -603,28 +603,14 @@ body > div.cl-canvas-container {
     display: none !important;
 }
 /* ------------------------------- */
-.cl-canvas-container {
-    /* 1. Chuyển sang sticky và ghi đè absolute cũ [cite: 3, 4] */
+.canvas-container {
     position: sticky !important;
+    top: 20px !important; /* Điểm neo trên màn hình khi scroll. Đại kaaa có thể tăng lên nếu bị dính Header */
     
-    /* 2. Cực kỳ quan trọng: Phải bỏ height 100% để nó có chỗ trượt  */
-    height: fit-content !important; 
-    max-height: 100vh; /* Không bao giờ cao quá màn hình */
-
-    /* 3. Kỹ thuật căn giữa và dừng chuẩn cạnh dưới */
-    top: 0 !important;
-    bottom: 0 !important;
-    margin-top: auto !important;
-    margin-bottom: auto !important;
-
-    /* 4. Giữ nguyên các thông số hiển thị khác [cite: 4, 5] */
-    display: flex !important;
-    z-index: 10 !important;
-    left: 0 !important;
-}
-
-/* Đảm bảo các thẻ cha trực tiếp không "nhốt" sticky bằng overflow */
-.product__media-item, 
-.product-media-container {
-    overflow: visible !important;
+    /* 3 lệnh dưới đây là để TRỊ dứt điểm bệnh "trượt lố" (đầu chạm đuôi) */
+    transform: none !important; 
+    margin-bottom: 0 !important; 
+    bottom: auto !important; 
+    
+    z-index: 99 !important; /* Đảm bảo canvas không bị chìm dưới các text/option khác */
 }
