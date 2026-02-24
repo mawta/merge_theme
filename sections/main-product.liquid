@@ -1082,6 +1082,23 @@
     // Lắng nghe sự kiện scroll và resize
     window.addEventListener('scroll', () => requestAnimationFrame(handleSticky));
     window.addEventListener('resize', () => requestAnimationFrame(handleSticky));
+
+    // Thêm đoạn này vào dưới đoạn code ở trên
+const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'style') {
+            const currentPosition = canvasEl.style.position;
+            // Nếu app cố tình đổi thành absolute, ép nó về lại relative
+            if (currentPosition === 'absolute' || currentPosition === 'fixed') {
+                canvasEl.style.setProperty('position', 'relative', 'important');
+                canvasEl.style.setProperty('top', '0', 'important');
+            }
+        }
+    });
+});
+
+// Bắt đầu theo dõi sự thay đổi thuộc tính 'style' của canvas
+observer.observe(canvasEl, { attributes: true, attributeFilter: ['style'] });
 });
 </script>
 
