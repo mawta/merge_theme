@@ -612,7 +612,6 @@ body > div.cl-canvas-container {
 .product__column-sticky {
     position: sticky !important;
     /* Đưa mép trên của khối media về vị trí 50% chiều cao màn hình */
-    top: 50% !important; 
     /* Dịch ngược khối media lên 50% chiều cao của chính nó để tâm khối nằm đúng giữa màn hình */
     transform: translateY(-50%); 
     z-index: 10;
