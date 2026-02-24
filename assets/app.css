@@ -603,25 +603,25 @@ body > div.cl-canvas-container {
     display: none !important;
 }
 
-/* 1. Thiết lập container cha làm ranh giới */
+/* 1. Thiết lập container cha để cột media không bị kéo dài full chiều cao */
 .product.grid {
-    position: relative;
-    /* Quan trọng: Mặc định grid/flex là stretch, 
-       phải đổi về start thì sticky mới có không gian để "trượt" */
-    /* align-items: start !important;  */
+    align-items: start !important; /* Rất quan trọng để sticky có không gian trượt  */
 }
 
-/* 2. Cố định cột chứa Canvas */
+/* 2. Căn giữa cột Media khi scroll */
 .product__column-sticky {
     position: sticky !important;
-    /* top: 20px; Khoảng cách từ mép trên trình duyệt khi bắt đầu dính */
-    z-index: 2;
-    /* Đảm bảo chiều cao không vượt quá nội dung bên trong để sticky hoạt động */
-    height: fit-content; 
+    /* Đưa mép trên của khối media về vị trí 50% chiều cao màn hình */
+    top: 50% !important; 
+    /* Dịch ngược khối media lên 50% chiều cao của chính nó để tâm khối nằm đúng giữa màn hình */
+    transform: translateY(-50%); 
+    z-index: 10;
+    height: fit-content; /* Đảm bảo khối này chỉ cao bằng nội dung bên trong */
 }
 
-/* 3. Đảm bảo canvas bên trong luôn nằm gọn trong container */
+/* 3. Tinh chỉnh cho canvas-wrapper (nếu cần) */
 .canvas-wrapper {
-    max-width: 100%;
-    position: relative;
+    margin: 0 auto;
+    display: block;
+    max-width: 100%; [cite: 6]
 }
