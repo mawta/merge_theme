@@ -1120,7 +1120,7 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener('DOMContentLoaded', function() {
     let isTicking = false;
     
-    // === HÀM 1: ĐỒNG BỘ HIỂN THỊ CANVAS (ẨN ẢNH GỐC) ===
+    // === HÀM 1: ĐỒNG BỘ HIỂN THỊ CANVAS (ẨN ẢNH GỐC & CĂN GIỮA MOBILE) ===
     const syncCanvasToMedia = () => {
         const canvasContainers = document.querySelectorAll('.cl-canvas-container');
         canvasContainers.forEach((canvas) => {
@@ -1130,14 +1130,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const mediaContainer = parentSlide.querySelector('.product-media-container');
             if (!mediaContainer) return;
 
+            // Ép nền trắng và cấu hình container gốc
             mediaContainer.style.setProperty('background-color', '#ffffff', 'important');
             mediaContainer.style.setProperty('position', 'relative', 'important');
 
+            // Ẩn ảnh gốc
             const originalMedia = mediaContainer.querySelector('.product__media.media');
             if (originalMedia) {
                 originalMedia.style.setProperty('display', 'none', 'important');
             }
 
+            // Cấu hình Canvas Container
             canvas.style.setProperty('position', 'absolute', 'important');
             canvas.style.setProperty('top', '0', 'important');
             canvas.style.setProperty('left', '0', 'important');
@@ -1145,15 +1148,20 @@ document.addEventListener('DOMContentLoaded', function() {
             canvas.style.setProperty('height', '100%', 'important');
             canvas.style.setProperty('margin', '0', 'important');
             canvas.style.setProperty('z-index', '10', 'important');
-            canvas.style.setProperty('display', 'flex', 'important');
             canvas.style.setProperty('background-color', '#ffffff', 'important');
 
+            // [FIX LỆCH TRÁI] Ép hiển thị Flexbox để tự động căn giữa Canvas con
+            canvas.style.setProperty('display', 'flex', 'important');
+            canvas.style.setProperty('justify-content', 'center', 'important'); 
+            canvas.style.setProperty('align-items', 'center', 'important');
+
+            // Ẩn các icon không cần thiết
             const uiElements = parentSlide.querySelectorAll('.product__media-icon, .product__media-toggle');
             uiElements.forEach(el => el.style.setProperty('display', 'none', 'important'));
         });
     };
 
-    // === HÀM 2: TÍNH TOÁN STICKY VÀ FIX LỖI MODAL ===
+    // === HÀM 2: TÍNH TOÁN STICKY VÀ FIX LỖI MODAL/MOBILE ===
     const updateStickyPosition = () => {
         const target = document.querySelector('.canvas-wrapper'); 
         const anchor = document.querySelector('.cl-canvas-container'); 
@@ -1161,20 +1169,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!target || !anchor || !boundary) return;
 
-        // --- MẮT THẦN DETECT PREVIEW MODAL & MOBILE ---
+        // --- DETECT PREVIEW MODAL & MOBILE ---
         const previewModal = document.getElementById('preview-container');
         const isInsideModal = target.closest('#preview-container') !== null;
         const isModalOpen = previewModal && window.getComputedStyle(previewModal).display !== 'none';
         
-        // Màn hình Mobile (dưới 768px) thường không cần sticky
+        // Cấu hình breakpoint cho Mobile (dưới 768px)
         const isMobile = window.innerWidth < 768; 
 
-        // Nếu Modal đang mở HOẶC Canvas bị ném vào Modal HOẶC đang dùng Mobile
+        // [FIX LỖI PREVIEW & MOBILE] Nếu đang mở Preview hoặc dùng Mobile -> Trả về mặc định, căn giữa
         if (isInsideModal || isModalOpen || isMobile) {
-            // Trả lại nguyên trạng tự nhiên cho Canvas
             target.style.setProperty('position', 'relative', 'important');
             target.style.setProperty('top', '0px', 'important');
-            target.style.setProperty('left', '0px', 'important');
+            target.style.setProperty('left', 'auto', 'important'); 
+            target.style.setProperty('margin', '0 auto', 'important'); // Ép căn giữa
             target.style.setProperty('width', '100%', 'important');
             target.style.setProperty('z-index', '10', 'important');
             return; // Dừng hàm lại, không chạy logic Sticky bên dưới nữa
@@ -1186,12 +1194,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const anchorRect = anchor.getBoundingClientRect();
         const targetHeight = target.offsetHeight; 
 
+        // Đảm bảo xóa margin auto khi ở Desktop để tọa độ left tính toán chuẩn xác
+        target.style.setProperty('margin', '0', 'important');
+
+        // Khi chưa cuộn tới ảnh
         if (anchorRect.top > stickyTopOffset) {
             target.style.setProperty('position', 'relative', 'important');
             target.style.setProperty('top', '0px', 'important');
             target.style.setProperty('left', '0px', 'important');
             target.style.setProperty('width', '100%', 'important');
-        } else {
+        } 
+        // Khi bắt đầu cuộn qua ảnh
+        else {
             target.style.setProperty('position', 'fixed', 'important');
             target.style.setProperty('left', anchorRect.left + 'px', 'important');
             target.style.setProperty('width', anchorRect.width + 'px', 'important');
@@ -1200,6 +1214,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const maxBottom = boundaryRect.bottom; 
             const predictedBottom = stickyTopOffset + targetHeight; 
 
+            // Cốt lõi: Đuôi chạm đuôi
             if (predictedBottom > maxBottom) {
                 const pushUpTop = maxBottom - targetHeight; 
                 target.style.setProperty('top', pushUpTop + 'px', 'important');
@@ -1213,13 +1228,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const galleryTarget = document.querySelector('media-gallery') || document.body;
     const observerConfig = { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] };
 
+    // Observer theo dõi thay đổi để đè lại style của app Customily
     const globalObserver = new MutationObserver((mutations) => {
-        globalObserver.disconnect(); 
+        globalObserver.disconnect(); // Tạm ngắt chống loop
         syncCanvasToMedia();
         updateStickyPosition(); 
-        globalObserver.observe(galleryTarget, observerConfig); 
+        globalObserver.observe(galleryTarget, observerConfig); // Bật lại
     });
 
+    // Bọc sự kiện cuộn chống lag (60FPS)
     const onScroll = () => {
         if (!isTicking) {
             window.requestAnimationFrame(() => {
@@ -1232,7 +1249,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // === KHỞI CHẠY KHUNG GIAO DIỆN ===
+    // === KHỞI CHẠY HỆ THỐNG ===
     syncCanvasToMedia();
     updateStickyPosition();
     
@@ -1241,12 +1258,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', () => {
-        // Fix nhanh khi lật xoay màn hình điện thoại
+        // Fix tính toán lại khi lật xoay màn hình điện thoại hoặc resize cửa sổ
         globalObserver.disconnect(); 
         updateStickyPosition();
         globalObserver.observe(galleryTarget, observerConfig); 
     });
     
+    // Interval dự phòng trường hợp app render chậm
     const checkExist = setInterval(function() {
         if (document.querySelector('.canvas-wrapper') && document.querySelector('.cl-canvas-container')) {
             updateStickyPosition();
