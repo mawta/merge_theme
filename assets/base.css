@@ -4866,7 +4866,7 @@ body:has(.customily-download-button.disabled) #btn-preview:after {
 @media screen and (max-width: 749px) {
   .announcement-bar__message.h5 {
     color: white;
-    font-size: 13px !important;
+    font-size: 12px !important;
   }
 }
 .announcement-bar__message.h5 {
