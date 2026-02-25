@@ -1120,7 +1120,7 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener('DOMContentLoaded', function() {
     let isTicking = false;
     
-    // === HÀM 1: ĐỒNG BỘ HIỂN THỊ CANVAS (ẨN ẢNH GỐC & CĂN GIỮA MOBILE) ===
+    // === HÀM 1: ĐỒNG BỘ HIỂN THỊ CANVAS (ẨN ẢNH GỐC) ===
     const syncCanvasToMedia = () => {
         const canvasContainers = document.querySelectorAll('.cl-canvas-container');
         canvasContainers.forEach((canvas) => {
@@ -1130,17 +1130,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const mediaContainer = parentSlide.querySelector('.product-media-container');
             if (!mediaContainer) return;
 
-            // Ép nền trắng và cấu hình container gốc
             mediaContainer.style.setProperty('background-color', '#ffffff', 'important');
             mediaContainer.style.setProperty('position', 'relative', 'important');
 
-            // Ẩn ảnh gốc
             const originalMedia = mediaContainer.querySelector('.product__media.media');
             if (originalMedia) {
                 originalMedia.style.setProperty('display', 'none', 'important');
             }
 
-            // Cấu hình Canvas Container
             canvas.style.setProperty('position', 'absolute', 'important');
             canvas.style.setProperty('top', '0', 'important');
             canvas.style.setProperty('left', '0', 'important');
@@ -1150,18 +1147,16 @@ document.addEventListener('DOMContentLoaded', function() {
             canvas.style.setProperty('z-index', '10', 'important');
             canvas.style.setProperty('background-color', '#ffffff', 'important');
 
-            // [FIX LỆCH TRÁI] Ép hiển thị Flexbox để tự động căn giữa Canvas con
             canvas.style.setProperty('display', 'flex', 'important');
             canvas.style.setProperty('justify-content', 'center', 'important'); 
             canvas.style.setProperty('align-items', 'center', 'important');
 
-            // Ẩn các icon không cần thiết
             const uiElements = parentSlide.querySelectorAll('.product__media-icon, .product__media-toggle');
             uiElements.forEach(el => el.style.setProperty('display', 'none', 'important'));
         });
     };
 
-    // === HÀM 2: TÍNH TOÁN STICKY VÀ FIX LỖI MODAL/MOBILE ===
+    // === HÀM 2: TÍNH TOÁN STICKY & FIX LỆCH ===
     const updateStickyPosition = () => {
         const target = document.querySelector('.canvas-wrapper'); 
         const anchor = document.querySelector('.cl-canvas-container'); 
@@ -1169,52 +1164,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!target || !anchor || !boundary) return;
 
-        // --- DETECT PREVIEW MODAL & MOBILE ---
+        // [QUAN TRỌNG] Hàm ép wrapper làm flex container để luôn căn giữa lõi 352px
+        const forceCenterContent = () => {
+            target.style.setProperty('display', 'flex', 'important');
+            target.style.setProperty('justify-content', 'center', 'important');
+        };
+
         const previewModal = document.getElementById('preview-container');
         const isInsideModal = target.closest('#preview-container') !== null;
         const isModalOpen = previewModal && window.getComputedStyle(previewModal).display !== 'none';
         
-        // Cấu hình breakpoint cho Mobile (dưới 768px)
         const isMobile = window.innerWidth < 768; 
 
-        // [FIX LỖI PREVIEW & MOBILE] Nếu đang mở Preview hoặc dùng Mobile -> Trả về mặc định, căn giữa
+        // TRẠNG THÁI: MOBILE HOẶC ĐANG MỞ PREVIEW (Không Sticky, Ép Căn Giữa)
         if (isInsideModal || isModalOpen || isMobile) {
             target.style.setProperty('position', 'relative', 'important');
             target.style.setProperty('top', '0px', 'important');
             target.style.setProperty('left', 'auto', 'important'); 
-            target.style.setProperty('margin', '0 auto', 'important'); // Ép căn giữa
+            target.style.setProperty('margin', '0 auto', 'important'); 
             target.style.setProperty('width', '100%', 'important');
             target.style.setProperty('z-index', '10', 'important');
-            return; // Dừng hàm lại, không chạy logic Sticky bên dưới nữa
+            
+            forceCenterContent(); // <-- CHÌA KHÓA TRỊ BỆNH LỆCH TRÁI
+            return; 
         }
 
-        // --- LOGIC STICKY CHẠY BÌNH THƯỜNG TRÊN DESKTOP ---
+        // TRẠNG THÁI: DESKTOP STICKY
         const stickyTopOffset = 50; 
         const boundaryRect = boundary.getBoundingClientRect();
         const anchorRect = anchor.getBoundingClientRect();
         const targetHeight = target.offsetHeight; 
 
-        // Đảm bảo xóa margin auto khi ở Desktop để tọa độ left tính toán chuẩn xác
         target.style.setProperty('margin', '0', 'important');
 
-        // Khi chưa cuộn tới ảnh
+        // Khi chưa cuộn tới
         if (anchorRect.top > stickyTopOffset) {
             target.style.setProperty('position', 'relative', 'important');
             target.style.setProperty('top', '0px', 'important');
             target.style.setProperty('left', '0px', 'important');
             target.style.setProperty('width', '100%', 'important');
+            forceCenterContent(); 
         } 
-        // Khi bắt đầu cuộn qua ảnh
+        // Khi bắt đầu cuộn
         else {
             target.style.setProperty('position', 'fixed', 'important');
             target.style.setProperty('left', anchorRect.left + 'px', 'important');
             target.style.setProperty('width', anchorRect.width + 'px', 'important');
             target.style.setProperty('z-index', '9999', 'important');
+            forceCenterContent(); 
 
             const maxBottom = boundaryRect.bottom; 
             const predictedBottom = stickyTopOffset + targetHeight; 
 
-            // Cốt lõi: Đuôi chạm đuôi
             if (predictedBottom > maxBottom) {
                 const pushUpTop = maxBottom - targetHeight; 
                 target.style.setProperty('top', pushUpTop + 'px', 'important');
@@ -1228,15 +1229,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const galleryTarget = document.querySelector('media-gallery') || document.body;
     const observerConfig = { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] };
 
-    // Observer theo dõi thay đổi để đè lại style của app Customily
     const globalObserver = new MutationObserver((mutations) => {
-        globalObserver.disconnect(); // Tạm ngắt chống loop
+        globalObserver.disconnect(); 
         syncCanvasToMedia();
         updateStickyPosition(); 
-        globalObserver.observe(galleryTarget, observerConfig); // Bật lại
+        globalObserver.observe(galleryTarget, observerConfig); 
     });
 
-    // Bọc sự kiện cuộn chống lag (60FPS)
     const onScroll = () => {
         if (!isTicking) {
             window.requestAnimationFrame(() => {
@@ -1249,7 +1248,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // === KHỞI CHẠY HỆ THỐNG ===
+    // === KHỞI CHẠY KHUNG GIAO DIỆN ===
     syncCanvasToMedia();
     updateStickyPosition();
     
@@ -1258,13 +1257,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', () => {
-        // Fix tính toán lại khi lật xoay màn hình điện thoại hoặc resize cửa sổ
         globalObserver.disconnect(); 
         updateStickyPosition();
         globalObserver.observe(galleryTarget, observerConfig); 
     });
     
-    // Interval dự phòng trường hợp app render chậm
     const checkExist = setInterval(function() {
         if (document.querySelector('.canvas-wrapper') && document.querySelector('.cl-canvas-container')) {
             updateStickyPosition();
