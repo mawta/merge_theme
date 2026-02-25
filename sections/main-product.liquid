@@ -1153,7 +1153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // === HÀM 2: TÍNH TOÁN STICKY (CHẠY THEO CUỘN) ===
+    // === HÀM 2: TÍNH TOÁN STICKY VÀ FIX LỖI MODAL ===
     const updateStickyPosition = () => {
         const target = document.querySelector('.canvas-wrapper'); 
         const anchor = document.querySelector('.cl-canvas-container'); 
@@ -1161,20 +1161,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!target || !anchor || !boundary) return;
 
-        const stickyTopOffset = 50; // Khoảng cách từ đỉnh màn hình
+        // --- MẮT THẦN DETECT PREVIEW MODAL & MOBILE ---
+        const previewModal = document.getElementById('preview-container');
+        const isInsideModal = target.closest('#preview-container') !== null;
+        const isModalOpen = previewModal && window.getComputedStyle(previewModal).display !== 'none';
+        
+        // Màn hình Mobile (dưới 768px) thường không cần sticky
+        const isMobile = window.innerWidth < 768; 
+
+        // Nếu Modal đang mở HOẶC Canvas bị ném vào Modal HOẶC đang dùng Mobile
+        if (isInsideModal || isModalOpen || isMobile) {
+            // Trả lại nguyên trạng tự nhiên cho Canvas
+            target.style.setProperty('position', 'relative', 'important');
+            target.style.setProperty('top', '0px', 'important');
+            target.style.setProperty('left', '0px', 'important');
+            target.style.setProperty('width', '100%', 'important');
+            target.style.setProperty('z-index', '10', 'important');
+            return; // Dừng hàm lại, không chạy logic Sticky bên dưới nữa
+        }
+
+        // --- LOGIC STICKY CHẠY BÌNH THƯỜNG TRÊN DESKTOP ---
+        const stickyTopOffset = 50; 
         const boundaryRect = boundary.getBoundingClientRect();
         const anchorRect = anchor.getBoundingClientRect();
         const targetHeight = target.offsetHeight; 
 
-        // TRẠNG THÁI 1: Khi chưa cuộn tới ảnh
         if (anchorRect.top > stickyTopOffset) {
             target.style.setProperty('position', 'relative', 'important');
             target.style.setProperty('top', '0px', 'important');
             target.style.setProperty('left', '0px', 'important');
             target.style.setProperty('width', '100%', 'important');
-        } 
-        // TRẠNG THÁI 2 & 3: Bắt đầu cuộn (chuyển sang Fixed)
-        else {
+        } else {
             target.style.setProperty('position', 'fixed', 'important');
             target.style.setProperty('left', anchorRect.left + 'px', 'important');
             target.style.setProperty('width', anchorRect.width + 'px', 'important');
@@ -1183,7 +1200,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const maxBottom = boundaryRect.bottom; 
             const predictedBottom = stickyTopOffset + targetHeight; 
 
-            // CỐT LÕI: Đuôi chạm đuôi thì dừng
             if (predictedBottom > maxBottom) {
                 const pushUpTop = maxBottom - targetHeight; 
                 target.style.setProperty('top', pushUpTop + 'px', 'important');
@@ -1197,45 +1213,40 @@ document.addEventListener('DOMContentLoaded', function() {
     const galleryTarget = document.querySelector('media-gallery') || document.body;
     const observerConfig = { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] };
 
-    // Bọc Observer để tránh Vòng lặp vô tận (Infinite Loop)
     const globalObserver = new MutationObserver((mutations) => {
-        // 1. TẠM NGẮT theo dõi để code của mình set style không bị observer phát hiện lại
         globalObserver.disconnect(); 
-        
-        // 2. Cập nhật giao diện
         syncCanvasToMedia();
         updateStickyPosition(); 
-
-        // 3. BẬT LẠI theo dõi (Đón đầu các thay đổi mới từ app)
         globalObserver.observe(galleryTarget, observerConfig); 
     });
 
-    // Bọc Scroll Event bằng rAF (Tối ưu 60FPS)
     const onScroll = () => {
         if (!isTicking) {
             window.requestAnimationFrame(() => {
-                globalObserver.disconnect(); // Tạm ngắt chống lag
+                globalObserver.disconnect(); 
                 updateStickyPosition();
-                globalObserver.observe(galleryTarget, observerConfig); // Bật lại
+                globalObserver.observe(galleryTarget, observerConfig); 
                 isTicking = false;
             });
             isTicking = true;
         }
     };
 
-    // === KHỞI CHẠY HỆ THỐNG ===
-    // Chạy lần đầu tiên để đảm bảo khung được chia đúng
+    // === KHỞI CHẠY KHUNG GIAO DIỆN ===
     syncCanvasToMedia();
     updateStickyPosition();
     
-    // Đăng ký các sự kiện
     if (galleryTarget) {
         globalObserver.observe(galleryTarget, observerConfig);
     }
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
+    window.addEventListener('resize', () => {
+        // Fix nhanh khi lật xoay màn hình điện thoại
+        globalObserver.disconnect(); 
+        updateStickyPosition();
+        globalObserver.observe(galleryTarget, observerConfig); 
+    });
     
-    // Fallback: Chờ App render nếu mạng chậm
     const checkExist = setInterval(function() {
         if (document.querySelector('.canvas-wrapper') && document.querySelector('.cl-canvas-container')) {
             updateStickyPosition();
