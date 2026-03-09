@@ -1,13 +1,20 @@
-{% comment %} <style>
-     .cm-swatch__thumbnail-container {
-    display: grid !important;
-    grid-template-columns: repeat(7, 1fr) !important;
-    gap: 0.375rem !important;
-  }
+<style>
+    .cm-swatch__thumbnail-container {
+      display: grid !important;
+      grid-template-columns: repeat(5, 1fr) !important;
+      gap: 0.375rem !important;
+    }
 
-  .cm-swatch__thumbnail-container .cm-swatch__thumbnail {
-    width: 100% !important;
-    height: auto !important;
-    aspect-ratio: 1 / 1 !important;
+    @media (min-width: 768px) {
+      .cm-swatch__thumbnail-container {
+        grid-template-columns: repeat(7, 1fr) !important;
+      }
+    }
+
+    .cm-swatch__thumbnail-container .cm-swatch__thumbnail {
+      width: 100% !important;
+      height: auto !important;
+      aspect-ratio: 1 / 1 !important;
+    }
   }
-</style> {% endcomment %}
+</style>
