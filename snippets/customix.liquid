@@ -76,14 +76,16 @@
 </div>
 
 <script>
+  
   const customixProduct = '{{ product.metafields.customix.campaign }}';
-  if (customixProduct) {
-    const customilyOptions = document.getElementById("customily-options");
-    console.log("customily options", customilyOptions);
-    if (customilyOptions) {
-      customilyOptions.remove();
+  document.addEventListener('DOMContentLoaded', (event) => {
+    if (customixProduct) {
+      const customilyOptions = document.getElementById("customily-options");
+      if (customilyOptions) {
+        customilyOptions.remove();
+      }
     }
-  }
+  });
   window.addEventListener('load', function() {
     if (window.customixText) {
       window.customixText.set("txt:preview_design_title", "Please check the preview carefully");
