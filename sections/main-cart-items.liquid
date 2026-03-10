@@ -88,7 +88,7 @@
                   <div class="cart-item__media" data-key="{{ item.key }}">
                     {% assign previewImg = '' %}
                     {% for thumb in item.properties %}
-                      {% if thumb.first contains '-preview' %}
+                      {% if thumb.first contains '-preview' or thumb.first contains 'thumb-url' %}
                         {% assign previewImg = thumb.last %}
                       {% endif %}
                     {% endfor %}
