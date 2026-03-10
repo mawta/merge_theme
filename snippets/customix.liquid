@@ -82,5 +82,13 @@
       window.customixText.set("txt:preview_design_des", "Make sure the below customization is correct to receive your item faster");
     }
     const previewBtn = document.getElementById("cm-preview-btn");
+    if (previewBtn) {
+      previewBtn.addEventListener("click", () => {
+        const cmPreviewBtn = document.querySelector(".cm-preview-button");
+        if (cmPreviewBtn) {
+          cmPreviewBtn.click();
+        }
+      })
+    }
   });
 </script>
