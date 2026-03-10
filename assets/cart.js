@@ -58,6 +58,7 @@ class CartItems extends HTMLElement {
     //     urlImg = $(this).find("img").attr("src");
     //   }
     const imageItem = tfxCart.items.find((item) => item.key === imgKey);
+    console.log("imageItem", imageItem)
     var imgSrc = imageItem.properties["_customily-preview"];
     const thumId = imageItem.properties["_customily-thumb-id"];
     if (!imgSrc && imgEl.preview) {
