@@ -79,13 +79,7 @@
   window.addEventListener('load', function() {
     const customixProduct = '{{ product.metafields.customix.campaign }}';
     if (customixProduct) {
-      const customilyOptions = document.getElementById("customily-options");
-      if (customilyOptions) {
-        console.log("Remove customily options");
-        customilyOptions.remove();
-      } else {
-        console.log("Not found customily options");
-      }
+      
     }
     if (window.customixText) {
       window.customixText.set("txt:preview_design_title", "Please check the preview carefully");
