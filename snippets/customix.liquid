@@ -79,7 +79,30 @@
   window.addEventListener('load', function() {
     const customixProduct = '{{ product.metafields.customix.campaign }}';
     if (customixProduct) {
-      
+      // Block scripts ending with "customily.shopify.script.js" before they load
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (
+              node.tagName === 'SCRIPT' &&
+              node.src &&
+              node.src.endsWith('customily.shopify.script.js')
+            ) {
+              node.parentNode.removeChild(node);
+            }
+          });
+        });
+      });
+
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+      });
+
+      // Also remove any already-loaded matching scripts
+      document.querySelectorAll('script[src$="customily.shopify.script.js"]').forEach((script) => {
+        script.remove();
+      });
     }
     if (window.customixText) {
       window.customixText.set("txt:preview_design_title", "Please check the preview carefully");
