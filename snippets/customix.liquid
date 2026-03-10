@@ -76,14 +76,14 @@
 </div>
 
 <script>
+  const customixProduct = '{{ product.metafields.customix.campaign }}';
+  if (customixProduct) {
+    // Also remove any already-loaded matching scripts
+    document.querySelectorAll('script[src$="customily.shopify.script.js"]').forEach((script) => {
+      script.remove();
+    });
+  }
   window.addEventListener('load', function() {
-    const customixProduct = '{{ product.metafields.customix.campaign }}';
-    if (customixProduct) {
-      // Also remove any already-loaded matching scripts
-      document.querySelectorAll('script[src$="customily.shopify.script.js"]').forEach((script) => {
-        // script.remove();
-      });
-    }
     if (window.customixText) {
       window.customixText.set("txt:preview_design_title", "Please check the preview carefully");
       window.customixText.set("txt:preview_design_des", "Make sure the below customization is correct to receive your item faster");
