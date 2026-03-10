@@ -78,6 +78,14 @@
 <script>
   window.addEventListener('load', function() {
     const customixProduct = '{{ product.metafields.customix.campaign }}';
+    if (customixProduct) {
+      const customilyOptions = document.getElementById("customily-options");
+      if (customilyOptions) {
+        customilyOptions.remove();
+      } else {
+        console.log("Not found customily options");
+      }
+    }
     if (window.customixText) {
       window.customixText.set("txt:preview_design_title", "Please check the preview carefully");
       window.customixText.set("txt:preview_design_des", "Make sure the below customization is correct to receive your item faster");
