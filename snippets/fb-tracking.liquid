@@ -1,0 +1,95 @@
+<script>
+  // 1. NHẬP LINK APPS SCRIPT CỦA BẠN VÀO ĐÂY
+  const gasUrl = 'https://script.google.com/macros/s/AKfycbzufml9q5e5Gp8BTd526gd98_FLQsTuopjQN5K8unDW7H9Z-xcPBqsjZme9UI49HrtFPA/exec';
+  const myPixelId = '1691484347888990';
+
+  // 2. CHUẨN BỊ MÔI TRƯỜNG BIẾN
+  window.dataLayer = window.dataLayer || [];
+  const clientIp = '{{ request.remote_ip }}';
+  const userAgent = '{{ request.user_agent | escape }}';
+  const currentUrl = '{{ request.origin }}{{ request.path }}';
+
+  function generateEventId() {
+    return 'event_' + new Date().getTime() + '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  // 3. HÀM LÕI: GIAO LIÊN (GỬI ĐỒNG THỜI TRÌNH DUYỆT VÀ SERVER)
+  async function trackFBAndServer(eventName, eventData = {}) {
+    const eventId = generateEventId();
+    eventData.event_id = eventId; 
+
+    // A. Bắn vào DataLayer Backup (cho GTM dùng nếu cần)
+    window.dataLayer.push({ event: eventName.toLowerCase(), ecommerce: eventData });
+
+    // B. Bắn Trình duyệt FB Pixel
+    if (typeof fbq === 'function') {
+      fbq('track', eventName, eventData);
+    }
+
+    // C. Bắn Lên Apps Script (Để bypass AdBlock)
+    try {
+      await fetch(`${gasUrl}?ip=${encodeURIComponent(clientIp)}&userAgent=${encodeURIComponent(userAgent)}&url=${encodeURIComponent(currentUrl)}`, { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventName: eventName, eventData: eventData })
+      });
+    } catch (e) { console.error('Tịt ngòi Server CAPI:', e); }
+  }
+
+  // 4. KHỞI TẠO FACEBOOK PIXEL GỐC VÀ CONSENT
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+
+  fbq('consent', 'grant'); // Đang mặc định luôn cấp quyền Cookie
+  fbq('init', myPixelId);
+  
+  // ===============================================
+  // 5. THEO DÕI CÁC HÀNH ĐỘNG CỤ THỂ
+  // ===============================================
+  trackFBAndServer('PageView', { content_type: '{{ request.page_type }}' });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    // NẾU LÀ TRANG SẢN PHẨM -> Bắn View Content
+    {% if request.page_type == 'product' %}
+      var productData = {
+        content_ids: ['{{ product.id }}'],
+        content_name: '{{ product.title | escape }}',
+        content_type: 'product',
+        value: {{ product.price | divided_by: 100.0 }},
+        currency: '{{ cart.currency.iso_code }}'
+      };
+      trackFBAndServer('ViewContent', productData);
+    {% endif %}
+
+    // BẮT MỌI NÚT ADD TO CART
+    var addBtns = document.querySelectorAll('form[action^="/cart/add"] button, form[action^="/cart/add"] input[type="submit"], [name="add"], .add-to-cart');
+    addBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        {% if request.page_type == 'product' %}
+           trackFBAndServer('AddToCart', productData);
+        {% else %}
+           trackFBAndServer('AddToCart'); // Phẩy đại nếu bấm ở Home
+        {% endif %}
+      });
+    });
+
+    // BẮT NÚT THANH TOÁN
+    var checkoutBtns = document.querySelectorAll('form[action^="/cart"] [name="checkout"], a[href^="/checkout"], .checkout-button');
+    checkoutBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        trackFBAndServer('InitiateCheckout', {
+          currency: '{{ cart.currency.iso_code }}',
+          value: {{ cart.total_price | divided_by: 100.0 }}
+        });
+      });
+    });
+
+  });
+</script>
