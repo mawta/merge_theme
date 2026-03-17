@@ -66,6 +66,42 @@
         currency: '{{ cart.currency.iso_code }}'
       };
       trackFBAndServer('ViewContent', productData);
+    {% elsif request.page_type == 'collection' %}
+      // Bắn CollectionView theo chuẩn list
+      trackFBAndServer('CollectionView', {
+        content_name: '{{ collection.title | escape }}',
+        content_category: '{{ collection.title | escape }}',
+        content_ids: [{% for product in collection.products limit: 5 %}'{{ product.id }}'{% unless forloop.last %}, {% endunless %}{% endfor %}],
+        content_type: 'product'
+      });
+    {% elsif request.page_type == 'search' %}
+      // Bắn Search
+      trackFBAndServer('Search', {
+        search_string: '{{ search.terms | escape }}'
+      });
+    {% elsif request.page_type == 'cart' %}
+      // Bắn CartView
+      trackFBAndServer('CartView', {
+        value: {{ cart.total_price | divided_by: 100.0 }},
+        currency: '{{ cart.currency.iso_code }}',
+        content_ids: [{% for item in cart.items %}'{{ item.product_id }}'{% unless forloop.last %}, {% endunless %}{% endfor %}],
+        content_type: 'product',
+        num_items: {{ cart.item_count }}
+      });
+    {% endif %}
+
+    // BẮT SỰ KIỆN PURCHASE (Thường hoạt động trên trang Order Status / Thank You)
+    {% if checkout %}
+      {% if first_time_accessed %}
+      trackFBAndServer('Purchase', {
+        value: {{ checkout.total_price | divided_by: 100.0 }},
+        currency: '{{ checkout.currency }}',
+        content_ids: [{% for line_item in checkout.line_items %}'{{ line_item.product_id }}'{% unless forloop.last %}, {% endunless %}{% endfor %}],
+        content_type: 'product',
+        num_items: {{ checkout.line_items.size }},
+        order_id: '{{ checkout.order_number }}'
+      });
+      {% endif %}
     {% endif %}
 
     // BẮT MỌI NÚT ADD TO CART
@@ -86,8 +122,34 @@
       btn.addEventListener('click', function() {
         trackFBAndServer('InitiateCheckout', {
           currency: '{{ cart.currency.iso_code }}',
-          value: {{ cart.total_price | divided_by: 100.0 }}
+          value: {{ cart.total_price | divided_by: 100.0 }},
+          num_items: {{ cart.item_count }}
         });
+      });
+    });
+    
+    // BẮT NÚT THÊM PAYMENT INFO (Thường ở trang checkout, đoạn này check thêm url)
+    if (window.location.pathname.indexOf('/checkout') !== -1) {
+      var paymentForm = document.querySelector('form[data-payment-form]');
+      if(paymentForm) {
+        paymentForm.addEventListener('submit', function() {
+          trackFBAndServer('AddPaymentInfo', {
+            currency: '{{ cart.currency.iso_code }}',
+            value: {{ cart.total_price | divided_by: 100.0 }}
+          });
+        });
+      }
+    }
+
+    // BẮT NÚT THÊM VÀO WISHLIST (Custom selector)
+    var wishlistBtns = document.querySelectorAll('.add-to-wishlist, [data-action="add-to-wishlist"]');
+    wishlistBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        {% if request.page_type == 'product' %}
+           trackFBAndServer('AddToWishlist', productData);
+        {% else %}
+           trackFBAndServer('AddToWishlist');
+        {% endif %}
       });
     });
 
