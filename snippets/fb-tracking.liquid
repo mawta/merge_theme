@@ -1,42 +1,116 @@
 <script>
-  // 1. NHẬP LINK APPS SCRIPT CỦA BẠN VÀO ĐÂY
   const gasUrl = 'https://script.google.com/macros/s/AKfycbzufml9q5e5Gp8BTd526gd98_FLQsTuopjQN5K8unDW7H9Z-xcPBqsjZme9UI49HrtFPA/exec';
   const myPixelId = '1691484347888990';
 
-  // 2. CHUẨN BỊ MÔI TRƯỜNG BIẾN
   window.dataLayer = window.dataLayer || [];
-  const clientIp = '{{ request.remote_ip }}';
-  const userAgent = '{{ request.user_agent | escape }}';
-  const currentUrl = '{{ request.origin }}{{ request.path }}';
 
-  function generateEventId() {
-    return 'event_' + new Date().getTime() + '_' + Math.random().toString(36).substr(2, 9);
+  const clientIp = {{ request.remote_ip | json }};
+  const userAgent = {{ request.user_agent | json }};
+  const customerData = {
+    external_id: {% if customer and customer.id %}{{ customer.id | json }}{% else %}null{% endif %},
+    email: {% if customer and customer.email %}{{ customer.email | strip | downcase | json }}{% else %}null{% endif %},
+    phone: {% if customer and customer.phone %}{{ customer.phone | strip | json }}{% else %}null{% endif %}
+  };
+
+  function readCookie(name) {
+    const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const match = document.cookie.match(new RegExp('(?:^|; )' + escapedName + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : '';
   }
 
-  // 3. HÀM LÕI: GIAO LIÊN (GỬI ĐỒNG THỜI TRÌNH DUYỆT VÀ SERVER)
-  async function trackFBAndServer(eventName, eventData = {}) {
-    const eventId = generateEventId();
-    eventData.event_id = eventId; 
-
-    // A. Bắn vào DataLayer Backup (cho GTM dùng nếu cần)
-    window.dataLayer.push({ event: eventName.toLowerCase(), ecommerce: eventData });
-
-    // B. Bắn Trình duyệt FB Pixel
-    if (typeof fbq === 'function') {
-      fbq('track', eventName, eventData);
+  function buildFbc() {
+    const cookieFbc = readCookie('_fbc');
+    if (cookieFbc) {
+      return cookieFbc;
     }
 
-    // C. Bắn Lên Apps Script (Để bypass AdBlock)
-    try {
-      await fetch(`${gasUrl}?ip=${encodeURIComponent(clientIp)}&userAgent=${encodeURIComponent(userAgent)}&url=${encodeURIComponent(currentUrl)}`, { 
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ eventName: eventName, eventData: eventData })
-      });
-    } catch (e) { console.error('Tịt ngòi Server CAPI:', e); }
+    const fbclid = new URLSearchParams(window.location.search).get('fbclid');
+    if (!fbclid) {
+      return '';
+    }
+
+    return ['fb.1', Date.now(), fbclid].join('.');
   }
 
-  // 4. KHỞI TẠO FACEBOOK PIXEL GỐC VÀ CONSENT
+  function buildBrowserData() {
+    return {
+      client_ip_address: clientIp || '',
+      client_user_agent: userAgent || navigator.userAgent || '',
+      fbp: readCookie('_fbp'),
+      fbc: buildFbc()
+    };
+  }
+
+  function buildPageData() {
+    return {
+      url: window.location.href,
+      referrer: document.referrer || ''
+    };
+  }
+
+  function buildAdvancedMatching() {
+    const advancedMatching = {};
+
+    if (customerData.email) {
+      advancedMatching.em = customerData.email;
+    }
+
+    if (customerData.phone) {
+      advancedMatching.ph = customerData.phone;
+    }
+
+    if (customerData.external_id) {
+      advancedMatching.external_id = String(customerData.external_id);
+    }
+
+    return advancedMatching;
+  }
+
+  function generateEventId(eventName, eventData) {
+    if (eventName === 'Purchase') {
+      if (eventData.order_id) {
+        return 'purchase_' + eventData.order_id;
+      }
+
+      if (eventData.order_number) {
+        return 'purchase_' + eventData.order_number;
+      }
+    }
+
+    return 'event_' + Date.now() + '_' + Math.random().toString(36).slice(2, 11);
+  }
+
+  async function trackFBAndServer(eventName, eventData = {}) {
+    const eventId = generateEventId(eventName, eventData);
+    const pixelPayload = Object.assign({}, eventData);
+    const serverEventData = Object.assign({}, eventData, { event_id: eventId });
+
+    window.dataLayer.push({
+      event: eventName.toLowerCase(),
+      ecommerce: serverEventData
+    });
+
+    if (typeof fbq === 'function') {
+      fbq('track', eventName, pixelPayload, { eventID: eventId });
+    }
+
+    try {
+      await fetch(gasUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventName: eventName,
+          eventData: serverEventData,
+          page: buildPageData(),
+          browser: buildBrowserData(),
+          customer: customerData
+        })
+      });
+    } catch (e) {
+      console.error('Tịt ngòi Server CAPI:', e);
+    }
+  }
+
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -46,17 +120,12 @@
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
 
-  fbq('consent', 'grant'); // Đang mặc định luôn cấp quyền Cookie
-  fbq('init', myPixelId);
-  
-  // ===============================================
-  // 5. THEO DÕI CÁC HÀNH ĐỘNG CỤ THỂ
-  // ===============================================
-  trackFBAndServer('PageView', { content_type: '{{ request.page_type }}' });
+  fbq('consent', 'grant');
+  fbq('init', myPixelId, buildAdvancedMatching());
+
+  trackFBAndServer('PageView', { content_type: {{ request.page_type | json }} });
 
   document.addEventListener('DOMContentLoaded', function() {
-    
-    // NẾU LÀ TRANG SẢN PHẨM -> Bắn View Content
     {% if request.page_type == 'product' %}
       var productData = {
         content_ids: ['{{ product.id }}'],
@@ -65,9 +134,11 @@
         value: {{ product.price | divided_by: 100.0 }},
         currency: '{{ cart.currency.iso_code }}'
       };
+    {% endif %}
+
+    {% if request.page_type == 'product' %}
       trackFBAndServer('ViewContent', productData);
     {% elsif request.page_type == 'collection' %}
-      // Bắn CollectionView theo chuẩn list
       trackFBAndServer('CollectionView', {
         content_name: '{{ collection.title | escape }}',
         content_category: '{{ collection.title | escape }}',
@@ -75,12 +146,10 @@
         content_type: 'product'
       });
     {% elsif request.page_type == 'search' %}
-      // Bắn Search
       trackFBAndServer('Search', {
         search_string: '{{ search.terms | escape }}'
       });
     {% elsif request.page_type == 'cart' %}
-      // Bắn CartView
       trackFBAndServer('CartView', {
         value: {{ cart.total_price | divided_by: 100.0 }},
         currency: '{{ cart.currency.iso_code }}',
@@ -90,7 +159,6 @@
       });
     {% endif %}
 
-    // BẮT SỰ KIỆN PURCHASE (Thường hoạt động trên trang Order Status / Thank You)
     {% if checkout %}
       {% if first_time_accessed %}
       trackFBAndServer('Purchase', {
@@ -99,26 +167,25 @@
         content_ids: [{% for line_item in checkout.line_items %}'{{ line_item.product_id }}'{% unless forloop.last %}, {% endunless %}{% endfor %}],
         content_type: 'product',
         num_items: {{ checkout.line_items.size }},
-        order_id: '{{ checkout.order_number }}'
+        order_id: {{ checkout.order_id | json }},
+        order_number: {{ checkout.order_number | json }}
       });
       {% endif %}
     {% endif %}
 
-    // BẮT MỌI NÚT ADD TO CART
     var addBtns = document.querySelectorAll('form[action^="/cart/add"] button, form[action^="/cart/add"] input[type="submit"], [name="add"], .add-to-cart');
-    addBtns.forEach(btn => {
+    addBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
         {% if request.page_type == 'product' %}
-           trackFBAndServer('AddToCart', productData);
+          trackFBAndServer('AddToCart', productData);
         {% else %}
-           trackFBAndServer('AddToCart'); // Phẩy đại nếu bấm ở Home
+          trackFBAndServer('AddToCart');
         {% endif %}
       });
     });
 
-    // BẮT NÚT THANH TOÁN
     var checkoutBtns = document.querySelectorAll('form[action^="/cart"] [name="checkout"], a[href^="/checkout"], .checkout-button');
-    checkoutBtns.forEach(btn => {
+    checkoutBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
         trackFBAndServer('InitiateCheckout', {
           currency: '{{ cart.currency.iso_code }}',
@@ -127,11 +194,10 @@
         });
       });
     });
-    
-    // BẮT NÚT THÊM PAYMENT INFO (Thường ở trang checkout, đoạn này check thêm url)
+
     if (window.location.pathname.indexOf('/checkout') !== -1) {
       var paymentForm = document.querySelector('form[data-payment-form]');
-      if(paymentForm) {
+      if (paymentForm) {
         paymentForm.addEventListener('submit', function() {
           trackFBAndServer('AddPaymentInfo', {
             currency: '{{ cart.currency.iso_code }}',
@@ -141,17 +207,15 @@
       }
     }
 
-    // BẮT NÚT THÊM VÀO WISHLIST (Custom selector)
     var wishlistBtns = document.querySelectorAll('.add-to-wishlist, [data-action="add-to-wishlist"]');
-    wishlistBtns.forEach(btn => {
+    wishlistBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
         {% if request.page_type == 'product' %}
-           trackFBAndServer('AddToWishlist', productData);
+          trackFBAndServer('AddToWishlist', productData);
         {% else %}
-           trackFBAndServer('AddToWishlist');
+          trackFBAndServer('AddToWishlist');
         {% endif %}
       });
     });
-
   });
 </script>
