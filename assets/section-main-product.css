@@ -3338,60 +3338,60 @@ button .checkmark.checkmark-active path {
 }
 
 .red-swatch {
-  background-color: #9e2428 !important;
+  background-color: #9e2428;
 }
 .smoke-gray-swatch {
-  background-color: #9b9a9f !important;
+  background-color: #9b9a9f;
 }
 .cream-swatch {
-  background-color: #f0e3d3 !important;
+  background-color: #f0e3d3;
 }
 .white-swatch {
-  background-color: #e9e9e9 !important;
+  background-color: #e9e9e9;
 }
 .sport-grey-swatch,
 .sportgrey-swatch {
-  background-color: #c5c9d1 !important;
+  background-color: #c5c9d1;
 }
 
 .green-camouflage-swatch {
-  background-color: #78866b !important;
+  background-color: #78866b;
 }
 
 .mint-swatch {
-  background-color: #bdf7f8 !important;
+  background-color: #bdf7f8;
 }
 
 .pastel-mint-swatch {
-  background-color: #c2d4bc !important;
+  background-color: #c2d4bc;
 }
 
 .light-brown-swatch {
-  background-color: #c9b0a6 !important;
+  background-color: #c9b0a6;
 }
 
 .baby-blue-swatch {
-  background-color: #d2e5ea !important;
+  background-color: #d2e5ea;
 }
 
 .sliver-swatch {
-  background-color: #e8e8e6 !important;
+  background-color: #e8e8e6;
 }
 
 .cyber-yellow-swatch {
-  background-color: #feb101 !important;
+  background-color: #feb101;
 }
 
 .dark-blue-swatch {
-  background-color: #204f78 !important;
+  background-color: #204f78;
 }
 
 .wood-brown-swatch {
-  background-color: #86592f !important;
+  background-color: #86592f;
 }
 
 .sand-swatch {
-  background-color: #c9c0b2 !important;
+  background-color: #c9c0b2;
 }
 
 @media screen and (min-width: 769px) {
